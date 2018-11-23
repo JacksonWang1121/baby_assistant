@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须定义，非绑定到类或是接口的方式 -->
+<mapper namespace="org.sdibt.group.dao.HomeworkDao">
+	<!-- 配置homeworkInfo表到Homework的映射-->
+	<resultMap type="org.sdibt.group.entity.Homework" id="homeworkMap">
+	<id column="homework_id" property="homeworkId"  javaType="java.lang.Integer"/>
+	<result column="teacher_id" property="teacherId"  javaType="java.lang.Integer"/>
+	<result column="class_id" property="classId"  javaType="java.lang.Integer"/>
+	<result column="homework_content" property="homeworkContent"  javaType="java.lang.String"/>
+	<result column="homework_date" property="homeworkDate"  javaType="java.lang.String"/>
+	</resultMap>
+	
+	
+    <!-- 根据class_id查询班级作业 -->
+	<select id="listHomeworkByClassId" resultType="map" parameterType="java.lang.Integer">
+		select * from homework_info  a
+		INNER JOIN  sys_users  b on  a.teacher_id=b.id
+		INNER JOIN   class_info  c  on  c.class_id=a.class_id
+		where a.class_id=#{classId} order by  homework_date  DESC
+	</select>
+
+
+	<!-- 保添加存班级作业 -->
+	<insert  id="saveHomework"  parameterType="map">
+		insert into homework_info(homework_content,homework_date,teacher_id,class_id) 
+		values
+		(#{homeworkContent},#{homeworkDate},#{teacherId},#{classId})
+	</insert>
+	
+	
+	<!-- 根据作业ID删除班级作业 -->
+	<delete  id="deleteHomeworkByHomeworkId"  >
+		delete  from  homework_info
+		where
+		homework_id=#{homeworkId}
+	</delete>
+	
+</mapper>

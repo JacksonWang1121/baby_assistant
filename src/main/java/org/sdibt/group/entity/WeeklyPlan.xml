@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须定义，非绑定到类或是接口的方式 -->
+<mapper namespace="org.sdibt.group.dao.WeeklyPlanDao">
+
+	<resultMap type="org.sdibt.group.entity.WeeklyPlan" id="weeklyPlanMap">
+		<id column="id" property="id" javaType="java.lang.Integer"/>
+		<result column="class_id" property="classId" javaType="java.lang.Integer"/>
+		<result column="week_date" property="weekDate" javaType="java.lang.String"/>
+		<result column="monday_morning" property="mondayMorning" javaType="java.lang.String"/>
+		<result column="monday_afternoon" property="mondayAfternoon" javaType="java.lang.String"/>
+		<result column="tuesday_morning" property="tuesdayMorning" javaType="java.lang.String"/>
+		<result column="tuesday_afternoon" property="tuesdayAfternoon" javaType="java.lang.String"/>
+		<result column="wednesday_morning" property="wednesdayMorning" javaType="java.lang.String"/>
+		<result column="wednesday_afternoon" property="wednesdayAfternoon" javaType="java.lang.String"/>
+		<result column="thursday_morning" property="thursdayMorning" javaType="java.lang.String"/>
+		<result column="thursday_afternoon" property="thursdayAfternoon" javaType="java.lang.String"/>
+		<result column="friday_morning" property="fridayMorning" javaType="java.lang.String"/>
+		<result column="friday_afternoon" property="fridayAfternoon" javaType="java.lang.String"/>
+		<result column="week_picture" property="weekPicture" javaType="java.lang.String"/>
+	</resultMap>
+
+	<!-- 查询周计划 -->
+	<select id="findWeeklyPlan" resultMap="weeklyPlanMap" parameterType="map">
+		select * from weekly_plan where class_id=#{classId} and week_date = #{weekDate}
+	</select>
+
+	<!-- 录入周计划 -->
+	<insert id="saveWebsite" parameterType="org.sdibt.group.entity.Website">
+		insert into website (school_id,school_intro,school_intro_picture,certificate_name_1,certificate_picture_1,
+		certificate_name_2,certificate_picture_2,certificate_name_3,certificate_picture_3,teacher_intro_1,teacher_picture_1,
+		teacher_intro_2,teacher_picture_2,teacher_intro_3,teacher_picture_3,stu_works) 
+		values (#{schoolId }, #{schoolIntro }, #{schoolIntroPicture }, #{certificateName1 }, #{certificatePicture1 },
+		#{certificateName2 }, #{certificatePicture2 }, #{certificateName3 }, #{certificatePicture3 },
+		#{teacherIntro1 }, #{teacherPicture1 }, #{teacherIntro2 }, #{teacherPicture2 }, #{teacherIntro3 }, #{teacherPicture3 },
+		#{stuWorks })
+	</insert>
+
+	<!-- 修改周计划 -->
+	<update id="updateWebsite" parameterType="org.sdibt.group.entity.Website">
+		update website 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="schoolIntro != null">school_intro=#{schoolIntro,jdbcType=VARCHAR },</if>
+			<if test="schoolIntroPicture != null">school_introPicture=#{schoolIntroPicture,jdbcType=VARCHAR },</if>
+			<if test="certificateName1 != null">certificate_name_1=#{certificateName1,jdbcType=VARCHAR },</if>
+			<if test="certificatePicture1 != null">certificate_picture_1=#{certificatePicture1,jdbcType=VARCHAR },</if>
+			<if test="certificateName2 != null">certificate_name_2=#{certificateName2,jdbcType=VARCHAR },</if>
+			<if test="certificatePicture2 != null">certificate_picture_2=#{certificatePicture2,jdbcType=VARCHAR },</if>
+			<if test="certificateName3 != null">certificate_name_3=#{certificateName3,jdbcType=VARCHAR },</if>
+			<if test="certificatePicture3 != null">certificate_picture_3=#{certificatePicture3,jdbcType=VARCHAR },</if>
+			<if test="teacherIntro1 != null">teacher_intro_1=#{teacherIntro1,jdbcType=VARCHAR },</if>
+			<if test="teacherPicture1 != null">teacher_picture_1=#{teacherPicture1,jdbcType=VARCHAR },</if>
+			<if test="teacherIntro2 != null">teacher_intro_2=#{teacherIntro2,jdbcType=VARCHAR },</if>
+			<if test="teacherPicture2 != null">teacher_picture_2=#{teacherPicture2,jdbcType=VARCHAR },</if>
+			<if test="teacherIntro3 != null">teacher_intro_3=#{teacherIntro3,jdbcType=VARCHAR },</if>
+			<if test="teacherPicture3 != null">teacher_picture_3=#{teacherPicture3,jdbcType=VARCHAR },</if>
+			<if test="stuWorks != null">stu_works=#{stuWorks,jdbcType=VARCHAR },</if>
+		</trim>
+		where school_id=#{schoolId }
+	</update>
+
+  </mapper>

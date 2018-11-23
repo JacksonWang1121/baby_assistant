@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须定义，非绑定到类或是接口的方式 -->
+<mapper namespace="org.sdibt.group.dao.BabyDietDao">
+	<!-- 查看今日食谱 -->
+	<select id="getBabyDietByDate" resultType="map" parameterType="map">
+		select * from baby_diet where diet_date=#{currentDate} and kindergarten_id=#{kindergartenId}
+	</select>
+	<!-- 条件查询宝宝食谱 -->
+	<select id="listBabyDietByTerm" resultType="map" parameterType="map">
+		select * from baby_diet where diet_date=#{dietDate} and kindergarten_id=#{kindergartenId}
+	</select>
+	<!-- 修改宝宝食谱 -->
+	<update id="updateBabyDietById" parameterType="map">
+		update baby_diet set
+		diet_date=#{dietDate},breakfast=#{breakfast},breakfast_img=#{breakfastImg},lunch=#{lunch},lunch_img=#{lunchImg},dinner=#{dinner},dinner_img=#{dinnerImg}
+		where diet_id=#{dietId}
+	</update>
+	<!-- 发布宝宝食谱 -->
+	<insert id="saveBabyDiet" parameterType="map">
+		insert into baby_diet(kindergarten_id,breakfast,lunch,dinner,breakfast_img,lunch_img,dinner_img,diet_date)
+		values(#{kindergartenId},#{breakfast},#{lunch},#{dinner},#{breakfastImg},#{lunchImg},#{dinnerImg},#{dietDate})
+	</insert>
+</mapper>
+

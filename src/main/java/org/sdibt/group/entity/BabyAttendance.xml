@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须定义，非绑定到类或是接口的方式 -->
+<mapper namespace="org.sdibt.group.dao.BabyAttendanceDao">
+	<!-- 查询所有，返回值类型对应的是resultMap -->
+	<select id="listBabies" resultType="map" parameterType="java.lang.Long">
+		select * from baby_info bi
+		inner join class_info ci on bi.class_id=ci.class_id
+		where ci.user_id=#{userId} and bi.baby_status=1
+		order by baby_no
+	</select>
+	<!-- 根据宝宝id和当前日期查询宝宝是否已经签到 -->
+	<select id="isExistAttendance" resultType="map" parameterType="map">
+		select * from baby_attendance 
+		where baby_id in (${babyId}) and attendance_date=#{currentDate} 
+		order by attendance_id
+	</select>
+	<!-- 宝宝签到 -->
+    <insert id="saveAttendance"  parameterType="map" >
+    	insert into baby_attendance(baby_id,attendance_date) values(#{babyId},#{currentDate})
+    </insert>
+    <!-- 班级考勤 -->
+   <!--  <select id="listClassAttendance" resultType="map" parameterType="java.lang.Long">
+    	select * from baby_info bi inner join baby_attendance ba on bi.baby_id=ba.baby_id 
+		inner join class_info ci on bi.class_id=ci.class_id
+		where ci.user_id=#{userId}
+		order by ba.attendance_date
+	</select> -->
+	<!-- 统计班级考勤记录共多少条 -->
+	<select id="countClassAttendance" resultType="java.lang.Integer" parameterType="map">
+		select count(bi.baby_id) from baby_info bi inner join baby_attendance ba on bi.baby_id=ba.baby_id 
+		inner join class_info ci on bi.class_id=ci.class_id 
+		<trim prefix="where" prefixOverrides="and | or">
+			and bi.baby_status=1
+			<if test="userId!=0">and ci.user_id =#{userId}</if>
+			<if test="babyName!='' and babyName!=null">and bi.baby_name =#{babyName}</if>
+			<if test="babyNo!='' and babyNo!=null">and bi.baby_no=#{babyNo}</if>
+			<if test="startDate!='' and startDate!=null and endDate!='' and endDate!=null">and ba.attendance_date between #{startDate} and #{endDate}</if>
+		</trim>
+	</select>
+	<!-- 条件查询班级考勤信息 -->
+	<select id="listClassAttendanceByTerm" resultType="map" parameterType="map">
+		select * from baby_info bi inner join baby_attendance ba on bi.baby_id=ba.baby_id 
+		inner join class_info ci on bi.class_id=ci.class_id 
+		<trim prefix="where" prefixOverrides="and | or">
+			and bi.baby_status=1
+			<if test="userId!=0">and ci.user_id =#{userId}</if>
+			<if test="babyName!='' and babyName!=null">and bi.baby_name =#{babyName}</if>
+			<if test="babyNo!='' and babyNo!=null">and bi.baby_no=#{babyNo}</if>
+			<if test="startDate!='' and startDate!=null and endDate!='' and endDate!=null">and ba.attendance_date between #{startDate} and #{endDate}</if>
+		</trim>
+		order by ba.attendance_date
+		limit #{startPage },#{pageSize }
+	</select>
+	<!-- 查询今日出勤人数-->
+  	<select id="countAttendanceSize" resultType="java.lang.Integer" parameterType="map">
+  		select count(bi.baby_id)sum from class_info ci 
+  		inner join baby_info bi on ci.class_id=bi.class_id
+		inner join baby_attendance ba on bi.baby_id=ba.baby_id
+		where ci.user_id=#{userId} and ba.attendance_date=#{currentDate}
+  	</select>
+  	<!-- 查询班级总人数-->
+  	<select id="countClassSize" resultType="java.lang.Integer" parameterType="java.lang.Long">
+  		select count(bi.baby_id)attendanceSize from class_info ci 
+  		inner join baby_info bi on ci.class_id=bi.class_id and bi.baby_status=1
+		where ci.user_id=#{userId}
+  	</select>
+  	
+  	<!-- 统计宝宝考勤记录共多少条 -->
+  	<select id="countBabyAttendance" resultType="java.lang.Integer" parameterType="map">
+  		select count(bi.baby_id) from baby_info bi inner join baby_attendance ba on bi.baby_id=ba.baby_id 
+    	inner join class_info ci on bi.class_id=ci.class_id 
+    	inner join grade_info gi on gi.grade_id=ci.grade_id
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="userId!=0">and bi.user_id =#{userId}</if>
+			<if test="startDate!='' and startDate!=null and endDate!='' and endDate!=null">and ba.attendance_date between #{startDate} and #{endDate}</if>
+		</trim>
+  	</select>
+	<!-- 宝宝考勤 -->
+   <!--  <select id="listBabyAttendance" resultType="map" parameterType="map">
+    	select * from baby_info bi inner join baby_attendance ba on bi.baby_id=ba.baby_id 
+    	inner join class_info ci on bi.class_id=ci.class_id 
+    	inner join grade_info gi on gi.grade_id=ci.grade_id
+		where bi.user_id=#{userId}
+		order by ba.attendance_date
+		limit #{startPage },#{pageSize }
+	</select> -->
+	<!-- 条件查询宝宝考勤信息 -->
+	<select id="listBabyAttendanceByTerm" resultType="map" parameterType="map">
+		select * from baby_info bi inner join baby_attendance ba on bi.baby_id=ba.baby_id 
+		inner join class_info ci on bi.class_id=ci.class_id
+		inner join grade_info gi on gi.grade_id=ci.grade_id
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="userId!=0">and bi.user_id =#{userId}</if>
+			<if test="startDate!='' and startDate!=null and endDate!='' and endDate!=null">and ba.attendance_date between #{startDate} and #{endDate}</if>
+		</trim>
+		order by ba.attendance_date
+		limit #{startPage },#{pageSize }
+	</select>
+</mapper>
+

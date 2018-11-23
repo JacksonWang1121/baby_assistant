@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须定义，非绑定到类或是接口的方式 -->
+<mapper namespace="org.sdibt.group.dao.InformDao">
+<!--配置inform_info到Inform的映射  -->
+ <resultMap type="org.sdibt.group.entity.Inform" id="informMap">
+<id column="inform_id"  property="informId"  javaType="java.lang.Integer"  />  
+<result   column="teacher_id"   property="teacherId"  javaType="java.lang.Integer" />
+<result   column="class_id"   property="classId"  javaType="java.lang.Integer" />
+<result   column="inform_title"   property="informTitle"  javaType="java.lang.String" />
+<result   column="inform_content"   property="informContent"  javaType="java.lang.String" />
+<result   column="inform_date"   property="informDate"  javaType="java.lang.String" />
+
+</resultMap>
+<!--通过班级ID查看班级通知信息，  并通过家长Id和班级内的通知Id查看该家长每个通知的查看状态-->
+ <select id="listInformByClassId" resultType="map"  parameterType="int">
+select * from inform_info a
+inner join lookstate_info b  on a.inform_id=b.inform_id and parent_id=#{parentId}
+inner join  sys_users  c  on  c.id=#{parentId}
+where class_id=#{classId}  order by inform_date  DESC
+</select>
+
+<select id="queryInformByInformId" resultMap="informMap"  parameterType="int">
+select * from inform_info 
+where inform_id=#{informId} 
+</select> 
+
+<insert id="saveInform">
+insert  inform_info(inform_title,inform_content,inform_date,teacher_id,class_id)
+values 
+(#{informTitle},#{informContent},#{informDate},#{teacherId},#{classId})
+</insert>
+
+<select id="listInformIdByInformDate" resultType="java.lang.Integer"  parameterType="java.lang.String">
+select inform_id 
+from inform_info 
+where inform_date=#{informDate} 
+</select> 
+
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须定义，非绑定到类或是接口的方式 -->
+<mapper namespace="org.sdibt.group.dao.TeacherLeaveDao">
+	<!-- 教师请假条数 -->
+	<select id="countTeacherLeave" resultType="java.lang.Integer" parameterType="map">
+		select count(leave_id) from teacher_leave
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="userId!=0">and user_id =#{userId}</if>
+			<if test="startDate!='' and startDate!=null and endDate!='' and endDate!=null">and submit_date between #{startDate} and #{endDate}</if>
+		</trim>
+		order by submit_date desc
+	</select>
+	<!-- 教师请假列表-->
+	<select id="listLeaveInfoById" resultType="map" parameterType="map">
+		select * from teacher_leave
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="userId!=0">and user_id =#{userId}</if>
+			<if test="startDate!='' and startDate!=null and endDate!='' and endDate!=null">and submit_date between #{startDate} and #{endDate}</if>
+		</trim>
+		order by submit_date desc
+		limit #{startPage},#{pageSize} 
+	</select>
+	<!-- 提交请假申请 -->
+	<insert id="saveLeaveInfo" parameterType="map" >
+		insert into teacher_leave(user_id,real_name,leave_reason,leave_time,submit_date,leave_status) 
+		values(#{userId},#{realName},#{leaveReason},#{leaveTime},#{submitDate},#{leaveStatus})
+	</insert>
+	
+	<!-- 教师请假申请-->
+	<select id="listLeaveApplication" resultType="map" parameterType="map">
+		select * from teacher_leave tl inner join class_info ci
+		on tl.user_id=ci.user_id
+		where tl.leave_status=#{leaveStatus} and ci.kindergarten_id=#{kindergartenId}
+		order by submit_date 
+	</select>
+	<!-- 教师请假审核-->
+	<update id="auditLeaveApplication" parameterType="map">
+		update teacher_leave 
+		set leave_status=#{leaveStatus}
+		where leave_id=#{leaveId}
+	</update>
+</mapper>
+

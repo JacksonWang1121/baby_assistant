@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="org.sdibt.group.dao.GradeDao">
+<resultMap type="org.sdibt.group.entity.Grade" id="gardeMap">
+<id  column="grade_id"  property="gradeId"    javaType="java.lang.Integer"/>
+<result  column="grade_name"  property="gradeName"  javaType="java.lang.String"/>
+</resultMap>
+<select id="listGrade"  resultMap="gardeMap">
+select  * from  grade_info
+</select>
+
+</mapper>

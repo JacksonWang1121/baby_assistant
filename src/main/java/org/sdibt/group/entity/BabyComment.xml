@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须定义，非绑定到类或是接口的方式 -->
+<mapper namespace="org.sdibt.group.dao.BabyCommentDao">
+	<!-- 宝宝点评 -->
+	<!-- <select id="listBabyComment" resultType="map" parameterType="java.lang.Long">
+		select * from sys_users u inner join comment_info ci on u.id=ci.teacher_id
+		where ci.baby_id=
+		(select bi.baby_id from sys_users u inner join baby_info bi on u.id=bi.user_id where bi.user_id=#{userId})
+	</select> -->
+	<!-- 查看宝宝点评共多少条 -->
+	<select id="countBabyComment" resultType="java.lang.Integer" parameterType="map">
+		select count(ci.baby_id) from sys_users u inner join comment_info ci on u.id=ci.teacher_id
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="userId!=0">and ci.baby_id =(select bi.baby_id from sys_users u inner join baby_info bi on u.id=bi.user_id where bi.user_id=#{userId})</if>
+			<if test="startDate!='' and startDate!=null and endDate!='' and endDate!=null">and ci.comment_date between #{startDate} and #{endDate}</if>
+		</trim>
+		order by ci.comment_date
+	</select>
+	<!-- 条件查询宝宝点评 -->
+	<select id="listBabyCommentByTerm" resultType="map" parameterType="map">
+		select * from sys_users u inner join comment_info ci on u.id=ci.teacher_id
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="userId!=0">and ci.baby_id =(select bi.baby_id from sys_users u inner join baby_info bi on u.id=bi.user_id where bi.user_id=#{userId})</if>
+			<if test="startDate!='' and startDate!=null and endDate!='' and endDate!=null">and ci.comment_date between #{startDate} and #{endDate}</if>
+		</trim>
+		order by ci.comment_date
+		limit #{startPage },#{pageSize }
+	</select>
+</mapper>
+

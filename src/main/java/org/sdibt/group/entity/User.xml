@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须定义，非绑定到类或是接口的方式 -->
+<mapper namespace="org.sdibt.group.dao.UserDao">
+    
+    <resultMap type="org.sdibt.group.entity.User" id="userMap">
+		<id column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+		<result column="username" property="username" javaType="java.lang.String"/>
+		<result column="password" property="password" javaType="java.lang.String"/>
+		<result column="salt" property="salt" javaType="java.lang.String"/>
+		<result column="locked" property="locked" javaType="java.lang.Integer"/>
+		<result column="real_name" property="realName" javaType="java.lang.String"/>
+		<result column="nick_name" property="nickName" javaType="java.lang.String"/>
+		<result column="user_icon" property="userIcon" javaType="java.lang.String"/>
+		<result column="personality_signature" property="personalitySignature" javaType="java.lang.String"/>
+		<result column="address" property="address" javaType="java.lang.String"/>
+		<result column="first_login_status" property="firstLoginStatus" javaType="java.lang.Integer"/>
+	</resultMap>
+
+    <resultMap type="org.sdibt.group.entity.Permission" id="permMap">
+		<id column="id" property="id" javaType="java.lang.Long" jdbcType="INTEGER"/>
+		<result column="permission" property="permission" javaType="java.lang.String"/>
+		<result column="description" property="description" javaType="java.lang.String"/>
+		<result column="available" property="available" javaType="java.lang.Integer"/>
+		<result column="url" property="url" javaType="java.lang.String"/>
+		<result column="icon" property="icon" javaType="java.lang.String"/>
+		<result column="parent_id" property="parentId" javaType="java.lang.Integer"/>
+	</resultMap>
+
+  <!-- 判断用户名是否存在 -->
+  <select id="isExistUsername" resultType="org.sdibt.group.entity.User"  parameterType="java.lang.String">
+   select * from sys_users where username=#{username}
+  </select>
+  <!-- 查询所有，返回值类型对应的是resultMap -->
+  <select id="findByUsername" resultMap="userMap" parameterType="java.lang.String">
+     select * from sys_users where username=#{username}
+  </select>
+  <!-- 根据用户名查询角色 -->
+  <select id="findRoles" resultType="java.lang.String"  parameterType="java.lang.String">
+    select r.role from sys_users u INNER JOIN sys_users_roles ur on u.id=ur.user_id 
+	INNER JOIN sys_roles r on ur.role_id=r.id where u.username=#{username};
+  </select>
+  <!-- 根据用户名查询角色记录 -->
+  <select id="findRoleByUsername" resultType="map"  parameterType="java.lang.String">
+  	select r.* from sys_users u INNER JOIN sys_users_roles ur on u.id=ur.user_id 
+	INNER JOIN sys_roles r on ur.role_id=r.id where u.username=#{username};
+  </select>
+  <!-- 根据用户名查询权限 -->
+  <select id="findPermissions" resultType="java.lang.String"  parameterType="java.lang.String">
+    select p.permission from sys_users u INNER JOIN sys_users_roles ur on u.id=ur.user_id 
+	INNER JOIN sys_roles r on ur.role_id=r.id inner join sys_roles_permissions rp 
+	on r.id=rp.role_id inner join sys_permissions p on p.id=rp.permission_id
+ 	where u.username=#{username}
+  </select>
+  <select id="findPermissionsObject" resultMap="permMap"  parameterType="java.lang.String">
+    select p.* from sys_users u INNER JOIN sys_users_roles ur on u.id=ur.user_id 
+	INNER JOIN sys_roles r on ur.role_id=r.id inner join sys_roles_permissions rp 
+	on r.id=rp.role_id inner join sys_permissions p on p.id=rp.permission_id
+ 	where u.username=#{username} and rp.sys_status=0
+  </select>
+  <!-- 查看个人资料 -->
+  <select id="getPersonalData" resultType="map"  parameterType="java.lang.Long">
+  		select * from sys_users u 
+  		inner join sys_users_roles ur on u.id=ur.user_id
+  		inner join sys_roles r on ur.role_id=r.id
+  		where u.id=#{userId}
+  </select>
+  <!-- 修改用户头像 -->
+  <update id="updateUserIcon" parameterType="map">
+  		update sys_users set user_icon=#{userIcon}
+  		where id=#{userId}
+  </update>
+  <!-- 修改用户信息 -->
+  <update id="updateUserInfo" parameterType="map">
+	update sys_users set nick_name=#{nickName},personality_signature=#{personalitySignature},address=#{address}
+  	where id=#{userId}
+  </update>
+
+  <insert id="principalRegister"  >
+insert  into  sys_users(username,password,id)
+values
+(#{username},#{password},#{id})
+  </insert>
+
+    <select id="queryUserInfoByUserId" resultType="Map"  parameterType="java.lang.Integer">
+   select * from sys_users a
+   inner join  sys_users_roles  b  on a.id=b.user_id
+   inner  join  sys_roles  c on c.id=b.role_id
+   inner  join  baby_info  d on d.user_id=a.id
+   inner  join  class_info  e  on e.class_id=d.class_id
+   where a.id=#{userId}
+  </select>
+  
+  
+
+  
+  <!-- 修改用户信息 -->
+  <update id="updateUser" parameterType="org.sdibt.group.entity.User">
+	update sys_users 
+  	<trim prefix="set" suffixOverrides=",">
+  	    <if test="password!=null">password=#{password, jdbcType=VARCHAR},</if>
+  	    <if test="salt!=null">salt=#{salt, jdbcType=VARCHAR},</if>
+  	    <if test="locked!=null">locked=#{locked, jdbcType=INTEGER},</if>
+  	    <if test="realName">real_name=#{realName, jdbcType=VARCHAR},</if>
+  	    <if test="nickName!=null">nick_name=#{nickName, jdbcType=VARCHAR},</if>
+  	    <if test="userIcon!=null">user_icon=#{userIcon, jdbcType=VARCHAR},</if>
+  	    <if test="personalitySignature!=null">personality_signature=#{personalitySignature, jdbcType=VARCHAR},</if>
+  	    <if test="address!=null">address=#{address},</if>
+  	    <if test="firstLoginStatus!=null">first_login_status=#{firstLoginStatus, jdbcType=INTEGER},</if>
+  	</trim>
+  	where id=#{id, jdbcType=INTEGER}
+  </update>
+
+</mapper>
+

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须定义，非绑定到类或是接口的方式 -->
+<mapper namespace="org.sdibt.group.dao.ClassDao">
+    
+    <resultMap type="org.sdibt.group.entity.Class" id="classMap">
+        <id column="class_id" property="classId" javaType="java.lang.Integer"/>
+        <result column="class_name" property="className" javaType="java.lang.String"/>
+        <result column="user_id" property="userId" javaType="java.lang.Integer"/>
+        <result column="grade_id" property="gradeId" javaType="java.lang.Integer"/>
+        <result column="kindergarten_id" property="kindergartenId" javaType="java.lang.Integer"/>
+    </resultMap>
+    <!-- HFF -->
+	<!-- 报名列表：查询全园已分班的班级信息 -->
+	<select id="listClassInfo" resultType="map" parameterType="java.lang.Integer">
+		select * from sys_users u inner join class_info ci on ci.user_id=u.id
+		inner join grade_info gi on gi.grade_id=ci.grade_id
+		where ci.kindergarten_id=#{kindergartenId}
+		order by gi.grade_id
+	</select>
+	<!-- 报名列表：查询已分班的学生信息 -->
+	<select id="listBabiesByClassId" resultType="map" parameterType="java.lang.Integer">
+		select * from baby_info 
+		where class_id=#{classId} and baby_status=1
+		order by baby_no
+	</select>
+	<!-- 统计所有班级 -->
+	<select id="countClass" resultType="map">
+		select distinct(ci.class_id),ci.class_name,gi.grade_name 
+		from class_info ci inner join baby_info bi on bi.class_id=ci.class_id
+		inner join grade_info gi on ci.grade_id=gi.grade_id 
+	</select>
+	<!-- 根据班级id获取班级人数 -->
+	<select id="countBabiesInClass" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select count(class_id)classSize from  baby_info
+		where class_id =#{classId} and baby_status=1
+	</select>
+	
+	<!-- XSJ -->
+	<select id="listClass"  resultType="map"  parameterType="String">
+		select * from class_info
+		select class_name,a.class_id,count(1) as count   from class_info   a
+	    inner  join  baby_info b on  a.class_id=b.class_id
+	    group by  a.class_id
+	</select>
+	<insert id="addclass"  parameterType="map">
+		insert into class_info(class_name,grade_id)
+		values(#{className},#{gradeId})
+	</insert>
+
+	<!-- 根据教师id查询班级记录 -->
+	<select id="findClass"  resultMap="classMap"  parameterType="java.lang.Integer">
+		select * from class_info where user_id = #{teacherId, jdbcType=INTEGER }
+	</select>
+	<!-- 根据班级id查询班级记录 -->
+	<select id="findClassById"  resultMap="classMap"  parameterType="java.lang.Integer">
+		select * from class_info where class_id = #{classId, jdbcType=INTEGER }
+	</select>
+
+</mapper>
+

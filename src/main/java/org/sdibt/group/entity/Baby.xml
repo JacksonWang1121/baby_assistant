@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须定义，非绑定到类或是接口的方式 -->
+<mapper namespace="org.sdibt.group.dao.BabyDao">
+	<!-- 宝宝分班：查询待分班的宝宝信息共多少条 -->
+	<select id="countBabyEnrollInfo" resultType="java.lang.Integer" parameterType="map">
+		select count(bi.baby_id) from class_info ci inner join baby_info bi on bi.grade_id=ci.grade_id 
+		inner join sys_users u on u.id=bi.user_id
+		where ci.user_id=#{userId} and bi.kindergarten_id=#{kindergartenId} and bi.apply_status=0 and bi.baby_status=1
+	</select>
+	<!-- 宝宝分班：根据教师所在年级查询待分班的宝宝信息 -->
+	<select id="listBabyEnrollInfo" resultType="map" parameterType="map">
+		select * from class_info ci inner join baby_info bi on bi.grade_id=ci.grade_id 
+		inner join sys_users u on u.id=bi.user_id
+		where ci.user_id=#{userId} and bi.kindergarten_id=#{kindergartenId} and bi.apply_status=0 and bi.baby_status=1
+		limit #{startPage },#{pageSize }
+	</select>
+	<!-- 加入班级 -->
+	<update id="updateClassInfoToBaby" parameterType="map">
+		update baby_info set class_id=#{classId},apply_status=#{applyStatus}
+  		where baby_id=#{babyId}
+	</update>
+	<!-- 宝宝分班：获取已分班信息的数量-->
+	<select id="countBabiesInClass" resultType="java.lang.Integer" parameterType="java.lang.Long">
+		select count(bi.baby_id) from class_info ci inner join baby_info bi on bi.class_id=ci.class_id 
+		inner join sys_users u on u.id=ci.user_id 
+		where ci.user_id=#{userId} and bi.baby_status=1
+	</select>
+	<!-- 宝宝分班：根据教师所在班级查询已分班的宝宝信息 -->
+	<select id="listBabiesInClass" resultType="map" parameterType="map">
+		select * from class_info ci inner join baby_info bi on bi.class_id=ci.class_id 
+		inner join sys_users u on u.id=ci.user_id
+		where ci.user_id=#{userId} and bi.baby_status=1
+		limit #{startPage },#{pageSize }
+	</select>
+	<!-- 移出班级 -->
+	<update id="updateClassInfoOfBaby" parameterType="map">
+		update baby_info set class_id=#{classId},apply_status=#{applyStatus}
+  		where baby_id=#{babyId}
+	</update>
+	
+	<!-- 报名列表：获取全园未分班宝宝信息的数量 -->
+	<select id="countWaitDivideBabyInfo" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select count(bi.baby_id) from sys_users u inner join baby_info bi on bi.user_id=u.id
+		inner join grade_info gi on gi.grade_id=bi.grade_id
+		where bi.class_id=0 and bi.baby_status=1 and bi.kindergarten_id=#{kindergartenId}
+		order by bi.grade_id
+	</select>
+	<!-- 报名列表：查询全园未分班的宝宝信息 -->
+	<select id="listWaitDivideBabyInfo" resultType="map" parameterType="map">
+		select * from sys_users u inner join baby_info bi on bi.user_id=u.id
+		inner join grade_info gi on gi.grade_id=bi.grade_id
+		where bi.class_id=0 and  bi.baby_status=1 and  bi.kindergarten_id=#{kindergartenId}
+		order by bi.grade_id
+		limit #{startPage },#{pageSize }
+	</select>
+	<!-- 报名列表：获取全园待付款宝宝信息的数量 -->
+	<select id="countWaitPayBabyInfo" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select count(bi.baby_id) from sys_users u inner join baby_info bi on bi.user_id=u.id
+		inner join grade_info gi on gi.grade_id=bi.grade_id
+		where bi.pay_status=0 and bi.baby_status=1 and bi.kindergarten_id=#{kindergartenId}
+		order by bi.grade_id
+	</select>
+	<!-- 报名列表：查询全园待付款的宝宝信息 -->
+	<select id="listWaitPayBabyInfo" resultType="map" parameterType="map">
+		select * from sys_users u inner join baby_info bi on bi.user_id=u.id
+		inner join grade_info gi on gi.grade_id=bi.grade_id
+		where bi.pay_status=0 and bi.baby_status=1 and bi.kindergarten_id=#{kindergartenId}
+		order by bi.grade_id
+		limit #{startPage },#{pageSize }
+	</select>
+	
+	<!-- 根据班级id查询班级名称 -->
+	<select id="getClassNameByClassId" resultType="string" parameterType="java.lang.Integer">
+		select class_name from class_info
+	    where class_id=#{classId}
+	</select>
+	<!-- 查看宝宝资料 -->
+	<select id="getBabyDataByParentId" resultType="map" parameterType="java.lang.Long">
+		select * from sys_users u inner join baby_info bi on u.id=bi.user_id
+	    where u.id=#{userId}
+	</select>
+	<!-- 修改宝宝头像 -->
+    <update id="updateBabyIcon" parameterType="map">
+  		update baby_info set baby_icon=#{babyIcon}
+  		where baby_id=#{babyId}
+    </update>
+    <!-- 修改宝宝信息 -->
+    <update id="updateBabyData" parameterType="map">
+  		update baby_info set baby_name=#{babyName},sex=#{sex},birthday=#{birthday},relationship=#{relationship}
+  		where baby_id=#{babyId}
+    </update>
+
+    <!-- 修改宝宝信息 -->
+	<update id="updateBaby" parameterType="org.sdibt.group.entity.Baby">
+	    update baby_info 
+	    <trim prefix="set" suffixOverrides=",">
+	        <if test="babyNo!=null">baby_no = #{babyNo, jdbcType=VARCHAR },</if>
+	        <if test="babyName!=null">baby_name = #{babyName, jdbcType=VARCHAR },</if>
+	        <if test="sex!=null">sex = #{sex, jdbcType=VARCHAR },</if>
+	        <if test="birthday!=null">birthday = #{birthday, jdbcType=VARCHAR },</if>
+	        <if test="babyIcon!=null">baby_icon = #{babyIcon, jdbcType=VARCHAR },</if>
+	        <if test="relationship!=null">relationship = #{relationship, jdbcType=VARCHAR },</if>
+	        <if test="classId&gt;=0">
+		        <if test="kindergartenId!=null">kindergarten_id = #{kindergartenId, jdbcType=INTEGER },</if>
+		        <if test="gradeId!=null">grade_id = #{gradeId, jdbcType=INTEGER },</if>
+		        <if test="classId!=null">class_id = #{classId, jdbcType=INTEGER },</if>
+	        </if>
+	        <if test="enterDate!=null">enter_date = #{enterDate, jdbcType=VARCHAR },</if>
+	        <if test="applyStatus!=null">apply_status = #{applyStatus, jdbcType=INTEGER },</if>
+	        <if test="payStatus!=null">pay_status = #{payStatus, jdbcType=INTEGER },</if>
+	        <if test="babyStatus!=null">baby_status = #{babyStatus, jdbcType=INTEGER },</if>
+	    </trim>
+	    where baby_id = #{babyId, jdbcType=INTEGER }
+	</update>
+
+    <!-- 检查宝宝是否已缴费 -->
+    <select id="hasPayTuition" resultType="java.lang.Integer" parameterType="java.lang.Long">
+		select pay_status from baby_info 
+	    where user_id=#{userId}
+	</select>
+    <!-- 修改宝宝付款状态 -->
+     <update id="updatePayStatus" parameterType="map">
+  		update  baby_info set pay_status=#{payStatus}
+  		where user_id=#{userId}
+    </update>
+    
+    <!-- XSJ -->
+    <!-- 查询家长信息-->
+	<select id="listBabyInfoByClassId" resultType="map" parameterType="map">
+		select  *  from  baby_info  a
+		inner  join  sys_users  b  on a.user_id=b.id
+		where  class_id=#{classId}
+	</select>
+	<select id="listParentIdByClassId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select user_id  from  baby_info
+	    where class_id=#{classId}
+	</select>
+</mapper>
+

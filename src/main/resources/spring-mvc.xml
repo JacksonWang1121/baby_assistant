@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+     <context:component-scan base-package="org.sdibt.group.controller"/>
+	<!-- 自动注入两个bean，requestmappinghandler,requestmappinghandleradapter -->
+     <mvc:annotation-driven conversion-service="conversionService">
+     <!-- 加入消息转换器 -->
+      <mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>	
+						<value>text/plain;charset=UTF-8</value>
+						<value>text/html;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="supportedMediaTypes">
+				      <list>
+				       <!--返回字符串格式json-->
+				       <value>application/json;charset=UTF-8</value>
+				      </list>
+				  </property>
+			</bean>
+		</mvc:message-converters>  
+     </mvc:annotation-driven>
+      <!-- 内置的转换服务对象 -->
+   <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+   <property name="converters">
+	    	<set>
+	        	<ref bean="StringToDateConverter"/>
+	            <ref bean="StringToNullConverter"/>
+	        </set>
+    	</property>
+   </bean>
+    <bean id="StringToDateConverter" class="org.sdibt.group.converter.StringToDateConverter"/>
+    <bean id="StringToNullConverter" class="org.sdibt.group.converter.StringToNullConverter"/>
+     <!-- 静态资源放行 -->
+     <mvc:default-servlet-handler/> 
+     
+     <!-- 配置结果跳转到什么页面 -->
+       <!-- 视图名称的解析 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+	 p:viewClass="org.springframework.web.servlet.view.JstlView"
+     p:prefix="/" p:suffix=".jsp"/>
+     <!-- 处理运行时异常解析器 -->
+	<!-- <bean id="ExceptionResolver" class="org.sdibt.group.exception.MyExceptionResolver"></bean> -->
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+            p:defaultEncoding="UTF-8"
+            p:maxUploadSize="5400000">
+     </bean>
+</beans>

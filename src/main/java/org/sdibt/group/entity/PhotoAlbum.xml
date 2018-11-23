@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace必须定义，非绑定到类或是接口的方式  -->
+<mapper  namespace="org.sdibt.group.dao.PhotoAlbumDao">
+<!-- 配置photo_info表到PhotoInfo的映射 -->
+ <resultMap type="org.sdibt.group.entity.PhotoAlbum" id="photomap">
+	<id column="photo_id" property="photoId"  javaType="java.lang.Integer"/>
+	<result column="teacher_id" property="teacherId"  javaType="java.lang.Integer"/>
+	<result column="class_id" property="classId"  javaType="java.lang.Integer"/>
+	<result column="photo_address" property="photoAddress"  javaType="java.lang.String"/>
+	<result column="photo_date" property="photoDate"  javaType="java.lang.String"/>	
+<result column="class_name" property="className"  javaType="java.lang.String"/>
+</resultMap> 
+<select id="listPhotoAlbumByClasId"  resultMap="photomap"  parameterType="map">
+select * from  photo_album where class_id=#{classId}
+</select>
+
+
+
+
+
+
+
+</mapper>

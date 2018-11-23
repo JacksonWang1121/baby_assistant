@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须定义，非绑定到类或是接口的方式 -->
+<mapper namespace="org.sdibt.group.dao.KindergartenDao">
+
+	<resultMap type="org.sdibt.group.entity.Kindergarten" id="kindergartenMap">
+		<id column="id" property="id" javaType="java.lang.Integer"/>
+		<result column="name" property="name" javaType="java.lang.String"/>
+		<result column="description" property="description" javaType="java.lang.String"/>
+		<result column="address" property="address" javaType="java.lang.String"/>
+		<result column="telephone" property="telephone" javaType="java.lang.String"/>
+		<result column="picture" property="picture" javaType="java.lang.String"/>
+		<result column="registered_date" property="registeredDate" javaType="java.lang.String"/>
+		<result column="principal_id" property="principalId" javaType="java.lang.Integer"/>
+	</resultMap>
+
+	<!-- 根据园长id查询幼儿园记录 -->
+	<select id="findKindergarten" resultMap="kindergartenMap" parameterType="java.lang.Integer">
+		select * from kindergarten_info where principal_id=#{principalId}
+	</select>
+	
+	<!-- 根据幼儿园id查询幼儿园记录 -->
+	<select id="findKindergartenById" resultMap="kindergartenMap" parameterType="java.lang.Integer">
+		select * from kindergarten_info where id=#{kindergartenId}
+	</select>
+
+  </mapper>

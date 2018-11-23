@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+.title{
+	width: 100%;
+	background-color:#00FA9A;
+	text-align:center;
+	height:48px;
+	font-size:24px;
+	position: fixed;
+	color:#ffffff;
+	padding-top:5px;
+}
+.content{
+  margin-right: 0px;
+  margin-left: 0px;
+  font-size:40px;
+}

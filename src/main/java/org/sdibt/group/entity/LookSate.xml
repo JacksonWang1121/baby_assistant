@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须定义，非绑定到类或是接口的方式 -->
+<mapper namespace="org.sdibt.group.dao.LookStateDao">
+	<!--配置inform_info到Inform的映射  -->
+	<resultMap type="org.sdibt.group.entity.LookState" id="lookStateMap">
+	<id column="inform_id"  property="informId"  javaType="java.lang.Integer" />  
+	<id   column="parent_id"   property="parentId"  javaType="java.lang.Integer" />
+	<result   column="look_state"   property="lookState"  javaType="java.lang.String" />
+	</resultMap>
+	<!--根据通知Id,用户ID查看用户的查看状态-->
+	<select id="queryLookState" resultType="java.lang.String" >
+		select look_state
+		 from lookstate_info 
+		 where parent_id=#{parentId}  and  inform_id=#{informId}
+	</select>
+	<!--根据通知Id,用户ID更新通知状态为1即为已查看-->
+	<update id="updateLookState"  parameterType="map">
+		 update  lookstate_info  set
+		 look_state=1 
+		 where parent_id=#{parentId}  and  inform_id=#{informId}
+	</update>
+	<!--保存班级通知查看状态-->
+	<insert id="saveLookState">
+		insert  lookstate_info(parent_id,inform_id,look_state)
+		values 
+		(#{parentId},#{informId},#{lookState})
+	</insert>
+</mapper>

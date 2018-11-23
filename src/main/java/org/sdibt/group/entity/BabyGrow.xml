@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须定义，非绑定到类或是接口的方式 -->
+<mapper namespace="org.sdibt.group.dao.BabyGrowDao">
+	<!-- 根据当前登录的用户ID查询宝宝信息 -->
+	<select id="getBabyInfo" resultType="map" parameterType="java.lang.Long">
+		select * from sys_users u inner join baby_info bi on u.id=bi.user_id 
+		where bi.user_id=#{userId}
+	</select>
+	<!-- 查看宝宝成长记录 -->
+	<select id="listBabyGrow" resultType="map" parameterType="java.lang.Long">
+		select * from sys_users u inner join baby_info bi on u.id=bi.user_id 
+		inner join baby_grow bg on bi.baby_id=bg.baby_id where bi.user_id=#{userId}
+	</select>
+	<!-- 根据家长id查询对应的孩子id -->
+	<select id="findBabyIdByUserId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+		select baby_id from baby_info where user_id=#{userId}
+	</select>
+	<!-- 发布宝宝成长记录 -->
+	<insert id="saveBabyGrow" parameterType="map">
+		insert into baby_grow(baby_id,grow_content,grow_img,publish_date)
+		values(#{babyId},#{growContent},#{growImg},#{publishDate})
+	</insert>
+	<!-- 根据id获取图片路径 -->
+	<select id="getImgPath" resultType="map" parameterType="java.lang.Integer">
+		select * from baby_grow where grow_id=#{growId}
+	</select>
+	<!-- 删除宝宝成长记录 -->
+	<delete id="deleteBabyGrow" parameterType="java.lang.Integer">
+		delete from baby_grow where grow_id=#{growId}
+	</delete>
+</mapper>
+
