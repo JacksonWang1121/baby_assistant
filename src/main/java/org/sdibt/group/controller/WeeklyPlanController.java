@@ -49,4 +49,36 @@ public class WeeklyPlanController {
 		return weeklyPlan;
 	}
 
+	/**
+	 * 添加周计划
+	 * @param weeklyPlan
+	 * @return
+	 */
+	@RequestMapping("/saveWeeklyPlan")
+	@ResponseBody
+	public String saveWeeklyPlan(HttpSession session, WeeklyPlan weeklyPlan) {
+		if (weeklyPlan.getWeekDate() == null) {
+			System.out.println("WeeklyPlanController::saveWeeklyPlan:failed...");
+			return "false";
+		} else {
+			//从session作用域中获取classInfo
+			org.sdibt.group.entity.Class cls = (Class) session.getAttribute("classInfo");
+			weeklyPlan.setClassId(cls.getClassId());
+			this.weeklyPlanService.saveWeeklyPlan(weeklyPlan);
+		}
+		return "true";
+	}
+
+	/**
+	 * 修改周计划
+	 * @param weeklyPlan
+	 * @return
+	 */
+	@RequestMapping("/updateWeeklyPlan")
+	@ResponseBody
+	public String updateWeeklyPlan(WeeklyPlan weeklyPlan) {
+		this.weeklyPlanService.updateWeeklyPlan(weeklyPlan);
+		return "true";
+	}
+
 }

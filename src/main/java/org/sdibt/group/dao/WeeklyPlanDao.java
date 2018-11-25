@@ -23,4 +23,16 @@ public interface WeeklyPlanDao {
 	 */
 	public WeeklyPlan findWeeklyPlan(Map week);
 
+	/**
+	 * 添加周计划
+	 * @param weeklyPlan
+	 */
+	public void saveWeeklyPlan(WeeklyPlan weeklyPlan);
+
+	/**
+	 * 修改周计划
+	 * @param weeklyPlan
+	 */
+	public void updateWeeklyPlan(WeeklyPlan weeklyPlan);
+
 }

@@ -50,7 +50,7 @@ $(function() {
 		//若周计划不存在，则跳转到添加周计划页面，否则提示该周计划已存在
 		if (planId == 0) {
 			//跳转页面
-			window.location.href = "saveWeeklyPlan.jsp?planId="+planId+"?planDate="+planDate;
+			window.location.href = "saveWeeklyPlan.jsp?planDate="+planDate;
 		} else {
 			//提示框
 			new TipBox({

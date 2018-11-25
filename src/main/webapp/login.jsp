@@ -8,6 +8,7 @@
 <title>登录</title>
 <!-- 动态导入js文件和css文件 -->
 <jsp:include page="public.jsp"></jsp:include>
+<script type="text/javascript" src="js/js/public.js"></script>
 <style type="text/css">
 body{
 	background-image: url("images/bg01.jpg");
@@ -38,16 +39,6 @@ $(function() {
 	}
 
 });
-
-/* 获取请求地址url参数 */
-function getUrl(name) {
-    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-    var r = window.location.search.substr(1).match(reg);
-    if (r != null) {
-        return unescape(r[2]);
-    }
-    return null;
-}
 </script>
 </head>
 <body>

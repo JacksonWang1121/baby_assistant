@@ -21,4 +21,16 @@ public interface IWeeklyPlanService {
 	 */
 	public WeeklyPlan findWeeklyPlan(int classId, int weekNum);
 
+	/**
+	 * 添加周计划
+	 * @param weeklyPlan
+	 */
+	public void saveWeeklyPlan(WeeklyPlan weeklyPlan);
+
+	/**
+	 * 修改周计划
+	 * @param weeklyPlan
+	 */
+	public void updateWeeklyPlan(WeeklyPlan weeklyPlan);
+
 }

@@ -5,58 +5,107 @@
 <head>
 <base href="<%=request.getContextPath()+"/" %>"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>发布微官网</title>
-<jsp:include page="common.jsp"></jsp:include>
+<title>修改周计划</title>
+<jsp:include page="public.jsp"></jsp:include>
+<script type="text/javascript" src="js/js/public.js"></script>
+<script type="text/javascript" src="js/js/dateUtil.js"></script>
+<script type="text/javascript" src="js/js/fileUtil.js"></script>
 <script type="text/javascript">
 $(function() {
-	/* 每次访问该页面时，查询是否已存在该幼儿园的微官网 */
+	
+	//获取请求地址url中的参数值
+	var planId = getUrl("planId");
+	console.log("updateWeeklyPlan:planId = "+planId);
+	
+	/* 显示周计划中具体每天的时间 */
+	showDayTime(planDate);
+	
+	/* 显示要查询的周计划信息 */
 	$.ajax({
-		url: "${pageContext.request.contextPath }/website/findWebsite",
-		type: "GET",
+		url: "${pageContext.request.contextPath }/weeklyPlan/findWeeklyPlan",
+		type: "POST",
+		data: {"weekNum":weekNum},
 		dataType: "text",
-		success: function(data,status) {
+		success: function(result,status) {
 			// 根据返回结果指定界面操作
-			console.log("website_save::findWebsite:success-data = "+data);
-			//若有数据返回，则提示微官网已存在，并禁用保存按钮
-			if (data!="") {
-				alert("微官网已存在");
-				//禁用保存按钮
-				$("#saveWebsiteBtn").attr("disabled","disabled");
+			console.log("listWeeklyPlan:success-result = "+result);
+			//重置周计划id
+			planId = 0;
+			//清空上一次显示的数据
+			$("#weekTime").html('');
+			//若周计划图片已隐藏，则重新显示
+			var hidd = $("#weekPicture").parent().attr("hidden");
+			if (hidd) {
+				//显示周计划图片，即删除hidden属性
+				$("#weekPicture").parent().removeAttr("hidden","hidden");
+			}
+			$("#weekPicture").html('');
+			$("#MondayMorning").html('');
+			$("#MondayAfternoon").html('');
+			$("#TuesdayMorning").html('');
+			$("#TuesdayAfternoon").html('');
+			$("#WednesdayMorning").html('');
+			$("#WednesdayAfternoon").html('');
+			$("#ThursdayMorning").html('');
+			$("#ThursdayAfternoon").html('');
+			$("#FridayMorning").html('');
+			$("#FridayAfternoon").html('');
+			
+			//若有数据返回，则显示到相应的位置
+			if (result!=null || result!="") {
+				//字符串转json对象
+				var data = $.parseJSON(result);
+				/* 显示周计划中具体每天的时间 */
+				showDayTime(data.weekDate);
+				console.log("listWeeklyPlan:plan_id = "+data.id);
+				if (data.id!=null || data.id!="") {
+					//周计划存在并赋值
+					planId = data.id;
+					planDate = data.weekDate;
+					if (data.weekPicture != null) {
+						$("#weekPicture").html('<img alt="该图片不存在" src="'+data.weekPicture+'">');
+					} else {
+						//隐藏周计划图片
+						$("#weekPicture").parent().attr("hidden","hidden");
+					}
+					$("#MondayMorning").html(data.mondayMorning);
+					$("#MondayAfternoon").html(data.mondayAfternoon);
+					$("#TuesdayMorning").html(data.tuesdayMorning);
+					$("#TuesdayAfternoon").html(data.tuesdayAfternoon);
+					$("#WednesdayMorning").html(data.wednesdayMorning);
+					$("#WednesdayAfternoon").html(data.wednesdayAfternoon);
+					$("#ThursdayMorning").html(data.thursdayMorning);
+					$("#ThursdayAfternoon").html(data.thursdayAfternoon);
+					$("#FridayMorning").html(data.fridayMorning);
+					$("#FridayAfternoon").html(data.fridayAfternoon);
+				}
 			}
 		},
 		error: function(data,status,e) {
-			console.log("website_save::findWebsite:error = "+e);
+			console.log("listWeeklyPlan:error = "+e);
 			alert("读取失败");
-			//禁用保存按钮
-			$("#saveWebsiteBtn").attr("disabled","disabled");
 		}
 	});
 	
 	/* 点击保存按钮 */
-	$("#saveWebsiteBtn").click(function() {
+	$("#updatePlan").click(function() {
 		//用FormData对象来发送二进制文件
 		//FormData构造函数提供的append()方法，除了直接添加二进制文件还可以附带一些其它的参数，作为XMLHttpRequest实例的参数提交给服务端
-		var formData = new FormData($("form_website_save"));
-		formData.append("schoolIntro", $("#schoolIntro").val());
-		formData.append("schoolIntroPhoto", $("#schoolIntroPicture")[0].files[0]);
-		formData.append("certificateName1", $("#certificateName1").val());
-		formData.append("certificatePhoto1", $("#certificatePicture1")[0].files[0]);
-		formData.append("certificateName2", $("#certificateName2").val());
-		formData.append("certificatePhoto2", $("#certificatePicture2")[0].files[0]);
-		formData.append("certificateName3", $("#certificateName3").val());
-		formData.append("certificatePhoto3", $("#certificatePicture3")[0].files[0]);
-		formData.append("teacherIntro1", $("#teacherIntro1").val());
-		formData.append("teacherPhoto1", $("#teacherPicture1")[0].files[0]);
-		formData.append("teacherIntro2", $("#teacherIntro2").val());
-		formData.append("teacherPhoto2", $("#teacherPicture2")[0].files[0]);
-		formData.append("teacherIntro3", $("#teacherIntro3").val());
-		formData.append("teacherPhoto3", $("#teacherPicture3")[0].files[0]);
-		for(var i=0; i<$('#stuWorks')[0].files.length; i++) {
-			formData.append('stuWorkPhotos', $('#stuWorks')[0].files[i]);
-		}
-		//console.log("website_save::fromData = "+formData);
+		var formData = new FormData($("form_plan_save"));
+		formData.append("weekDate", planDate);
+		formData.append("mondayMorning", $("#MondayMorning").val());
+		formData.append("mondayAfternoon", $("#MondayAfternoon").val());
+		formData.append("tuesdayMorning", $("#TuesdayMorning").val());
+		formData.append("tuesdayAfternoon", $("#TuesdayAfternoon").val());
+		formData.append("wednesdayMorning", $("#WednesdayMorning").val());
+		formData.append("wendesdayAfternoon", $("#WednesdayAfternoon").val());
+		formData.append("thursdayMorning", $("#ThursdayMorning").val());
+		formData.append("thursdayAfternoon", $("#ThursdayAfternoon").val());
+		formData.append("fridayMorning", $("#FridayMorning").val());
+		formData.append("fridayAfternoon", $("#FridayAfternoon").val());
+		formData.append("weekPicture", $("#weekPicture")[0].files[0]);
 		$.ajax({
-			url: "${pageContext.request.contextPath }/website/saveWebsite",
+			url: "${pageContext.request.contextPath }/weeklyPlan/saveWeeklyPlan",
 			type: "POST",
 			data: formData,
 			dataType: "text",
@@ -66,77 +115,56 @@ $(function() {
 			contentType: false,  //不要设置Content-Type请求头，因为文件数据是以 multipart/form-data来编码
 			success: function(data,status) {
 				// 根据返回结果指定界面操作
-				console.log("website_save::saveWebsite:success-data = "+data);
+				console.log("plan_save::saveWeeklyPlan:success-data = "+data);
 				alert("保存成功");
 			},
 			error: function(data,status,e) {
-				console.log("website_save::saveWebsite:error-data = "+data);
+				console.log("plan_save::saveWeeklyPlan:error-data = "+data);
 				alert("保存失败");
 			}
 		});
 	});
 });
 
-/* 检查上传文件的格式 */
-function checkFile(file) {
-    var value = $(file).val();
-    var fileName = value.substring(value.lastIndexOf(".") + 1).toLowerCase();
-	if (fileName !== "png" && fileName !== "jpg" && fileName !== "jpeg" && fileName !== "gif") {
-        //清除输入框后面的文件，即删除img元素
-        var element = $(file).nextAll("img");
-		console.log("website_update::checkFile-element_length = "+element.length);
-		if (element.length > 0) {
-			for (var i = 0; i < element.length; i++) {
-		    	element.eq(i).remove();
-				console.log("website_save::checkFile-element("+i+") is removed.");
-			}
-		}
-        //清空输入框
-        $(file).val("");
-        //$(file).get(0).outerHTML=$(file).get(0).outerHTML.replace(/(value=\").+\"/i,"$1\"");
-        alert("上传图片格式不正确，请重新上传");
-    }
-}
-
-/* 显示文件 */
-function showFile(file) {
-	//清除输入框后面的文件，即删除img元素
-    var element = $(file).nextAll("img");
-	console.log("website_update::checkFile-element_length = "+element.length);
-	if (element.length > 0) {
-		for (var i = 0; i < element.length; i++) {
-	    	element.eq(i).remove();
-			console.log("website_save::showFile-element("+i+") is removed.");
-		}
-	}
-	//获取上传文件
-	var files = $(file)[0].files;
-	console.log("website_save::showFile-files_length = "+files.length);
-	if (files.length > 0) {
-		for (var i = 0; i < files.length; i++) {
-			//获取上传文件的绝对路径
-		    var url = getObjectURL($(file)[0].files[i]);
-			$(file).after('<img width="100px" alt="该图片不存在" src="'+url+'">');
-		}
-	}
-}
-
-/* 获取上传文件的绝对路径 */
-function getObjectURL(file) {
-    var url = null ;
-    if (window.createObjectURL!=undefined) { // basic
-        url = window.createObjectURL(file) ;
-    } else if (window.URL!=undefined) { // mozilla(firefox)
-        url = window.URL.createObjectURL(file) ;
-    } else if (window.webkitURL!=undefined) { // webkit or chrome
-        url = window.webkitURL.createObjectURL(file) ;
-    }
-    console.log("website_save::getObjectURL-url = "+url);
-    return url ;
+/* 显示周计划中具体每天的时间 */
+function showDayTime(weekDate) {
+	var split = weekDate.split("-");
+	var year = split[0];
+	var week = split[1];
+	//指定某年第几周的开始日期（从周一算起）日期格式字符串
+	var dateStr = getBeginDateOfWeek(year,week);
+	//指定某年第几周的结束日期
+	var endDateStr = getEndDateOfWeek(year,week);
+	//转换成日期
+	var date = parseDate(dateStr);
+	//显示日期到相应的位置
+	$("#weekTime").html('('+dateStr+'~'+endDateStr+')');
+	$(".Mon").html(dateStr);
+	date.setDate(date.getDate()+1);
+	$(".Tues").html(formatDate(date));
+	date.setDate(date.getDate()+1);
+	$(".Wed").html(formatDate(date));
+	date.setDate(date.getDate()+1);
+	$(".Thurs").html(formatDate(date));
+	date.setDate(date.getDate()+1);
+	$(".Fri").html(formatDate(date));
 }
 </script>
 </head>
 <body>
+<!-- 标题 -->
+<div class="headline">
+	<a href="${pageContext.request.contextPath }/listWeeklyPlan.jsp" class="z-index pull-left" style="margin-left:20px;">
+		<img alt="" width="20px" src="images/icons/return.svg">
+	</a>
+	<label>${classInfo.className }周计划</label>
+	<a id="updatePlan" href="javascript:" class="z-index pull-right" style="margin-right:20px;">
+		<img alt="" width="20px" src="images/icons/preservation.svg">
+	</a>
+</div>
+<!-- 清除浮动 -->
+<div class="clearfix"></div>
+
 <div class="container">
 <form id="form_plan_save">
 	<div class="row" style="margin-top: 20px;">

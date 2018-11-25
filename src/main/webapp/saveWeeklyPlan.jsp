@@ -7,14 +7,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>添加周计划</title>
 <jsp:include page="public.jsp"></jsp:include>
+<script type="text/javascript" src="js/js/public.js"></script>
 <script type="text/javascript" src="js/js/dateUtil.js"></script>
+<script type="text/javascript" src="js/js/fileUtil.js"></script>
 <script type="text/javascript">
 $(function() {
 	
 	//获取请求地址url中的参数值
-	var planId = getUrl("planId");
 	var planDate = getUrl("planDate");
-	console.log("planId = "+planId+", planDate = "+planDate);
+	console.log("saveWeeklyPlan:planDate = "+planDate);
 	
 	/* 显示周计划中具体每天的时间 */
 	showDayTime(planDate);
@@ -24,7 +25,7 @@ $(function() {
 		//用FormData对象来发送二进制文件
 		//FormData构造函数提供的append()方法，除了直接添加二进制文件还可以附带一些其它的参数，作为XMLHttpRequest实例的参数提交给服务端
 		var formData = new FormData($("form_plan_save"));
-		formData.append("id", planId);
+		formData.append("weekDate", planDate);
 		formData.append("mondayMorning", $("#MondayMorning").val());
 		formData.append("mondayAfternoon", $("#MondayAfternoon").val());
 		formData.append("tuesdayMorning", $("#TuesdayMorning").val());
@@ -57,68 +58,6 @@ $(function() {
 		});
 	});
 });
-
-/* 检查上传文件的格式 */
-function checkFile(file) {
-    var value = $(file).val();
-    var fileName = value.substring(value.lastIndexOf(".") + 1).toLowerCase();
-	if (fileName !== "png" && fileName !== "jpg" && fileName !== "jpeg" && fileName !== "gif") {
-        //清除输入框后面的文件，即删除img元素
-        var element = $(file).nextAll("img");
-		console.log("plan_save::checkFile-element_length = "+element.length);
-		if (element.length > 0) {
-	    	element.eq(0).remove();
-			console.log("plan_save::checkFile-element is removed.");
-		}
-        //清空输入框
-        $(file).val("");
-        //$(file).get(0).outerHTML=$(file).get(0).outerHTML.replace(/(value=\").+\"/i,"$1\"");
-        alert("上传图片格式不正确，请重新上传");
-    }
-}
-
-/* 显示文件 */
-function showFile(file) {
-	//清除输入框后面的文件，即删除img元素
-    var element = $(file).nextAll("img");
-	console.log("plan_save::checkFile-element_length = "+element.length);
-	if (element.length > 0) {
-    	element.eq(0).remove();
-		console.log("plan_save::showFile-element is removed.");
-	}
-	//获取上传文件
-	var files = $(file)[0].files;
-	console.log("plan_save::showFile-files_length = "+files.length);
-	if (files.length > 0) {
-		//获取上传文件的绝对路径
-	    var url = getObjectURL($(file)[0].files[0]);
-		$(file).after('<img width="100px" alt="该图片不存在" src="'+url+'">');
-	}
-}
-
-/* 获取上传文件的绝对路径 */
-function getObjectURL(file) {
-    var url = null ;
-    if (window.createObjectURL!=undefined) { // basic
-        url = window.createObjectURL(file) ;
-    } else if (window.URL!=undefined) { // mozilla(firefox)
-        url = window.URL.createObjectURL(file) ;
-    } else if (window.webkitURL!=undefined) { // webkit or chrome
-        url = window.webkitURL.createObjectURL(file) ;
-    }
-    console.log("website_save::getObjectURL-url = "+url);
-    return url ;
-}
-
-/* 获取请求地址url参数 */
-function getUrl(name) {
-    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-    var r = window.location.search.substr(1).match(reg);
-    if (r != null) {
-        return unescape(r[2]);
-    }
-    return null;
-}
 
 /* 显示周计划中具体每天的时间 */
 function showDayTime(weekDate) {

@@ -27,37 +27,32 @@
 	</select>
 
 	<!-- 录入周计划 -->
-	<insert id="saveWebsite" parameterType="org.sdibt.group.entity.Website">
-		insert into website (school_id,school_intro,school_intro_picture,certificate_name_1,certificate_picture_1,
-		certificate_name_2,certificate_picture_2,certificate_name_3,certificate_picture_3,teacher_intro_1,teacher_picture_1,
-		teacher_intro_2,teacher_picture_2,teacher_intro_3,teacher_picture_3,stu_works) 
-		values (#{schoolId }, #{schoolIntro }, #{schoolIntroPicture }, #{certificateName1 }, #{certificatePicture1 },
-		#{certificateName2 }, #{certificatePicture2 }, #{certificateName3 }, #{certificatePicture3 },
-		#{teacherIntro1 }, #{teacherPicture1 }, #{teacherIntro2 }, #{teacherPicture2 }, #{teacherIntro3 }, #{teacherPicture3 },
-		#{stuWorks })
+	<insert id="saveWeeklyPlan" parameterType="org.sdibt.group.entity.WeeklyPlan">
+		insert into weekly_plan (class_id, week_date, monday_morning, monday_afternoon, 
+		tuesday_morning, tuesday_afternoon, wednesday_morning, wednesday_afternoon, 
+		thursday_morning, thursday_afternoon, friday_morning, friday_afternoon, week_picture 
+		values (#{classId}, #{weekDate}, #{mondayMorning}, #{mondayAfternoon}, 
+		#{tuesdayMorning}, #{tuesdayAfternoon}, #{wednesdayMorning}, #{wednesdayAfternoon}, 
+		#{thursdayMorning}, #{thursdayAfternoon}, #{fridayMorning}, #{fridayAfternoon}, #{weekPicture})
 	</insert>
 
 	<!-- 修改周计划 -->
-	<update id="updateWebsite" parameterType="org.sdibt.group.entity.Website">
-		update website 
+	<update id="updateWeeklyPlan" parameterType="org.sdibt.group.entity.WeeklyPlan">
+		update weekly_plan 
 		<trim prefix="set" suffixOverrides=",">
-			<if test="schoolIntro != null">school_intro=#{schoolIntro,jdbcType=VARCHAR },</if>
-			<if test="schoolIntroPicture != null">school_introPicture=#{schoolIntroPicture,jdbcType=VARCHAR },</if>
-			<if test="certificateName1 != null">certificate_name_1=#{certificateName1,jdbcType=VARCHAR },</if>
-			<if test="certificatePicture1 != null">certificate_picture_1=#{certificatePicture1,jdbcType=VARCHAR },</if>
-			<if test="certificateName2 != null">certificate_name_2=#{certificateName2,jdbcType=VARCHAR },</if>
-			<if test="certificatePicture2 != null">certificate_picture_2=#{certificatePicture2,jdbcType=VARCHAR },</if>
-			<if test="certificateName3 != null">certificate_name_3=#{certificateName3,jdbcType=VARCHAR },</if>
-			<if test="certificatePicture3 != null">certificate_picture_3=#{certificatePicture3,jdbcType=VARCHAR },</if>
-			<if test="teacherIntro1 != null">teacher_intro_1=#{teacherIntro1,jdbcType=VARCHAR },</if>
-			<if test="teacherPicture1 != null">teacher_picture_1=#{teacherPicture1,jdbcType=VARCHAR },</if>
-			<if test="teacherIntro2 != null">teacher_intro_2=#{teacherIntro2,jdbcType=VARCHAR },</if>
-			<if test="teacherPicture2 != null">teacher_picture_2=#{teacherPicture2,jdbcType=VARCHAR },</if>
-			<if test="teacherIntro3 != null">teacher_intro_3=#{teacherIntro3,jdbcType=VARCHAR },</if>
-			<if test="teacherPicture3 != null">teacher_picture_3=#{teacherPicture3,jdbcType=VARCHAR },</if>
-			<if test="stuWorks != null">stu_works=#{stuWorks,jdbcType=VARCHAR },</if>
+			<if test="mondayMorning != null">monday_morning = #{mondayMorning,jdbcType=VARCHAR },</if>
+			<if test="mondayAfternoon != null">monday_afternoon = #{mondayAfternoon,jdbcType=VARCHAR },</if>
+			<if test="tuesdayMorning != null">tuesday_morning = #{tuesdayMorning,jdbcType=VARCHAR },</if>
+			<if test="tuesdayAfternoon != null">tuesday_afternoon = #{tuesdayAfternoon,jdbcType=VARCHAR },</if>
+			<if test="wednesdayMorning != null">wednesday_morning = #{wednesdayMorning,jdbcType=VARCHAR },</if>
+			<if test="wednesdayAfternoon != null">wednesday_afternoon = #{wednesdayAfternoon,jdbcType=VARCHAR },</if>
+			<if test="thursdayMorning != null">thursday_morning = #{thursdayMorning,jdbcType=VARCHAR },</if>
+			<if test="thursdayAfternoon != null">thursday_afternoon = #{thursdayAfternoon,jdbcType=VARCHAR },</if>
+			<if test="fridayMorning != null">friday_morning = #{fridayMorning,jdbcType=VARCHAR },</if>
+			<if test="fridayAfternoon != null">friday_afternoon = #{fridayAfternoon,jdbcType=VARCHAR },</if>
+			<if test="weekPicture != null">week_picture = #{weekPicture,jdbcType=VARCHAR },</if>
 		</trim>
-		where school_id=#{schoolId }
+		where id=#{id }
 	</update>
 
   </mapper>

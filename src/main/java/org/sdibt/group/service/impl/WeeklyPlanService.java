@@ -14,6 +14,7 @@ import org.sdibt.group.entity.WeeklyPlan;
 import org.sdibt.group.service.IWeeklyPlanService;
 import org.sdibt.group.utils.DateUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * WeeklyPlan业务逻辑层
@@ -67,6 +68,26 @@ public class WeeklyPlanService implements IWeeklyPlanService {
 			weeklyPlan.setWeekDate(weekDate);
 		}
 		return weeklyPlan;
+	}
+
+	/**
+	 * 添加周计划
+	 * @param weeklyPlan
+	 */
+	@Transactional
+	@Override
+	public void saveWeeklyPlan(WeeklyPlan weeklyPlan) {
+		this.weeklyPlanDao.saveWeeklyPlan(weeklyPlan);
+	}
+
+	/**
+	 * 修改周计划
+	 * @param weeklyPlan
+	 */
+	@Transactional
+	@Override
+	public void updateWeeklyPlan(WeeklyPlan weeklyPlan) {
+		this.weeklyPlanDao.updateWeeklyPlan(weeklyPlan);
 	}
 
 	/**
