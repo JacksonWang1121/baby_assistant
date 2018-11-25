@@ -9,7 +9,7 @@
 		<result column="username" property="username" javaType="java.lang.String"/>
 		<result column="password" property="password" javaType="java.lang.String"/>
 		<result column="salt" property="salt" javaType="java.lang.String"/>
-		<result column="locked" property="locked" javaType="java.lang.Integer"/>
+		<result column="locked" property="locked" javaType="java.lang.Boolean"/>
 		<result column="real_name" property="realName" javaType="java.lang.String"/>
 		<result column="nick_name" property="nickName" javaType="java.lang.String"/>
 		<result column="user_icon" property="userIcon" javaType="java.lang.String"/>

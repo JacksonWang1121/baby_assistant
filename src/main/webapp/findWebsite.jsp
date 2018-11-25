@@ -6,7 +6,7 @@
 <base href="<%=request.getContextPath()+"/" %>"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>微官网</title>
-<jsp:include page="common.jsp"></jsp:include>
+<jsp:include page="public.jsp"></jsp:include>
 <link rel="stylesheet" href="css/swiper.min.css">
 <script type="text/javascript" src="js/swiper.min.js"></script>
 <style type="text/css">
@@ -102,12 +102,12 @@ $(function() {
 </head>
 <body>
 <!-- 头部 -->
-<div class="title">
-	<a href="${pageContext.request.contextPath }/main" class="pull-left" style="margin-left:20px;">
+<div class="headline">
+	<a href="${pageContext.request.contextPath }/main" class="z-index pull-left" style="margin-left:20px;">
 		<img alt="" width="20px" src="images/icons/return.svg">
 	</a>
 	<label>微官网</label>
-	<a href="javascript:void(0);" class="pull-right" style="margin-right:20px;">
+	<a href="javascript:void(0);" class="z-index pull-right" style="margin-right:20px;">
 		<img alt="" width="20px" src="images/icons/more.svg">
 	</a>
 </div>

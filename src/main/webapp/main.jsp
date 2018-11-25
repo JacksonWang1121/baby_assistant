@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -8,7 +8,7 @@
 <base href="<%=request.getContextPath()+"/" %>"/>
 <title>主页</title>
 <!-- 动态导入js文件和css文件 -->
-<jsp:include page="common.jsp"></jsp:include>
+<jsp:include page="public.jsp"></jsp:include>
 <style type="text/css">
 body{
 	background-image:url("images/bg03.jpg");
@@ -35,6 +35,7 @@ body{
     height: 64px;
     text-align: center;
     background-color:#00FA9A;
+    padding-top: 5px;
     position: fixed;
     bottom: 0;
 }
@@ -105,7 +106,7 @@ $(function(){
 </head>
 <body>
 <!-- 头部 -->
-<div class="title">
+<div class="headline">
 	<label>宝贝助手</label>
 </div>
 

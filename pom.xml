@@ -100,6 +100,13 @@
 			<version>1.2.12</version>
 		</dependency>
 		
+		<!-- servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		
 		<!-- 导入Mysql数据库链接jar包 -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -170,13 +177,6 @@
 			<version>2.6.3</version>
 		</dependency>
 
-
-		<!-- 导入Mysql数据库链接jar包 -->
-		<dependency>
-			<groupId>javax.servlet</groupId> 
-			<artifactId>javax.servlet-api</artifactId> 
-			<version>3.1.0</version> 
-		</dependency>
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
@@ -200,12 +200,6 @@
 			<version>2.7.3</version>
 		</dependency>
 		<!-- redis cache related.....end -->
-
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-		</dependency>
 
 		<!-- shiro -->
 		<dependency>

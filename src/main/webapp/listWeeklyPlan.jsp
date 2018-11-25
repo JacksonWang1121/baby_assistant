@@ -1,14 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
 <base href="<%=request.getContextPath()+"/" %>"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>周计划</title>
-<jsp:include page="common.jsp"></jsp:include>
+<jsp:include page="public.jsp"></jsp:include>
 <link rel="stylesheet" href="css/swiper.min.css">
 <script type="text/javascript" src="js/swiper.min.js"></script>
+<script type="text/javascript" src="js/js/dateUtil.js"></script>
 <style type="text/css">
 #switchWeek {
 	padding-top:48px;
@@ -19,15 +21,63 @@
 #switchWeek>label {
 	font-size:24px;
 }
+#moreModal {
+	margin-top: 10%;
+}
 </style>
 <script type="text/javascript">
 //记录点击了上一周或下一周
 var weekCount = 0;
+//记录存在的本周计划的id
+var planId = 0;
+//记录本周计划的周时间
+var planDate = null;
 
 $(function() {
 	
 	/* 页面初始化 */
 	showWeeklyPlan(weekCount);
+	
+	/* 页面右上角的更多按钮注册事件 */
+	$("#more").bind('click', function() {
+		$("#moreModal").modal('show');
+	});
+	
+	/* 添加周计划按钮注册事件 */
+	$("#saveWeeklyPlanBtn").bind('click', function() {
+		//隐藏modal框
+		$("#moreModal").modal('hidden');
+		//若周计划不存在，则跳转到添加周计划页面，否则提示该周计划已存在
+		if (planId == 0) {
+			//跳转页面
+			window.location.href = "saveWeeklyPlan.jsp?planId="+planId+"?planDate="+planDate;
+		} else {
+			//提示框
+			new TipBox({
+				type:'error',
+				str:'本周计划已存在',
+				hasBtn:true
+			});
+		}
+	});
+	
+	/* 修改周计划按钮注册事件 */
+	$("#updateWeeklyPlanBtn").bind('click', function() {
+		//隐藏modal框
+		$("#moreModal").modal('hidden');
+		//若周计划存在，则跳转到修改周计划页面，否则提示该周计划不存在
+		if (planId == 0) {
+			//提示框
+			new TipBox({
+				type:'error',
+				str:'本周计划不存在',
+				hasBtn:true
+			});
+		} else {
+			//跳转页面
+			window.location.href = "updateWeeklyPlan.jsp?planId="+planId;
+		}
+	});
 	
 	/* 点击上一周按钮 */
 	$("#prevWeek").bind('click',function() {
@@ -57,6 +107,8 @@ function showWeeklyPlan(weekNum) {
 		success: function(result,status) {
 			// 根据返回结果指定界面操作
 			console.log("listWeeklyPlan:success-result = "+result);
+			//重置周计划id
+			planId = 0;
 			//清空上一次显示的数据
 			$("#weekTime").html('');
 			//若周计划图片已隐藏，则重新显示
@@ -83,22 +135,28 @@ function showWeeklyPlan(weekNum) {
 				var data = $.parseJSON(result);
 				/* 显示周计划中具体每天的时间 */
 				showDayTime(data.weekDate);
-				if (data.weekPicture != null) {
-					$("#weekPicture").html('<img alt="该图片不存在" src="'+data.weekPicture+'">');
-				} else {
-					//隐藏周计划图片
-					$("#weekPicture").parent().attr("hidden","hidden");
+				console.log("listWeeklyPlan:plan_id = "+data.id);
+				if (data.id!=null || data.id!="") {
+					//周计划存在并赋值
+					planId = data.id;
+					planDate = data.weekDate;
+					if (data.weekPicture != null) {
+						$("#weekPicture").html('<img alt="该图片不存在" src="'+data.weekPicture+'">');
+					} else {
+						//隐藏周计划图片
+						$("#weekPicture").parent().attr("hidden","hidden");
+					}
+					$("#MondayMorning").html(data.mondayMorning);
+					$("#MondayAfternoon").html(data.mondayAfternoon);
+					$("#TuesdayMorning").html(data.tuesdayMorning);
+					$("#TuesdayAfternoon").html(data.tuesdayAfternoon);
+					$("#WednesdayMorning").html(data.wednesdayMorning);
+					$("#WednesdayAfternoon").html(data.wednesdayAfternoon);
+					$("#ThursdayMorning").html(data.thursdayMorning);
+					$("#ThursdayAfternoon").html(data.thursdayAfternoon);
+					$("#FridayMorning").html(data.fridayMorning);
+					$("#FridayAfternoon").html(data.fridayAfternoon);
 				}
-				$("#MondayMorning").html(data.mondayMorning);
-				$("#MondayAfternoon").html(data.mondayAfternoon);
-				$("#TuesdayMorning").html(data.tuesdayMorning);
-				$("#TuesdayAfternoon").html(data.tuesdayAfternoon);
-				$("#WednesdayMorning").html(data.wednesdayMorning);
-				$("#WednesdayAfternoon").html(data.wednesdayAfternoon);
-				$("#ThursdayMorning").html(data.thursdayMorning);
-				$("#ThursdayAfternoon").html(data.thursdayAfternoon);
-				$("#FridayMorning").html(data.fridayMorning);
-				$("#FridayAfternoon").html(data.fridayAfternoon);
 			}
 		},
 		error: function(data,status,e) {
@@ -131,103 +189,21 @@ function showDayTime(weekDate) {
 	date.setDate(date.getDate()+1);
 	$(".Fri").html(formatDate(date));
 }
-
-//获取某年某周的开始日期
-function getBeginDateOfWeek(paraYear, weekIndex){
-	var firstDay = GetFirstWeekBegDay(paraYear);
-	//7*24*3600000 是一星期的时间毫秒数,(JS中的日期精确到毫秒)
-	var time=(weekIndex-1)*7*24*3600000;
-	var beginDay = firstDay;
-	//为日期对象 date 重新设置成时间 time
-	beginDay.setTime(firstDay.valueOf()+time);
-	return formatDate(beginDay);
-}
-
-//获取某年某周的结束日期
-function getEndDateOfWeek(paraYear, weekIndex){
-	var firstDay = GetFirstWeekBegDay(paraYear);
-	//7*24*3600000 是一星期的时间毫秒数,(JS中的日期精确到毫秒)
-	var time=(weekIndex-1)*7*24*3600000;
-	var weekTime = 6*24*3600000;
-	var endDay = firstDay;
-	//为日期对象 date 重新设置成时间 time
-	endDay.setTime(firstDay.valueOf()+weekTime+time);
-	return formatDate(endDay);
-}
-
-//获取某年的第一天
-function GetFirstWeekBegDay(year) {
-	var tempdate = new Date(year, 0, 1);
-	var temp = tempdate.getDay();
-	if (temp == 1){
-		return tempdate;
-	}
-	temp = temp==0?7:temp;
-	tempdate = tempdate.setDate(tempdate.getDate() + (8 - temp));
-	return new Date(tempdate);
-}
-
-//格式化日期：yyyy-MM-dd HH:mm:ss
-function formatDate(date) {
-	//年
-	var year = date.getFullYear();
-	//月
-	var month = twoDigits(date.getMonth()+1);
-	//日
-	var day = twoDigits(date.getDate());
-  //星期几
-	var week = " 星期" + "日一二三四五六 ".charAt(date.getDay());
-	//时
-	var hour = twoDigits(date.getHours());
-	//分
-	var min = twoDigits(date.getMinutes());
-	//秒
-	var sec = twoDigits(date.getSeconds());
-
-	return (year+"-"+month+"-"+day);
-}
-
-/* 月日时分秒中个位数格式化两位数 */
-function twoDigits(val) {
-  if (val < 10) {
-  	return "0" + val;
-  }
-  return val;
-}
-
-/* 字符串转换成日期 */
-function parseDate(dateStr){
-    var dateArr = dateStr.split("-");
-    var year = parseInt(dateArr[0]);
-    //处理月份为04这样的情况
-    var month;
-    if(dateArr[1].indexOf("0") == 0){
-        month = parseInt(dateArr[1].substring(1));
-    }else{
-         month = parseInt(dateArr[1]);
-    }
-    //同月份处理方式
-    var day;
-    if(dateArr[2].indexOf("0") == 0){
-        day = parseInt(dateArr[2].substring(1));
-    }else{
-        day = parseInt(dateArr[2]);
-    }
-    var date = new Date(year,month-1,day);
-    return date;
-}
 </script>
 </head>
 <body>
 <!-- 标题 -->
-<div class="title">
-	<a href="${pageContext.request.contextPath }/main" class="pull-left" style="margin-left:20px;">
+<div class="headline">
+	<a href="${pageContext.request.contextPath }/main" class="z-index pull-left" style="margin-left:20px;">
 		<img alt="" width="20px" src="images/icons/return.svg">
 	</a>
 	<label>${classInfo.className }周计划</label>
-	<a href="javascript:void(0);" class="pull-right" style="margin-right:20px;">
-		<img alt="" width="20px" src="images/icons/more.svg">
-	</a>
+	<!-- 只有教师才有此权限 -->
+	<shiro:hasPermission name="plan:more">
+		<a id="more" href="javascript:" class="z-index pull-right" style="margin-right:20px;">
+			<img alt="" width="20px" src="images/icons/more.svg">
+		</a>
+	</shiro:hasPermission>
 </div>
 <!-- 清除浮动 -->
 <div class="clearfix"></div>
@@ -358,6 +334,31 @@ function parseDate(dateStr){
 	</div>
 </div>
 </div>
+
+<!-- 更多按钮Modal -->
+<div class="modal fade" id="moreModal" tabindex="-1" role="dialog" aria-labelledby="moreModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<!-- <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="moreModalLabel">Modal title</h4>
+			</div> -->
+			<div class="modal-body">
+				<div>
+					<button id="saveWeeklyPlanBtn" class="btn btn-primary" style="width:100%">添加周计划</button>
+				</div>
+				<div style="margin-top: 10px;">
+					<button id="updateWeeklyPlanBtn" class="btn btn-primary" style="width:100%">修改周计划</button>
+				</div>
+			</div>
+			<!-- <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div> -->
+		</div>
+	</div>
+</div>
+
 <script type="text/javascript">
 /* 上下滑动 */
 var swiper1 = new Swiper('.swiper-container', {

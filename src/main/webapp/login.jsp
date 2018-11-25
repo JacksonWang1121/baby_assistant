@@ -7,7 +7,7 @@
 <head>
 <title>登录</title>
 <!-- 动态导入js文件和css文件 -->
-<jsp:include page="common.jsp"></jsp:include>
+<jsp:include page="public.jsp"></jsp:include>
 <style type="text/css">
 body{
 	background-image: url("images/bg01.jpg");
@@ -39,7 +39,7 @@ $(function() {
 
 });
 
-/*  */
+/* 获取请求地址url参数 */
 function getUrl(name) {
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
     var r = window.location.search.substr(1).match(reg);
@@ -54,16 +54,16 @@ function getUrl(name) {
 <div class="container">
 	<div id="wrapper" class="text-center">
 		<span class="h1" style="color:#ffffff;">宝宝助手</span>
-		<form action="/babyassistant/doLogin" method="get" id="login_form">
+		<form action="${pageContext.request.contextPath }/doLogin" method="post">
 			<div class="form-group has-success">
 				<div class="form-group has-success" align="center">
-					<input id="username" class="form-control" type="text" name="username" placeholder="请输入手机号码" style="margin-top:30px;width:64%;" value="<shiro:principal/>" >
+					<input type="text" name="username" class="form-control" placeholder="请输入手机号码" style="margin-top:30px;width:64%;" value="<shiro:principal/>" >
 				</div>
 				<div class="form-group has-success" align="center">
-					<input id="password" class="form-control" type="password" name="password"placeholder="请输入密码" style="margin-top:5px;width:64%;">
+					<input type="password" name="password" class="form-control" placeholder="请输入密码" style="margin-top:5px;width:64%;">
 				</div>
 				<div class="form-group has-success" style="margin-top:5px">
-					<input type="checkbox" checked="checked" name="rememberMe" style="zoom:1;">
+					<input type="checkbox" name="rememberMe" style="zoom:1;">
 					<span>记住密码</span>
 				</div>
 				<div>
