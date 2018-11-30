@@ -9,7 +9,10 @@
 <title>周计划</title>
 <jsp:include page="public.jsp"></jsp:include>
 <link rel="stylesheet" href="css/swiper.min.css">
+<link rel="stylesheet" href="css/mdialog.css">
+<script type="text/javascript" src="js/js/public.js"></script>
 <script type="text/javascript" src="js/swiper.min.js"></script>
+<script type="text/javascript" src="js/mdialog.js"></script>
 <script type="text/javascript" src="js/js/dateUtil.js"></script>
 <style type="text/css">
 #switchWeek {
@@ -35,6 +38,10 @@ var planDate = null;
 
 $(function() {
 	
+	//获取请求地址url中的参数值
+	weekCount = getUrl("weekNum");
+	console.log("listWeeklyPlan:weekCount = "+weekCount);
+	
 	/* 页面初始化 */
 	showWeeklyPlan(weekCount);
 	
@@ -46,11 +53,11 @@ $(function() {
 	/* 添加周计划按钮注册事件 */
 	$("#saveWeeklyPlanBtn").bind('click', function() {
 		//隐藏modal框
-		$("#moreModal").modal('hidden');
+		$("#moreModal").modal('hide');
 		//若周计划不存在，则跳转到添加周计划页面，否则提示该周计划已存在
 		if (planId == 0) {
 			//跳转页面
-			window.location.href = "saveWeeklyPlan.jsp?planDate="+planDate;
+			window.location.href = "saveWeeklyPlan.jsp?planDate="+planDate+"&weekNum="+weekCount;
 		} else {
 			//提示框
 			new TipBox({
@@ -64,7 +71,7 @@ $(function() {
 	/* 修改周计划按钮注册事件 */
 	$("#updateWeeklyPlanBtn").bind('click', function() {
 		//隐藏modal框
-		$("#moreModal").modal('hidden');
+		$("#moreModal").modal('hide');
 		//若周计划存在，则跳转到修改周计划页面，否则提示该周计划不存在
 		if (planId == 0) {
 			//提示框
@@ -74,8 +81,21 @@ $(function() {
 				hasBtn:true
 			});
 		} else {
+			//sessionStorage存放在浏览器内存，关闭浏览器后就销毁了
+			/* var ss = window.sessionStorage;
+			ss.setItem("mondayMorning", mondayMorning);
+			ss.setItem("mondayAfternoon", mondayAfternoon);
+			ss.setItem("tuesdayMorning", tuesdayMorning);
+			ss.setItem("tuesdayAfternoon", tuesdayAfternoon);
+			ss.setItem("wednesdayMorning", wednesdayMorning);
+			ss.setItem("wednesdayAfternoon", wednesdayAfternoon);
+			ss.setItem("thursdayMorning", thursdayMorning);
+			ss.setItem("thursdayAfternoon", thursdayAfternoon);
+			ss.setItem("fridayMorning", fridayMorning);
+			ss.setItem("fridayAfternoon", fridayAfternoon);
+			ss.setItem("weekPicture", $("#weekPicture").attr("src")); */
 			//跳转页面
-			window.location.href = "updateWeeklyPlan.jsp?planId="+planId;
+			window.location.href = "updateWeeklyPlan.jsp?planId="+planId+"&weekNum="+weekCount;
 		}
 	});
 	
@@ -227,110 +247,109 @@ function showDayTime(weekDate) {
 <div class="swiper-container">
 	<div class="swiper-wrapper">
 	
-	<div class="swiper-slide">
-		<div id="weekPicture"></div>
-	</div>
-	
-	<div class="swiper-slide">
-		<div class="row" style="margin-top: 20px;">
-			<div class="col-xs-12"><strong>周一上午</strong>(<span class="Mon"></span>)</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-12">
-				<p id="MondayMorning"></p>
-			</div>
+		<div class="swiper-slide">
+			<div id="weekPicture"></div>
 		</div>
 		
-		<div class="row" style="margin-top: 20px;">
-			<div class="col-xs-12"><strong>周一下午</strong>(<span class="Mon"></span>)</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-12">
-				<p id="MondayAfternoon"></p>
+		<div class="swiper-slide" style="overflow-y:auto;">
+			<div class="row" style="margin-top: 20px;">
+				<div class="col-xs-12"><strong>周一上午</strong>(<span class="Mon"></span>)</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<p id="MondayMorning"></p>
+				</div>
+			</div>
+			
+			<div class="row" style="margin-top: 20px;">
+				<div class="col-xs-12"><strong>周一下午</strong>(<span class="Mon"></span>)</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<p id="MondayAfternoon"></p>
+				</div>
+			</div>
+			
+			<div class="row" style="margin-top: 20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-12"><strong>周二上午</strong>(<span class="Tues"></span>)</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<p id="TuesdayMorning"></p>
+				</div>
+			</div>
+			
+			<div class="row" style="margin-top: 20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-12"><strong>周二下午</strong>(<span class="Tues"></span>)</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<p id="TuesdayAfternoon"></p>
+				</div>
+			</div>
+			
+			<div class="row" style="margin-top: 20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-12"><strong>周三上午</strong>(<span class="Wed"></span>)</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<p id="WednesdayMorning"></p>
+				</div>
+			</div>
+			
+			<div class="row" style="margin-top: 20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-12"><strong>周三下午</strong>(<span class="Wed"></span>)</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<p id="WednesdayAfternoon"></p>
+				</div>
+			</div>
+			
+			<div class="row" style="margin-top: 20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-12"><strong>周四上午</strong>(<span class="Thurs"></span>)</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<p id="ThursdayMorning"></p>
+				</div>
+			</div>
+			
+			<div class="row" style="margin-top: 20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-12"><strong>周四下午</strong>(<span class="Thurs"></span>)</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<p id="ThursdayAfternoon"></p>
+				</div>
+			</div>
+			
+			<div class="row" style="margin-top: 20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-12"><strong>周五上午</strong>(<span class="Fri"></span>)</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<p id="FridayMorning"></p>
+				</div>
+			</div>
+			
+			<div class="row" style="margin-top: 20px;">
+				<div class="col-xs-1"></div>
+				<div class="col-xs-12"><strong>周五下午</strong>(<span class="Fri"></span>)</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<p id="FridayAfternoon"></p>
+				</div>
 			</div>
 		</div>
-		
-		<div class="row" style="margin-top: 20px;">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-12"><strong>周二上午</strong>(<span class="Tues"></span>)</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-12">
-				<p id="TuesdayMorning"></p>
-			</div>
-		</div>
-		
-		<div class="row" style="margin-top: 20px;">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-12"><strong>周二下午</strong>(<span class="Tues"></span>)</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-12">
-				<p id="TuesdayAfternoon"></p>
-			</div>
-		</div>
-		
-		<div class="row" style="margin-top: 20px;">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-12"><strong>周三上午</strong>(<span class="Wed"></span>)</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-12">
-				<p id="WednesdayMorning"></p>
-			</div>
-		</div>
-		
-		<div class="row" style="margin-top: 20px;">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-12"><strong>周三下午</strong>(<span class="Wed"></span>)</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-12">
-				<p id="WednesdayAfternoon"></p>
-			</div>
-		</div>
-		
-		<div class="row" style="margin-top: 20px;">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-12"><strong>周四上午</strong>(<span class="Thurs"></span>)</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-12">
-				<p id="ThursdayMorning"></p>
-			</div>
-		</div>
-		
-		<div class="row" style="margin-top: 20px;">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-12"><strong>周四下午</strong>(<span class="Thurs"></span>)</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-12">
-				<p id="ThursdayAfternoon"></p>
-			</div>
-		</div>
-		
-		<div class="row" style="margin-top: 20px;">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-12"><strong>周五上午</strong>(<span class="Fri"></span>)</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-12">
-				<p id="FridayMorning"></p>
-			</div>
-		</div>
-		
-		<div class="row" style="margin-top: 20px;">
-			<div class="col-xs-1"></div>
-			<div class="col-xs-12"><strong>周五下午</strong>(<span class="Fri"></span>)</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-12">
-				<p id="FridayAfternoon"></p>
-			</div>
-		</div>
-	</div>
-	
 	</div>
 </div>
 </div>

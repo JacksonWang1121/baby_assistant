@@ -52,6 +52,11 @@ function getObjectURL(file) {
     } else if (window.webkitURL!=undefined) { // webkit or chrome
         url = window.webkitURL.createObjectURL(file) ;
     }
-    console.log("getObjectURL-url = "+url);
+    console.log("fileUtil::getObjectURL-url = "+url);
     return url ;
 }
+
+/* 获取上传文件的绝对路径 */
+/*function createObjectURL(object) {
+    return (window.URL) ? window.URL.createObjectURL(object) : window.webkitURL.createObjectURL(object);
+}*/

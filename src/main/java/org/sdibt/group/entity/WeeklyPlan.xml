@@ -26,11 +26,16 @@
 		select * from weekly_plan where class_id=#{classId} and week_date = #{weekDate}
 	</select>
 
+	<!-- 查询周计划 -->
+	<select id="findWeeklyPlanById" resultMap="weeklyPlanMap" parameterType="java.lang.Integer">
+		select * from weekly_plan where id = #{planId}
+	</select>
+
 	<!-- 录入周计划 -->
 	<insert id="saveWeeklyPlan" parameterType="org.sdibt.group.entity.WeeklyPlan">
 		insert into weekly_plan (class_id, week_date, monday_morning, monday_afternoon, 
 		tuesday_morning, tuesday_afternoon, wednesday_morning, wednesday_afternoon, 
-		thursday_morning, thursday_afternoon, friday_morning, friday_afternoon, week_picture 
+		thursday_morning, thursday_afternoon, friday_morning, friday_afternoon, week_picture) 
 		values (#{classId}, #{weekDate}, #{mondayMorning}, #{mondayAfternoon}, 
 		#{tuesdayMorning}, #{tuesdayAfternoon}, #{wednesdayMorning}, #{wednesdayAfternoon}, 
 		#{thursdayMorning}, #{thursdayAfternoon}, #{fridayMorning}, #{fridayAfternoon}, #{weekPicture})

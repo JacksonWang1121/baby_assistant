@@ -14,11 +14,12 @@
 	padding-top: 48px;
 	position: relative;
 	height: 100%;
+	overflow: hidden;
 }
 
 .swiper1,.swiper2 {
 	width: 100%;
-	height: 100%;
+	height: 700px;
 }
 
 .swiper-slide {
@@ -27,6 +28,14 @@
 </style>
 <script type="text/javascript">
 $(function() {
+	
+	/* var width = $(window).width();
+	var height = $(window).height();
+	alert('width = '+width+"height = "+height);
+	$(".swiper1,.swiper2").css({
+		'width' : width,
+		'height' : height
+	}); */
 
 	/* 每次访问该页面时，查询是否已存在该幼儿园的微官网 */
 	$.ajax({

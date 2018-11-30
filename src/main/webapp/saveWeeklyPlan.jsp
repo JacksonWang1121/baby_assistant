@@ -10,6 +10,11 @@
 <script type="text/javascript" src="js/js/public.js"></script>
 <script type="text/javascript" src="js/js/dateUtil.js"></script>
 <script type="text/javascript" src="js/js/fileUtil.js"></script>
+<style type="text/css">
+.container {
+	margin-top: 52px;
+}
+</style>
 <script type="text/javascript">
 $(function() {
 	
@@ -31,12 +36,12 @@ $(function() {
 		formData.append("tuesdayMorning", $("#TuesdayMorning").val());
 		formData.append("tuesdayAfternoon", $("#TuesdayAfternoon").val());
 		formData.append("wednesdayMorning", $("#WednesdayMorning").val());
-		formData.append("wendesdayAfternoon", $("#WednesdayAfternoon").val());
+		formData.append("wednesdayAfternoon", $("#WednesdayAfternoon").val());
 		formData.append("thursdayMorning", $("#ThursdayMorning").val());
 		formData.append("thursdayAfternoon", $("#ThursdayAfternoon").val());
 		formData.append("fridayMorning", $("#FridayMorning").val());
 		formData.append("fridayAfternoon", $("#FridayAfternoon").val());
-		formData.append("weekPicture", $("#weekPicture")[0].files[0]);
+		formData.append("weekPhoto", $("#weekPhoto")[0].files[0]);
 		$.ajax({
 			url: "${pageContext.request.contextPath }/weeklyPlan/saveWeeklyPlan",
 			type: "POST",
@@ -49,7 +54,12 @@ $(function() {
 			success: function(data,status) {
 				// 根据返回结果指定界面操作
 				console.log("plan_save::saveWeeklyPlan:success-data = "+data);
-				alert("保存成功");
+				if (data == "true") {
+					alert("保存成功");
+					window.location.href = "listWeeklyPlan.jsp?weekNum="+weekNum;
+				} else {
+					alert("保存失败");
+				}
 			},
 			error: function(data,status,e) {
 				console.log("plan_save::saveWeeklyPlan:error-data = "+data);
@@ -105,7 +115,7 @@ function showDayTime(weekDate) {
 	</div>
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<textarea id="MondayMorning" rows="3" cols="30"></textarea>
+			<textarea id="MondayMorning" rows="3" cols="40"></textarea>
 		</div>
 	</div>
 	
@@ -114,7 +124,7 @@ function showDayTime(weekDate) {
 	</div>
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<textarea id="MondayAfternoon" rows="3" cols="30"></textarea>
+			<textarea id="MondayAfternoon" rows="3" cols="40"></textarea>
 		</div>
 	</div>
 	
@@ -124,7 +134,7 @@ function showDayTime(weekDate) {
 	</div>
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<textarea id="TuesdayMorning" rows="3" cols="30"></textarea>
+			<textarea id="TuesdayMorning" rows="3" cols="40"></textarea>
 		</div>
 	</div>
 	
@@ -134,7 +144,7 @@ function showDayTime(weekDate) {
 	</div>
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<textarea id="TuesdayAfternoon" rows="3" cols="30"></textarea>
+			<textarea id="TuesdayAfternoon" rows="3" cols="40"></textarea>
 		</div>
 	</div>
 	
@@ -144,7 +154,7 @@ function showDayTime(weekDate) {
 	</div>
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<textarea id="WednesdayMorning" rows="3" cols="30"></textarea>
+			<textarea id="WednesdayMorning" rows="3" cols="40"></textarea>
 		</div>
 	</div>
 	
@@ -154,7 +164,7 @@ function showDayTime(weekDate) {
 	</div>
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<textarea id="WednesdayAfternoon" rows="3" cols="30"></textarea>
+			<textarea id="WednesdayAfternoon" rows="3" cols="40"></textarea>
 		</div>
 	</div>
 	
@@ -164,7 +174,7 @@ function showDayTime(weekDate) {
 	</div>
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<textarea id="ThursdayMorning" rows="3" cols="30"></textarea>
+			<textarea id="ThursdayMorning" rows="3" cols="40"></textarea>
 		</div>
 	</div>
 	
@@ -174,7 +184,7 @@ function showDayTime(weekDate) {
 	</div>
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<textarea id="ThursdayAfternoon" rows="3" cols="30"></textarea>
+			<textarea id="ThursdayAfternoon" rows="3" cols="40"></textarea>
 		</div>
 	</div>
 	
@@ -184,7 +194,7 @@ function showDayTime(weekDate) {
 	</div>
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<textarea id="FridayMorning" rows="3" cols="30"></textarea>
+			<textarea id="FridayMorning" rows="3" cols="40"></textarea>
 		</div>
 	</div>
 	
@@ -194,8 +204,13 @@ function showDayTime(weekDate) {
 	</div>
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<textarea id="FridayAfternoon" rows="3" cols="30"></textarea>
+			<textarea id="FridayAfternoon" rows="3" cols="40"></textarea>
 		</div>
+	</div>
+	<!-- 周图片 -->
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-xs-4 text-right"><strong>下周计划</strong></div>
+		<div class="col-xs-8"><input type="file" id="weekPhoto" onchange="checkFile(this);showFile(this)" accept="image/*"></div>
 	</div>
 </form>
 </div>

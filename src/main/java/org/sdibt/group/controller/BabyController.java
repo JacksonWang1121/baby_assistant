@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSON;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 
@@ -64,7 +65,7 @@ public class BabyController {
 	@RequestMapping("/listBabyEnrollInfo")
 	public String listBabyEnrollInfo(HttpSession session,Map map){
 		Long userId=(Long) session.getAttribute("userId");
-		Class classInfo = (Class) session.getAttribute("class");
+		Class classInfo = (Class) session.getAttribute("classInfo");
 		int kindergartenId = classInfo.getKindergartenId();
 		PageVO pageVO = new PageVO();
 		int pageSize = pageVO.getPageSize();
@@ -349,6 +350,23 @@ public class BabyController {
 		user.setFirstLoginStatus(1);
 		this.userService.updateUser(user);
 		return "true";
+	}
+
+	/**
+	 * 根据幼儿园id查询该幼儿园所有在校学生的记录
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("/chooseBaby")
+	public String chooseBaby(HttpServletRequest request) {
+		//获取session
+		HttpSession session = request.getSession();
+		//从session作用域中查询幼儿园id
+		int kindergartenId = (int) session.getAttribute("kindergartenId");
+		Map stuMap = this.babyService.listByKindergartenId(kindergartenId);
+		//将获取到的结果返回页面
+		request.setAttribute("stuMap", stuMap);
+		return "chooseBaby";
 	}
 
 }
