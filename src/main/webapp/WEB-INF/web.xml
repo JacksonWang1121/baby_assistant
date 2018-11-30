@@ -61,7 +61,7 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	<listener>
+	<!-- <listener>
 	    <listener-class>org.sdibt.group.listener.QuartzContextListener</listener-class>
-	</listener>
+	</listener> -->
 </web-app>

@@ -13,6 +13,7 @@ import org.sdibt.group.dao.WeeklyPlanDao;
 import org.sdibt.group.entity.WeeklyPlan;
 import org.sdibt.group.service.IWeeklyPlanService;
 import org.sdibt.group.utils.DateUtil;
+import org.sdibt.group.utils.FileUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,8 @@ public class WeeklyPlanService implements IWeeklyPlanService {
 
 	@Resource
 	private WeeklyPlanDao weeklyPlanDao;
+	//文件访问路径
+	private String filePath = FileUtil.httpFilePath + "images/weeklyPlan/";
 
 	public void setWeeklyPlanDao(WeeklyPlanDao weeklyPlanDao) {
 		this.weeklyPlanDao = weeklyPlanDao;
@@ -66,6 +69,24 @@ public class WeeklyPlanService implements IWeeklyPlanService {
 		if (weeklyPlan == null) {
 			weeklyPlan = new WeeklyPlan();
 			weeklyPlan.setWeekDate(weekDate);
+		} else {
+			if (weeklyPlan.getWeekPicture() != null) {
+				weeklyPlan.setWeekPicture(filePath + weeklyPlan.getWeekPicture());
+			}
+		}
+		return weeklyPlan;
+	}
+
+	/**
+	 * 查询周计划
+	 * @param planId
+	 * @return
+	 */
+	@Override
+	public WeeklyPlan findWeeklyPlanById(int planId) {
+		WeeklyPlan weeklyPlan = this.weeklyPlanDao.findWeeklyPlanById(planId);
+		if (weeklyPlan.getWeekPicture()!= null) {
+			weeklyPlan.setWeekPicture(filePath+weeklyPlan.getWeekPicture());
 		}
 		return weeklyPlan;
 	}

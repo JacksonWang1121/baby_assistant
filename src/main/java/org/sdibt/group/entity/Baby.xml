@@ -3,6 +3,25 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace必须定义，非绑定到类或是接口的方式 -->
 <mapper namespace="org.sdibt.group.dao.BabyDao">
+   
+    <resultMap type="org.sdibt.group.entity.Baby" id="babyMap">
+		<id column="baby_id" property="babyId" javaType="java.lang.Integer"/>
+		<result column="user_id" property="userId" javaType="java.lang.Long" jdbcType="INTEGER"/>
+		<result column="grade_id" property="gradeId" javaType="java.lang.Integer"/>
+		<result column="class_id" property="classId" javaType="java.lang.Integer"/>
+		<result column="kindergarten_id" property="kindergartenId" javaType="java.lang.Integer"/>
+		<result column="baby_no" property="babyNo" javaType="java.lang.String"/>
+		<result column="baby_name" property="babyName" javaType="java.lang.String"/>
+		<result column="sex" property="sex" javaType="java.lang.String"/>
+		<result column="birthday" property="birthday" javaType="java.lang.String"/>
+		<result column="baby_icon" property="babyIcon" javaType="java.lang.String"/>
+		<result column="relationship" property="relationship" javaType="java.lang.String"/>
+		<result column="enter_date" property="enterDate" javaType="java.lang.String"/>
+		<result column="apply_status" property="applyStatus" javaType="java.lang.Integer"/>
+		<result column="pay_status" property="payStatus" javaType="java.lang.Integer"/>
+		<result column="baby_status" property="babyStatus" javaType="java.lang.Integer"/>
+	</resultMap>
+    
 	<!-- 宝宝分班：查询待分班的宝宝信息共多少条 -->
 	<select id="countBabyEnrollInfo" resultType="java.lang.Integer" parameterType="map">
 		select count(bi.baby_id) from class_info ci inner join baby_info bi on bi.grade_id=ci.grade_id 
@@ -92,29 +111,6 @@
   		where baby_id=#{babyId}
     </update>
 
-    <!-- 修改宝宝信息 -->
-	<update id="updateBaby" parameterType="org.sdibt.group.entity.Baby">
-	    update baby_info 
-	    <trim prefix="set" suffixOverrides=",">
-	        <if test="babyNo!=null">baby_no = #{babyNo, jdbcType=VARCHAR },</if>
-	        <if test="babyName!=null">baby_name = #{babyName, jdbcType=VARCHAR },</if>
-	        <if test="sex!=null">sex = #{sex, jdbcType=VARCHAR },</if>
-	        <if test="birthday!=null">birthday = #{birthday, jdbcType=VARCHAR },</if>
-	        <if test="babyIcon!=null">baby_icon = #{babyIcon, jdbcType=VARCHAR },</if>
-	        <if test="relationship!=null">relationship = #{relationship, jdbcType=VARCHAR },</if>
-	        <if test="classId&gt;=0">
-		        <if test="kindergartenId!=null">kindergarten_id = #{kindergartenId, jdbcType=INTEGER },</if>
-		        <if test="gradeId!=null">grade_id = #{gradeId, jdbcType=INTEGER },</if>
-		        <if test="classId!=null">class_id = #{classId, jdbcType=INTEGER },</if>
-	        </if>
-	        <if test="enterDate!=null">enter_date = #{enterDate, jdbcType=VARCHAR },</if>
-	        <if test="applyStatus!=null">apply_status = #{applyStatus, jdbcType=INTEGER },</if>
-	        <if test="payStatus!=null">pay_status = #{payStatus, jdbcType=INTEGER },</if>
-	        <if test="babyStatus!=null">baby_status = #{babyStatus, jdbcType=INTEGER },</if>
-	    </trim>
-	    where baby_id = #{babyId, jdbcType=INTEGER }
-	</update>
-
     <!-- 检查宝宝是否已缴费 -->
     <select id="hasPayTuition" resultType="java.lang.Integer" parameterType="java.lang.Long">
 		select pay_status from baby_info 
@@ -137,5 +133,35 @@
 		select user_id  from  baby_info
 	    where class_id=#{classId}
 	</select>
+
+	<!-- 根据幼儿园id查询该幼儿园所有在校学生的记录 -->
+	<select id="listByKindergartenId" resultType="map" parameterType="java.lang.Integer">
+	    select b.*,c.class_name,g.grade_name from baby_info b left join class_info c on b.class_id = c.class_id 
+	    left join grade_info g on c.grade_id = g.grade_id 
+	    where b.kindergarten_id = #{kindergartenId } and b.baby_status = 1
+	</select>
+
+    <!-- 修改宝宝信息 -->
+	<update id="updateBaby" parameterType="org.sdibt.group.entity.Baby">
+	    update baby_info 
+	    <trim prefix="set" suffixOverrides=",">
+	        <if test="babyNo!=null">baby_no = #{babyNo, jdbcType=VARCHAR },</if>
+	        <if test="babyName!=null">baby_name = #{babyName, jdbcType=VARCHAR },</if>
+	        <if test="sex!=null">sex = #{sex, jdbcType=VARCHAR },</if>
+	        <if test="birthday!=null">birthday = #{birthday, jdbcType=VARCHAR },</if>
+	        <if test="babyIcon!=null">baby_icon = #{babyIcon, jdbcType=VARCHAR },</if>
+	        <if test="relationship!=null">relationship = #{relationship, jdbcType=VARCHAR },</if>
+	        <if test="classId&gt;=0">
+		        <if test="kindergartenId!=null">kindergarten_id = #{kindergartenId, jdbcType=INTEGER },</if>
+		        <if test="gradeId!=null">grade_id = #{gradeId, jdbcType=INTEGER },</if>
+		        <if test="classId!=null">class_id = #{classId, jdbcType=INTEGER },</if>
+	        </if>
+	        <if test="enterDate!=null">enter_date = #{enterDate, jdbcType=VARCHAR },</if>
+	        <if test="applyStatus!=null">apply_status = #{applyStatus, jdbcType=INTEGER },</if>
+	        <if test="payStatus!=null">pay_status = #{payStatus, jdbcType=INTEGER },</if>
+	        <if test="babyStatus!=null">baby_status = #{babyStatus, jdbcType=INTEGER },</if>
+	    </trim>
+	    where baby_id = #{babyId, jdbcType=INTEGER }
+	</update>
 </mapper>
 

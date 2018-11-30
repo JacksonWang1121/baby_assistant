@@ -17,11 +17,17 @@ public interface WeeklyPlanDao {
 
 	/**
 	 * 查询周计划
-	 * @param classId
-	 * @param weekDate
+	 * @param week
 	 * @return
 	 */
 	public WeeklyPlan findWeeklyPlan(Map week);
+
+	/**
+	 * 查询周计划
+	 * @param planId
+	 * @return
+	 */
+	public WeeklyPlan findWeeklyPlanById(int planId);
 
 	/**
 	 * 添加周计划

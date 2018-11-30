@@ -10,79 +10,56 @@
 <script type="text/javascript" src="js/js/public.js"></script>
 <script type="text/javascript" src="js/js/dateUtil.js"></script>
 <script type="text/javascript" src="js/js/fileUtil.js"></script>
+<style type="text/css">
+.container {
+	margin-top: 52px;
+}
+</style>
 <script type="text/javascript">
+//记录本周计划的周时间
+var planDate = null;
+
 $(function() {
 	
 	//获取请求地址url中的参数值
 	var planId = getUrl("planId");
-	console.log("updateWeeklyPlan:planId = "+planId);
-	
-	/* 显示周计划中具体每天的时间 */
-	showDayTime(planDate);
+	var weekNum = getUrl("weekNum");
+	console.log("updateWeeklyPlan:planId = "+planId+", weekNum = "+weekNum);
 	
 	/* 显示要查询的周计划信息 */
 	$.ajax({
-		url: "${pageContext.request.contextPath }/weeklyPlan/findWeeklyPlan",
+		url: "${pageContext.request.contextPath }/weeklyPlan/findWeeklyPlanById",
 		type: "POST",
-		data: {"weekNum":weekNum},
+		data: {"planId":planId},
 		dataType: "text",
 		success: function(result,status) {
 			// 根据返回结果指定界面操作
-			console.log("listWeeklyPlan:success-result = "+result);
-			//重置周计划id
-			planId = 0;
-			//清空上一次显示的数据
-			$("#weekTime").html('');
-			//若周计划图片已隐藏，则重新显示
-			var hidd = $("#weekPicture").parent().attr("hidden");
-			if (hidd) {
-				//显示周计划图片，即删除hidden属性
-				$("#weekPicture").parent().removeAttr("hidden","hidden");
-			}
-			$("#weekPicture").html('');
-			$("#MondayMorning").html('');
-			$("#MondayAfternoon").html('');
-			$("#TuesdayMorning").html('');
-			$("#TuesdayAfternoon").html('');
-			$("#WednesdayMorning").html('');
-			$("#WednesdayAfternoon").html('');
-			$("#ThursdayMorning").html('');
-			$("#ThursdayAfternoon").html('');
-			$("#FridayMorning").html('');
-			$("#FridayAfternoon").html('');
-			
+			console.log("updateWeeklyPlan:success-result = "+result);
 			//若有数据返回，则显示到相应的位置
 			if (result!=null || result!="") {
 				//字符串转json对象
 				var data = $.parseJSON(result);
-				/* 显示周计划中具体每天的时间 */
+				//记录周时间并赋值
+				planDate = data.weekDate;
+				//显示周计划中具体每天的时间
 				showDayTime(data.weekDate);
-				console.log("listWeeklyPlan:plan_id = "+data.id);
-				if (data.id!=null || data.id!="") {
-					//周计划存在并赋值
-					planId = data.id;
-					planDate = data.weekDate;
-					if (data.weekPicture != null) {
-						$("#weekPicture").html('<img alt="该图片不存在" src="'+data.weekPicture+'">');
-					} else {
-						//隐藏周计划图片
-						$("#weekPicture").parent().attr("hidden","hidden");
-					}
-					$("#MondayMorning").html(data.mondayMorning);
-					$("#MondayAfternoon").html(data.mondayAfternoon);
-					$("#TuesdayMorning").html(data.tuesdayMorning);
-					$("#TuesdayAfternoon").html(data.tuesdayAfternoon);
-					$("#WednesdayMorning").html(data.wednesdayMorning);
-					$("#WednesdayAfternoon").html(data.wednesdayAfternoon);
-					$("#ThursdayMorning").html(data.thursdayMorning);
-					$("#ThursdayAfternoon").html(data.thursdayAfternoon);
-					$("#FridayMorning").html(data.fridayMorning);
-					$("#FridayAfternoon").html(data.fridayAfternoon);
+				$("#MondayMorning").html(data.mondayMorning);
+				$("#MondayAfternoon").html(data.mondayAfternoon);
+				$("#TuesdayMorning").html(data.tuesdayMorning);
+				$("#TuesdayAfternoon").html(data.tuesdayAfternoon);
+				$("#WednesdayMorning").html(data.wednesdayMorning);
+				$("#WednesdayAfternoon").html(data.wednesdayAfternoon);
+				$("#ThursdayMorning").html(data.thursdayMorning);
+				$("#ThursdayAfternoon").html(data.thursdayAfternoon);
+				$("#FridayMorning").html(data.fridayMorning);
+				$("#FridayAfternoon").html(data.fridayAfternoon);
+				if (data.weekPicture != null) {
+					$("#weekPhoto").after('<img alt="该图片不存在" src="'+data.weekPicture+'">');
 				}
 			}
 		},
 		error: function(data,status,e) {
-			console.log("listWeeklyPlan:error = "+e);
+			console.log("updateWeeklyPlan:error = "+e);
 			alert("读取失败");
 		}
 	});
@@ -91,7 +68,8 @@ $(function() {
 	$("#updatePlan").click(function() {
 		//用FormData对象来发送二进制文件
 		//FormData构造函数提供的append()方法，除了直接添加二进制文件还可以附带一些其它的参数，作为XMLHttpRequest实例的参数提交给服务端
-		var formData = new FormData($("form_plan_save"));
+		var formData = new FormData($("form_plan_update"));
+		formData.append("id", planId);
 		formData.append("weekDate", planDate);
 		formData.append("mondayMorning", $("#MondayMorning").val());
 		formData.append("mondayAfternoon", $("#MondayAfternoon").val());
@@ -103,9 +81,9 @@ $(function() {
 		formData.append("thursdayAfternoon", $("#ThursdayAfternoon").val());
 		formData.append("fridayMorning", $("#FridayMorning").val());
 		formData.append("fridayAfternoon", $("#FridayAfternoon").val());
-		formData.append("weekPicture", $("#weekPicture")[0].files[0]);
+		formData.append("weekPhoto", $("#weekPhoto")[0].files[0]);
 		$.ajax({
-			url: "${pageContext.request.contextPath }/weeklyPlan/saveWeeklyPlan",
+			url: "${pageContext.request.contextPath }/weeklyPlan/updateWeeklyPlan",
 			type: "POST",
 			data: formData,
 			dataType: "text",
@@ -115,11 +93,16 @@ $(function() {
 			contentType: false,  //不要设置Content-Type请求头，因为文件数据是以 multipart/form-data来编码
 			success: function(data,status) {
 				// 根据返回结果指定界面操作
-				console.log("plan_save::saveWeeklyPlan:success-data = "+data);
-				alert("保存成功");
+				console.log("updateWeeklyPlan:success-data = "+data);
+				if (data == "true") {
+					window.location.href = "listWeeklyPlan.jsp?weekNum="+weekNum;
+					alert("保存成功");
+				} else {
+					alert("保存失败");
+				}
 			},
 			error: function(data,status,e) {
-				console.log("plan_save::saveWeeklyPlan:error-data = "+data);
+				console.log("updateWeeklyPlan:error = "+e);
 				alert("保存失败");
 			}
 		});
@@ -166,7 +149,7 @@ function showDayTime(weekDate) {
 <div class="clearfix"></div>
 
 <div class="container">
-<form id="form_plan_save">
+<form id="form_plan_update">
 	<div class="row" style="margin-top: 20px;">
 		<div class="col-xs-12"><strong>周一上午</strong>(<span class="Mon"></span>)</div>
 	</div>
@@ -263,6 +246,11 @@ function showDayTime(weekDate) {
 		<div class="col-xs-12 text-center">
 			<textarea id="FridayAfternoon" rows="3" cols="30"></textarea>
 		</div>
+	</div>
+	<!-- 周图片 -->
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-xs-4 text-right"><strong>下周计划</strong></div>
+		<div class="col-xs-8"><input type="file" id="weekPhoto" onchange="checkFile(this);showFile(this)" accept="image/*"></div>
 	</div>
 </form>
 </div>

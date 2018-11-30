@@ -28,7 +28,7 @@ body{
 }
 #function {
 	padding-top: 248px;
-	padding-bottom: 64px;
+	margin-bottom: 64px;
 }
 #footer {
 	width: 100%;
