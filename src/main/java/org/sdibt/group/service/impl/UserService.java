@@ -190,6 +190,7 @@ public class UserService implements IUserService{
 		// TODO Auto-generated method stub
 		if(userId>=0){
 	Map user=this.userDao.queryUserInfoByUserId(userId);
+	user.put("user_icon","http://localhost:8080/babyassistantfile/images/userIcons/"+ user.get("user_icon"));
 	return user;
 		}else{
 			return null;

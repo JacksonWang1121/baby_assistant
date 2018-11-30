@@ -330,10 +330,18 @@ public class BabyService implements IBabyService {
 	@Override
 	public List<Map> listBabyInfoByClassId(int classId) {
 		// TODO Auto-generated method stub
-		System.out.println(classId);
+		
 		if(classId>=0){
 		List<Map> parentInfo=this.babyDao.listBabyInfoByClassId(classId);
-	
+	     
+		for(Map  parentInfo1:parentInfo){
+			parentInfo1.put("user_icon","http://localhost:8080/babyassistantfile/images/userIcons/"+parentInfo1.get("user_icon"));
+		}
+		
+		
+		
+		
+		
 		return parentInfo;
 		}else{
 		return null;

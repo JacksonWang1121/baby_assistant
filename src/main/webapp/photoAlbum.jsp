@@ -47,12 +47,12 @@ button {
 	margin-left: 300px;
 	font-size: 50px;
 }
-.i
+
 </style>
 <script type="text/javascript">
 	$(function() {
 		$(".coverSave").click(function() {
-			window.location.href = "/babyassistant/addClassPhotoAlbum.jsp";
+			window.location.href = "/babyassistant/addPhotoAlbum.jsp";
 
 		});
 

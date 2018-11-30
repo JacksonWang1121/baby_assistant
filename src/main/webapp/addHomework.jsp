@@ -63,10 +63,10 @@
 					}
 					else{
 						alert('保存失败')
-					}  
+					} 
 				},
 				error:function(data){
-                        alert('asdsa');
+                        alert('后台出错');
 				}
 			})
 		});
@@ -84,8 +84,8 @@
 		</div>
 		<div>
 			<form action="saveHomework" id="homeworkForm">
-				<textarea name="homeworkContent" id="homeworkContent"></textarea>
-				<input type="button" class="btn btn-success btn-lg" value="tianjai1">
+				<textarea name="homeworkContent" id="homeworkContent"  style="font-size: 40px"></textarea>
+			
 
 			</form>
 		</div>

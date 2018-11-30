@@ -54,9 +54,8 @@ height: 50px;
 	z-index: 100;
 	cursor: pointer;
 }
-
-.coverSave{
-	/* border:1px solid #00FA9A; */
+.coverSave {
+	border: 1px solid #00FA9A;
 	width: 100px;
 	height: 70px;
 	position: absolute;
@@ -64,6 +63,7 @@ height: 50px;
 	z-index: 100;
 	cursor: pointer;
 }
+
 </style>
 <script type="text/javascript">
 	$(function() {
@@ -72,7 +72,6 @@ height: 50px;
 			window.location.href = "/babyassistant/main.jsp";
 		});
 		$(".coverSave").click(function() {
-
 			window.location.href = "/babyassistant/addHomework.jsp";	
 		});
 
@@ -111,37 +110,36 @@ height: 50px;
 <body>
 
 	<div class="title">
-		<span class="glyphicon glyphicon-chevron-left"></span> <span
-			class="coverReturn"></span> <span
-			style="margin-left: 400px; margin-right: 200px;">${homeworks.get(0).class_name}作业</span>
-		<span class="glyphicon glyphicon-plus-sign" id="sign"></span> <span
-class="coverSave"></span>
+		<span class="glyphicon glyphicon-chevron-left"></span>
+		<span class="coverReturn"></span> 
+		<span style="margin-left: 300px; margin-right: 200px;">${homeworks.get(0).class_name}作业</span>
+		<span class="glyphicon glyphicon-plus-sign" id="sign"></span> 
+		<span class="coverSave"></span>
 	</div>
 	<div class="content">
 		<c:forEach items="${homeworks}" var="homework">
-		
+
 			<div class="homework">
 				<div class="title1">
-			     <img alt="" src="${homework.user_icon}"  style="width:30px;height:30px;border-radius:50%">
-					<span class="name">${homework.nick_name}</span>
-					<span style="margin-left: 300px; font-size:20px" >${homework.homework_date}</span>
+					<img alt="" src="${homework.user_icon}"
+						style="width: 30px; height: 30px; border-radius: 50%"> <span
+						class="name">${homework.nick_name}</span> <span
+						style="margin-left: 300px; font-size: 20px">${homework.homework_date}</span>
 				</div>
-				<div class="content"  style="margin-top: 50px ">
-					<span style="margin-left: 90px  ">${homework.homework_content}</span>	
-			
-			<a href="javascript:">
-				<span class="glyphicon glyphicon-trash delete" id="${homework.homework_id}" ></span>
-			</a>		
+				<div class="content" style="margin-top: 50px">
+					<span style="margin-left: 90px">${homework.homework_content}</span>
+
+					<a href="javascript:"> <span
+						class="glyphicon glyphicon-trash delete"
+						id="${homework.homework_id}"></span>
+					</a>
 				</div>
-				
-				
-				<div>
-				
-				
-				</div>
+
+
+				<div></div>
 			</div>
-	
-			
+
+
 		</c:forEach>
 	</div>
 </body>

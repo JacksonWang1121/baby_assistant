@@ -39,7 +39,6 @@
 	
 	<!-- XSJ -->
 	<select id="listClass"  resultType="map"  parameterType="String">
-		select * from class_info
 		select class_name,a.class_id,count(1) as count   from class_info   a
 	    inner  join  baby_info b on  a.class_id=b.class_id
 	    group by  a.class_id

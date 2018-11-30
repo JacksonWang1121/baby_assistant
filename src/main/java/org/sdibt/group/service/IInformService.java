@@ -21,7 +21,7 @@ public interface IInformService {
 	/**
      * 根据通知Id删除通知内容
      */
-	Boolean deleteInformByInformId(int informId);
+	boolean deleteInformByInformId(int informId);
 
 
 

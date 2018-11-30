@@ -92,7 +92,7 @@ public class UserController {
 			System.out.println("UserController::doLogin-userId = "+userId);
 			//将用户信息存放到session作用域中
 			session.setAttribute("user", user);
-
+			session.setAttribute("userId", userId);
 			//获取用户绑定的角色
 			Map role = this.userService.findRoleByUsername(username);
 			System.out.println("UserController::doLogin-role = "+role.get("description"));
@@ -292,4 +292,22 @@ public class UserController {
 		System.out.println(user);
 		return "userDetail";
 	}
+	
+	@RequestMapping("/queryUserInfoByName")
+	public String queryUserInfoByName(String name,Map map){
+	
+
+		System.out.println(name);
+		return "login";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

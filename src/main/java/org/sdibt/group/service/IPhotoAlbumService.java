@@ -8,4 +8,6 @@ public interface IPhotoAlbumService {
 
 	List<PhotoAlbum> listPhotoAlbumByClasId(int classId);
 
+	boolean savePhotoAlbum(PhotoAlbum photoAlbum);
+
 }

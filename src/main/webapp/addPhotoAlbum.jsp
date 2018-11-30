@@ -44,11 +44,28 @@ width: 100%;
 		$(".coverReturn").click(function() {
 			window.location.href = "/babyassistant/listHomeworkByClassId";
 		});
-		$(".coverSave").click(function() {
-			$("#savePhotoAlbum").submit();
+		$("#tianjia").click(function() {
+			var  photoAddress=$("#imagePath").val();
+			alert("aaaaas")
+			$.ajax({
+				url:"/babyassistant/savePhotoAlbum",//发送请求地址
+				type:"post",//发送请求的方法
+				dataType:"text",//返回的数据类型
+				data:{"photoAddress":photoAddress},
+				success:function(data){//请求成功后回调函数
+					if (data=="true") {
+						alert("保存成功")			
+					} else {
+						alert("保存失败")
+					}							
+				},
+				error:function(){//请求失败后回调函数
+					alert('后台报错')
+				} 
+			});
 
 		});
-		$('#dinnerPath').on('change',function(){
+		$('#imagePath').on('change',function(){
 			//获取到input的value，里面是文件的路径
 		    var filePath = $(this).val();      
 		    fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase(),
@@ -59,7 +76,7 @@ width: 100%;
 		        return;  
 		    }
 		    $('#dImg').attr('src',src);
-		    $("#dinnerImg").val(filePath);
+		    $("#classImg").val(filePath);
 		});
 	});
 </script>
@@ -77,17 +94,19 @@ width: 100%;
 			<form action="savePhotoAlbum" id="savePhotoAlbum">
 
 		<table class="table table-bordered" style="font-size:40px" >
-<th><span>图片</span></th>
+        <th><span>图片</span></th>
 							<td >
 								<img id="dImg" name="dImg">
 							</td>
 							<td>
-								<input type="file" id="dinnerPath" name="dinnerPath">
-								<input type="text" id="dinnerImg" name="dinnerImg" hidden="hidden">
+								<input type="file" id="imagePath" name="imagePath">
+								<input type="text" id="classImg" name="classImg" hidden="hidden">
 							</td>
 
 </table>
 			</form>
+
+			<button id="tianjia"> sssssssss</button>
 		</div>
 	</div>
 </body>

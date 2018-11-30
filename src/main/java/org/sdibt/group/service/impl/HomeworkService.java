@@ -33,7 +33,7 @@ public class HomeworkService implements IHomeworkService {
 		if (classId > 0) {
 			homeworks = this.homeworkdao.listHomeworkByClassId(classId);
 			for (Map homework : homeworks) {
-				homework.put("user_icon","http://localhost:8080/babyassistantfile/"+ homework.get("user_icon"));
+				homework.put("user_icon","http://localhost:8080/babyassistantfile/images/userIcons/"+ homework.get("user_icon"));
 			}
 
 			return homeworks;
