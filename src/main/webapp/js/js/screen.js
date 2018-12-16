@@ -1,3 +1,4 @@
+/* 自定义扫描客户端类型：移动端和PC端 */
 $(function() {
 	var system = {};
 	var p = navigator.platform;

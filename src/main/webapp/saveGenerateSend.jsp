@@ -54,7 +54,12 @@ $(function() {
 		formData.append("parentId", parentId);
 		formData.append("babyId", babyId);
 		formData.append("babyName", babyName);
-		formData.append("description", $("#description").val());
+		//判断描述文本域的内容是否为空
+		description = $("#description").val();
+		if (description=="" || description==null) {
+			description = "让TA代接您的宝贝吗？";
+		}
+		formData.append("description", description);
 		formData.append("personPicture", filePath);
 		$.ajax({
 			url : "${pageContext.request.contextPath }/generateSend/saveGenerateSend",
@@ -87,7 +92,7 @@ $(function() {
 	// prerender，visible 和 hidden
 	//let pageVisibility = document.visibilityState;
 	// 监听 visibility change 事件
-	/* document.addEventListener('visibilitychange', function() {
+	document.addEventListener('visibilitychange', function() {
 		// 页面变为不可见时触发 
 		if (document.visibilityState == 'hidden') {
 			//若离开页面时表单未提交，提示用户是否取消本次表单提交
@@ -106,18 +111,18 @@ $(function() {
 		} 
 		// 页面变为可见时触发 
 		//if (document.visibilityState == 'visible') {} 
-	}); */
+	});
 });
 </script>
 </head>
 <body>
 <!-- 标题 -->
 <div class="headline">
-	<a href="listGenerateSend.jsp" class="z-index pull-left" style="margin-left:20px;">
+	<a href="listGenerateSend.jsp" class="icon-z-index pull-left" style="margin-left:20px;">
 		<img alt="" width="20px" src="images/icons/return.svg">
 	</a>
 	<label>代接</label>
-	<a id="saveSend" href="javascript:" class="z-index pull-right" style="margin-right:20px;">
+	<a id="saveSend" href="javascript:" class="icon-z-index pull-right" style="margin-right:20px;">
 		<img alt="" width="20px" src="images/icons/checkmark.svg">
 	</a>
 </div>

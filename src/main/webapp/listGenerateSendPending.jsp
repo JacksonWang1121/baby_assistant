@@ -33,7 +33,7 @@
 		</div>
 		<div class="col-xs-3" style="padding-top:10px;">
 			<shiro:hasPermission name="send:resend">
-				<a class="btn btn-warning" href="${pageContext.request.contextPath }/generateSend/saveGenerateSendAgain?id=${send.id }" style="font-size:8px;">重发通知</a>
+				<a class="btn btn-warning" href="${pageContext.request.contextPath }/generateSend/saveGenerateSendAgain?id=${send.id }" style="font-size:6px;">重发通知</a>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="send:agree">
 				<a class="btn btn-success" href="${pageContext.request.contextPath }/generateSend/auditGenerateSend?id=${send.id }&auditState=1" style="font-size:8px;">同意</a>

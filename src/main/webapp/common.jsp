@@ -10,11 +10,10 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/mdialog.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/zepto.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/mdialog.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/datepicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/ajaxfileupload.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/screen.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/js/screen.js"></script>
 </head>
 <body>
 
