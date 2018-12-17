@@ -1,7 +1,6 @@
 package org.sdibt.group.controller;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -11,11 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.sdibt.group.entity.Baby;
 import org.sdibt.group.entity.Class;
 import org.sdibt.group.entity.User;
-import org.apache.http.HttpRequest;
-import org.sdibt.group.entity.Class;
-import org.sdibt.group.entity.Baby;
 import org.sdibt.group.service.IBabyService;
 import org.sdibt.group.service.IUserService;
 import org.sdibt.group.utils.FileUtil;
@@ -28,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSON;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 
