@@ -87,6 +87,4 @@ public interface UserDao {
      */
 	public Map queryUserInfoByUserId(int userId);
 
-	public List<Map> queryUserByRealName(String realName);
-
 }

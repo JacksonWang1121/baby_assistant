@@ -10,5 +10,6 @@
 <link rel="stylesheet" href="css/public.css" />
 <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/js/screen.js"></script>
 </head>
 </html>

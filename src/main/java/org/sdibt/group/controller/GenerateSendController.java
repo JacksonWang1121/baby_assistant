@@ -155,7 +155,7 @@ public class GenerateSendController {
 		//设置审核状态为0，即未审核
 		generateSend.setAuditState(0);
 		this.generateSendService.updateGenerateSend(generateSend);
-		return "listGenerateSendPending";
+		return "redirect:/generateSend/listGenerateSendPending";
 	}
 
 	/**
@@ -165,7 +165,7 @@ public class GenerateSendController {
 	@RequestMapping("/auditGenerateSend")
 	public String auditGenerateSend(GenerateSend generateSend) {
 		this.generateSendService.updateGenerateSend(generateSend);
-		return "listGenerateSend";
+		return "redirect:/generateSend/listGenerateSendPending";
 	}
 
 }
