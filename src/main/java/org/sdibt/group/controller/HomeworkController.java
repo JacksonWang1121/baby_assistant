@@ -56,7 +56,8 @@ public class HomeworkController {
 	@ResponseBody
 	@RequestMapping("/saveHomework")
 	public String saveHomework(HttpSession session, Homework homework) {
-		int teacherId=12;
+		long teacherId1 = (long) session.getAttribute("userId");
+		int teacherId = (int) teacherId1;
 		int classId = 1;
 		// Date homeworkDate=stringToDateConverter.convert(new Date());
 		SimpleDateFormat tempDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

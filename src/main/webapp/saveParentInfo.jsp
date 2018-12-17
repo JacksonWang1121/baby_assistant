@@ -32,16 +32,14 @@ $(function() {
 			// 根据返回结果指定界面操作
 			console.log("saveParentInfo:success-data = "+data);
 			//若有数据返回，则显示到相应的位置
-			if (data.userIcon != null) {
-				$("#headPortrait").attr("src",data.userIcon);
-			}
+			$("#headPortrait").attr("src",data.userIcon);
 			$("#realName").val(data.realName);
 			$("#nickName").val(data.nickName);
 			$("#personalitySignature").val(data.personalitySignature);
 			$("#address").val(data.address);
 		},
 		error: function(data,status,e) {
-			console.log("saveParentInfo:error = "+e);
+			console.log("saveParentInfo:error-data = "+data);
 			alert("读取失败");
 		}
 	});

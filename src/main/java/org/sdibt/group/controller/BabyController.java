@@ -12,13 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.sdibt.group.entity.Class;
-import org.sdibt.group.entity.User;
 import org.apache.http.HttpRequest;
 import org.sdibt.group.entity.Class;
 import org.sdibt.group.entity.Baby;
 import org.sdibt.group.service.IBabyService;
-import org.sdibt.group.service.IUserService;
-import org.sdibt.group.utils.FileUtil;
 import org.sdibt.group.utils.PaymentUtil;
 import org.sdibt.group.utils.SMScode;
 import org.sdibt.group.vo.PageVO;
@@ -28,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSON;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 
@@ -42,20 +38,15 @@ import com.aliyuncs.exceptions.ClientException;
  */
 @Controller
 public class BabyController {
-
 	@Resource
 	private IBabyService babyService;
-	@Resource
-	private IUserService userService;
 
+	public IBabyService getBabyService() {
+		return babyService;
+	}
 	public void setBabyService(IBabyService babyService) {
 		this.babyService = babyService;
 	}
-
-	public void setUserService(IUserService userService) {
-		this.userService = userService;
-	}
-
 	/**
 	 * 宝宝分班：根据教师所在年级查询待分班的宝宝信息
 	 * @param session
@@ -65,7 +56,7 @@ public class BabyController {
 	@RequestMapping("/listBabyEnrollInfo")
 	public String listBabyEnrollInfo(HttpSession session,Map map){
 		Long userId=(Long) session.getAttribute("userId");
-		Class classInfo = (Class) session.getAttribute("classInfo");
+		Class classInfo = (Class) session.getAttribute("class");
 		int kindergartenId = classInfo.getKindergartenId();
 		PageVO pageVO = new PageVO();
 		int pageSize = pageVO.getPageSize();
@@ -308,65 +299,4 @@ public class BabyController {
 	map.put("parentInfo", parentInfo);
 		return "addressBook";
 	}
-
-	/**
-	 * 查询宝宝记录
-	 * @param session
-	 * @return
-	 */
-	@RequestMapping("/findBaby")
-	@ResponseBody
-	public Map findBaby(HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		return this.babyService.getBabyDataByParentId(user.getId());
-	}
-
-	/**
-	 * 完善宝宝信息
-	 * @param request
-	 * @param baby
-	 * @param headPortrait
-	 * @return
-	 */
-	@RequestMapping("/saveBaby")
-	@ResponseBody
-	public String saveBaby(HttpServletRequest request, Baby baby, MultipartFile headPortrait) {
-		//获取session
-		HttpSession session = request.getSession();
-		if (headPortrait != null) {
-			String fileName = FileUtil.uploadFile(request, headPortrait, "images/babyIcons");
-			baby.setBabyIcon(fileName);
-		}
-		//从session作用域中获取babyId
-		int babyId = (int) session.getAttribute("babyId");
-		baby.setBabyId(babyId);
-		//dml语句中，为了不将该宝宝记录中的幼儿园id、年级id、班级id篡改
-		baby.setClassId(-1);
-		this.babyService.updateBaby(baby);
-		User user = new User();
-		//从sessio作用域中获取user
-		User userInfo = (User) session.getAttribute("user");
-		user.setId(userInfo.getId());
-		user.setFirstLoginStatus(1);
-		this.userService.updateUser(user);
-		return "true";
-	}
-
-	/**
-	 * 根据幼儿园id查询该幼儿园所有在校学生的记录
-	 * @param session
-	 * @return
-	 */
-	@RequestMapping("/chooseBaby")
-	public String chooseBaby(HttpServletRequest request) {
-		//获取session
-		HttpSession session = request.getSession();
-		//从session作用域中查询幼儿园id
-		int kindergartenId = (int) session.getAttribute("kindergartenId");
-		Map stuMap = this.babyService.listByKindergartenId(kindergartenId);
-		//将获取到的结果返回页面
-		request.setAttribute("stuMap", stuMap);
-		return "chooseBaby";
-	}
-
 }

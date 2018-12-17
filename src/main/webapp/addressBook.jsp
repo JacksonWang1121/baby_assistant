@@ -49,24 +49,25 @@ $(function(){
 <div class="title">
 		<span class="glyphicon glyphicon-chevron-left"></span> 
 		<span class="coverReturn" ></span> 
-		<span  style="margin-left: 330px; margin-right: 330px;">班级人员</span>
+		<span  style="margin-left: 400px; margin-right: 200px;"></span>
 	</div>
 <div>
 
 
 <c:forEach  items="${parentInfo}"  var="parentInfo">
 
-<table class="table">
-<tr>
-<td width="10%"><img  src="${parentInfo.user_icon}" style="width:65px;height:65px;border-radius:50%"></td>
-	<td width="80%">
-		<a href="/babyassistant/queryUserInfoByUserId?userId=${ parentInfo.id}">
-		 <h1>${parentInfo.real_name}</h1>
-		</a>
-	</td>
-</tr>
-</table>
+<img alt="" src="${parentInfo.user_icon}" style="width:30px;height:30px;border-radius:50%">
+<a href="/babyassistant/queryUserInfoByUserId?userId=${ parentInfo.id}">
+
+<h1>
+${parentInfo.real_name}
+</h1>
+</a>
+<br>
 </c:forEach>
+</div>
+
+
 
 </body>
 </html>

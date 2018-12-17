@@ -68,13 +68,6 @@ public interface IBabyService {
 	 * @param baby
 	 */
 	public boolean updateBabyData(Baby baby);
-
-	/**
-	 * 修改宝宝信息
-	 * @param baby
-	 */
-	public void updateBaby(Baby baby);
-
 	/**
 	 * 检查宝宝是否已缴费
 	 * @param userId
@@ -91,11 +84,4 @@ public interface IBabyService {
 	 * @param baby
 	 */
 	public List<Map> listBabyInfoByClassId(int classId);
-
-	/**
-	 * 根据幼儿园id查询该幼儿园所有在校学生的记录
-	 * @param kindergartenId
-	 * @return
-	 */
-	public Map listByKindergartenId(int kindergartenId);
 }

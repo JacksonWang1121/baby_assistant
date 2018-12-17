@@ -90,15 +90,14 @@ public class InformService implements IInformService {
      * 根据通知Id删除通知内容
      */
 	@Override
-	public boolean deleteInformByInformId(int informId) {
+	public Boolean deleteInformByInformId(int informId) {
 		// TODO Auto-generated method stub
 		//根据通知Id删除通知内容
 		 int i=this.informdao.deleteInformByInformId(informId);
 		 //根据通知Id删除该通知的所有查看状态
 		 if(i==1){
-			
-			int	j=this.lookstatedao.deleteLookStateByInformId(informId);
-				if(j==0){
+				i=this.lookstatedao.deleteLookStateByInformId(informId);
+				if(i==0){
 					return  false;	
 				}else{
 					return true;

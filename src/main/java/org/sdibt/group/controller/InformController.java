@@ -33,7 +33,7 @@ public class InformController {
 	@RequestMapping("/listInformByClassId")
 	public String listInformByClassId(Map map) {
 		int classId = 1;
-		int parentId=10;
+		int parentId=1;
 		List<Map> informs = this.informservice.listInformByClassId(classId,parentId);
 		map.put("informs", informs);
 		return "inform";
@@ -46,12 +46,8 @@ public class InformController {
 	@RequestMapping("/saveInform")
 	public  String saveInform(HttpSession session,Inform inform,Map map){
         int classId=1;
-        
-        
-        int teacherId=(int) session.getAttribute("userId");
-
-		
-		
+		long teacherId1=(long) session.getAttribute("userId");
+		int teacherId=(int)teacherId1;
 		inform.setTeacherId(teacherId);
 		SimpleDateFormat  simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String informDate=simpleDateFormat.format(new Date());
@@ -78,12 +74,11 @@ public class InformController {
      * 根据通知Id删除通知内容
      */
 	@RequestMapping("/deleteInformByInformId")
-	@ResponseBody
-	public boolean deleteInformByInformId(int informId){
+	public String deleteInformByInformId(int informId){
 	    
-		boolean   result=this.informservice.deleteInformByInformId(informId);
+		Boolean   result=this.informservice.deleteInformByInformId(informId);
 		
-		return  result;
+		return  "5";
 	}
 	
 }

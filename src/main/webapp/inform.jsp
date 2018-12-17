@@ -76,13 +76,6 @@ color: black
 
 <script type="text/javascript">
 	$(function() {
-		
-
-		$(".coverReturn").click(function() {
-			window.location.href = "/babyassistant/main.jsp";
-
-		});
-		
 		$(".coverSave").click(function() {
 			window.location.href = "/babyassistant/addInform.jsp";
 

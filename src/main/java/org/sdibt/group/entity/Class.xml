@@ -39,6 +39,7 @@
 	
 	<!-- XSJ -->
 	<select id="listClass"  resultType="map"  parameterType="String">
+		select * from class_info
 		select class_name,a.class_id,count(1) as count   from class_info   a
 	    inner  join  baby_info b on  a.class_id=b.class_id
 	    group by  a.class_id
@@ -47,14 +48,9 @@
 		insert into class_info(class_name,grade_id)
 		values(#{className},#{gradeId})
 	</insert>
-
 	<!-- 根据教师id查询班级记录 -->
 	<select id="findClass"  resultMap="classMap"  parameterType="java.lang.Integer">
 		select * from class_info where user_id = #{teacherId, jdbcType=INTEGER }
-	</select>
-	<!-- 根据班级id查询班级记录 -->
-	<select id="findClassById"  resultMap="classMap"  parameterType="java.lang.Integer">
-		select * from class_info where class_id = #{classId, jdbcType=INTEGER }
 	</select>
 
 </mapper>

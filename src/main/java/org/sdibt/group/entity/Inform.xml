@@ -16,7 +16,7 @@
 <!--通过班级ID查看班级通知信息，  并通过家长Id和班级内的通知Id查看该家长每个通知的查看状态-->
  <select id="listInformByClassId" resultType="map"  parameterType="int">
 select * from inform_info a
-left  join lookstate_info b  on a.inform_id=b.inform_id and parent_id=#{parentId}
+inner join lookstate_info b  on a.inform_id=b.inform_id and parent_id=#{parentId}
 inner join  sys_users  c  on  c.id=#{parentId}
 where class_id=#{classId}  order by inform_date  DESC
 </select>
@@ -37,11 +37,5 @@ select inform_id
 from inform_info 
 where inform_date=#{informDate} 
 </select> 
-
-<delete id="deleteInformByInformId">
-	delete  from  inform_info
-		where
-		inform_id=#{informId}
-</delete>
 
 </mapper>
