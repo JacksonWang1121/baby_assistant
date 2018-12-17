@@ -71,6 +71,4 @@ public interface IUserService {
     public void updateUser(User user);
 
 	public Map queryUserInfoByUserId(int userId);
-
-	public List<Map> queryUserByRealName(String realName);
 }

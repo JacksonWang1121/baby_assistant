@@ -1,7 +1,6 @@
 package org.sdibt.group.controller;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -290,7 +289,7 @@ public class UserController {
 		System.out.println(userId);
 		Map user=this.userService.queryUserInfoByUserId(userId);
 		map.put("user", user);
-	
+		System.out.println(user);
 		return "userDetail";
 	}
 	
@@ -303,13 +302,7 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping("/queryUserByRealName")
-	public String queryUserByRealName(String realName,Map map){
 	
-		List<Map>  userInfo=this.userService.queryUserByRealName(realName);
-		map.put("parentInfo", userInfo);
-		return "addressBook";
-	}
 	
 	
 	

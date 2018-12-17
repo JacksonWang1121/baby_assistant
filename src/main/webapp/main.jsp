@@ -120,21 +120,19 @@ $(function(){
 <!-- 功能列表 -->
 <div id="function">
 	<c:forEach items="${permissions }" var="perm">
-		<c:if test="${perm.description ne '我' }">
-			<c:if test="${perm.description eq '网上缴费' }">
-				<a href="javascript:" id="onlinePayment">
-			</c:if>
-			<c:if test="${perm.description ne '网上缴费' }">
-				<a href="${pageContext.request.contextPath }/${perm.url }">
-			</c:if>
-				<div style="float:left;width:50px;height:64px;text-align:center;margin:15px;">
-					<div style="width:50px;height:50px;">
-						<img alt="*" src="images/imgs/${perm.icon }" style="width:50px;height:50px;">
-					</div>
-					<span style="font-size:12px;">${perm.description }</span>
-				</div>
-			</a>
+		<c:if test="${perm.description eq '网上缴费' }">
+			<a href="javascript:" id="onlinePayment">
 		</c:if>
+		<c:if test="${perm.description ne '网上缴费' }">
+			<a href="${pageContext.request.contextPath }/${perm.url }">
+		</c:if>
+			<div style="float:left;width:50px;height:64px;text-align:center;margin:15px;">
+				<div style="width:50px;height:50px;">
+					<img alt="*" src="images/imgs/${perm.icon }" style="width:50px;height:50px;">
+				</div>
+				<span style="font-size:12px;">${perm.description }</span>
+			</div>
+		</a>
 	</c:forEach>
 </div>
 <!-- 清除浮动 -->

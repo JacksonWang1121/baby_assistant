@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>班级作业</title>
-<jsp:include page="public.jsp"></jsp:include>
+<jsp:include page="common.jsp"></jsp:include>
 <style type="text/css">
 .homework {
 	width: 100%;
@@ -56,21 +56,14 @@ height: 50px;
 }
 .coverSave {
 	border: 1px solid #00FA9A;
-	width: 50px;
-	height: 5px;
+	width: 100px;
+	height: 70px;
 	position: absolute;
 	right: 2px;
 	z-index: 100;
 	cursor: pointer;
 }
-.headline1{
-	background-color:#00FA9A;
-	text-align:center;
-	height:45px;
-	font-size:25px;
-	color:#ffffff;
-	padding-top:5px;
-}
+
 </style>
 <script type="text/javascript">
 	$(function() {
@@ -115,10 +108,11 @@ height: 50px;
 </head>
 
 <body>
-	<div class="headline1">
+
+	<div class="title">
 		<span class="glyphicon glyphicon-chevron-left"></span>
 		<span class="coverReturn"></span> 
-		<span style="margin-left: 80px; margin-right: 80px;">${homeworks.get(0).class_name}作业</span>
+		<span style="margin-left: 300px; margin-right: 200px;">${homeworks.get(0).class_name}作业</span>
 		<span class="glyphicon glyphicon-plus-sign" id="sign"></span> 
 		<span class="coverSave"></span>
 	</div>

@@ -87,8 +87,8 @@ values
    select * from sys_users a
    inner join  sys_users_roles  b  on a.id=b.user_id
    inner  join  sys_roles  c on c.id=b.role_id
-   left  join  baby_info  d on d.user_id=a.id
-   left  join  class_info  e  on e.class_id=d.class_id
+   inner  join  baby_info  d on d.user_id=a.id
+   inner  join  class_info  e  on e.class_id=d.class_id
    where a.id=#{userId}
   </select>
   
@@ -111,15 +111,6 @@ values
   	</trim>
   	where id=#{id, jdbcType=INTEGER}
   </update>
-  
-  
-      <select id="queryUserByRealName" resultType="Map"  parameterType="java.lang.String">
-select * from sys_users a
-inner join sys_users_roles b on a.id=b.user_id
-inner join sys_roles c on c.id=b.role_id
-where a.real_name  like  concat('%',#{realName},'%')
-  </select>
-
 
 </mapper>
 

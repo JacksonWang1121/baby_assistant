@@ -12,9 +12,7 @@ import org.sdibt.group.entity.PhotoAlbum;
 import org.sdibt.group.service.IPhotoAlbumService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class PhotoAlbumController {
@@ -71,11 +69,10 @@ public class PhotoAlbumController {
 
 	@RequestMapping("/savePhotoAlbum")
 	@ResponseBody
-	public boolean savePhotoAlbum(PhotoAlbum photoAlbum,
-			@RequestParam(value = "file", required = false) MultipartFile file) {
+	public boolean savePhotoAlbum(PhotoAlbum photoAlbum) {
 	
 		
-		boolean result=this.photoalbumservice.savePhotoAlbum(photoAlbum,file);
+		boolean result=this.photoalbumservice.savePhotoAlbum(photoAlbum);
 		
 
 		return result;

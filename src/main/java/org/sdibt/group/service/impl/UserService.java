@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -191,30 +190,12 @@ public class UserService implements IUserService{
 		// TODO Auto-generated method stub
 		if(userId>=0){
 	Map user=this.userDao.queryUserInfoByUserId(userId);
-	if("".equals(user.get("user_icon"))){
-		return user;
-	}else{
-		user.put("user_icon","http://localhost:8080/babyassistantfile/images/userIcons/"+ user.get("user_icon"));
-	}
-
+	user.put("user_icon","http://localhost:8080/babyassistantfile/images/userIcons/"+ user.get("user_icon"));
 	return user;
 		}else{
 			return null;
 		}
 	
-	}
-
-	@Override
-	public List<Map> queryUserByRealName(String realName) {
-		// TODO Auto-generated method stub
-		System.out.println(realName);
-		List<Map>  userInfo=this.userDao.queryUserByRealName(realName);
-for(Map use:userInfo){
-	use.put("user_icon", "http://localhost:8080/babyassistantfile/images/userIcons/"+use.get("user_icon"));
-	
-}
-		
-		return userInfo;
 	}
 	
 

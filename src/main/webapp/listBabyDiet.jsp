@@ -99,10 +99,10 @@
 			<span class="glyphicon glyphicon-chevron-left"></span>
 			<span class="coverReturn"></span>
 			<span style="margin-left:310px;margin-right:310px;">宝宝饮食</span>
-	
+			<shiro:hasPermission name="baby:saveDiet">
 				<span class="glyphicon glyphicon-plus-sign" id="sign"></span>
 				<span class="coverSave"></span>
-			
+			</shiro:hasPermission>
 		</div>
 		<!-- 条件查询 -->
 		<div class="content" style="margin-top:2%;margin-bottom:3%;">
