@@ -62,20 +62,16 @@ $(function(){
 
 </head>
 <body>
-
 <div  id="top">
-	<div class="title">
-			<span class="glyphicon glyphicon-chevron-left"></span>
-			<span class="coverReturn"></span>
-			<span style="margin-left:330px;margin-right:350px;"><span id="parentData">个人资料</span></span></span>
-   </div>
+<span class="glyphicon glyphicon-chevron-left"  id="glyphicon-chevron-left"></span> 
+		<span  class="coverReturn"></span> 
 		<br ><br ><br ><br ><br ><br >
 <img alt="" src="${user.user_icon}"  id="img" ><br>
 <label  id="labe" ><h2>${user.real_name}</h2></label>
 
 
 </div>
-	<table id="table" class="table" style="border-collapse:separate; border-spacing:0px 45px;">
+	<table id="ta" >
 		<tr>
 			<td align="left" width="77%"><h1>手机：</h1></td>
 

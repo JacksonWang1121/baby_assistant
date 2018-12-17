@@ -59,7 +59,6 @@ $(function() {
 	      success:function(data){
 	    	if(data=="true"){
 	    		alert("添加成功");
-	    		window.location.href="/babyassistant/listInformByClassId";
 	    	}  
 	    	else{
 	    		alert("添加失败");

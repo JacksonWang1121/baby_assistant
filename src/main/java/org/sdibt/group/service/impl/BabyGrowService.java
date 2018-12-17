@@ -17,6 +17,7 @@ import org.sdibt.group.entity.Baby;
 import org.sdibt.group.entity.BabyDiet;
 import org.sdibt.group.entity.BabyGrow;
 import org.sdibt.group.service.IBabyGrowService;
+import org.sdibt.group.utils.FileUtil;
 import org.sdibt.group.utils.ImageFileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,7 @@ import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 public class BabyGrowService implements IBabyGrowService {
 	@Resource
 	private BabyGrowDao babyGrowDao;
-
+	private String filePath=FileUtil.httpFilePath+"images/";
 	public BabyGrowDao getBabyGrowDao() {
 		return babyGrowDao;
 	}
@@ -51,7 +52,7 @@ public class BabyGrowService implements IBabyGrowService {
 		Map babyInfo = this.babyGrowDao.getBabyInfo(userId);
 		String babyIcon = (String) babyInfo.get("baby_icon");
 		if(babyIcon.length()!=0){
-			babyIcon="http://192.168.43.242:8081/babyassistantfile/images/babyIcons/"+babyIcon;
+			babyIcon=filePath+"babyIcons/"+babyIcon;
 			babyInfo.put("baby_icon",babyIcon);
     	}else{
     		babyInfo.put("baby_icon","");
@@ -72,12 +73,11 @@ public class BabyGrowService implements IBabyGrowService {
 			String pathStr = (String) babyGrow.get("grow_img");
 			String babyIcon = (String) babyGrow.get("baby_icon");
 			if(pathStr.length()!=0||babyIcon.length()!=0){
-				babyIcon="http://192.168.43.242:8081/babyassistantfile/images/babyIcons/"+babyIcon;
+				babyIcon=filePath+"babyIcons/"+babyIcon;
 				String[] paths = pathStr.substring(pathStr.indexOf(",") + 1).split(",");
 				if(paths != null){
 					for (int i = 0; i < paths.length; i++) {
-						paths[i]="http://192.168.43.242:8081/babyassistantfile/images/growImgs/"+paths[i];
-						System.out.println(paths[i]+"----");
+						paths[i]=filePath+"growImgs/"+paths[i];
 					}
 				}
 				babyGrow.put("baby_icon",babyIcon);
@@ -152,7 +152,7 @@ public class BabyGrowService implements IBabyGrowService {
 			String[] paths = pathStr.substring(pathStr.indexOf(",") + 1).split(",");
 			if(paths != null){
 				for (int i = 0; i < paths.length; i++) {
-					paths[i]="http:/192.168.43.242:8081/babyassistantfile/images/growImgs/"+paths[i];
+					paths[i]=filePath+"growImgs/"+paths[i];
 					//删除文件夹中的图片
 					File file = new File(paths[i]);
 					file.delete();

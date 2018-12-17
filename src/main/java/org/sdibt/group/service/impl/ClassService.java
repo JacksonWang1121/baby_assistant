@@ -88,14 +88,5 @@ public class ClassService implements IClassService {
 		return this.classDao.findClass(teacherId);
 	}
 
-	/**
-	 * 根据教师id查询班级记录
-	 * @param teacherId
-	 * @return
-	 */
-	@Override
-	public org.sdibt.group.entity.Class findClassById(int classId) {
-		return this.classDao.findClassById(classId);
-	}
 	
 }

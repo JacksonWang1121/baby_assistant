@@ -28,13 +28,6 @@ public interface UserDao {
 	 * @return
 	 */
 	Set<String> findRoles(String username);
-
-	/**
-	 * 根据用户名查询该用户的角色记录
-	 * @param username
-	 * @return
-	 */
-	public Map findRoleByUsername(String username);
 	
 	/**
 	 * 根据用户名查询该用户的权利
@@ -49,29 +42,19 @@ public interface UserDao {
 	 * @return
 	 */
 	Set<Permission> findPermissionsObject(String username);
-
 	/**
      * 查看个人资料
      */
     public Map getPersonalData(Long userId);
-
     /**
      * 修改用户头像
      */
     public int updateUserIcon(Map map);
-
-    /**
-     * 修改用户信息
-     * @return
-     */
-    public void updateUser(User user);
-
     /**
      * 修改用户信息
      * @return
      */
     public int updateUserInfo(Map map);
-
     /**
      * 判断手机号是否存在
     * @return

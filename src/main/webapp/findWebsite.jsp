@@ -5,303 +5,105 @@
 <head>
 <base href="<%=request.getContextPath()+"/" %>"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>微官网</title>
-<jsp:include page="public.jsp"></jsp:include>
-<link rel="stylesheet" href="css/swiper.min.css">
-<script type="text/javascript" src="js/swiper.min.js"></script>
-<style type="text/css">
-body {
-	margin: 0;
-	padding: 0;
-}
-.swiper-container {
-	position: relative;
-	overflow: hidden;
-	height: 100%;
-}
-.swiper-vertical,.swiper-level {
-	width: 100%;
-	height: 100%;
-}
-.container {
-	padding-top: 64px;
-}
-</style>
+<title>发布微官网</title>
+<jsp:include page="common.jsp"></jsp:include>
 <script type="text/javascript">
 $(function() {
-
+	
+	//从session作用域中获取schoolId
+	//var schoolId = '${sessionScope.schoolId }';
+	var schoolId = 1;//测试用
+	
 	/* 每次访问该页面时，查询是否已存在该幼儿园的微官网 */
+	var data = new FormData();
+	data.append("schoolId", schoolId);
 	$.ajax({
 		url: "${pageContext.request.contextPath }/website/findWebsite",
 		type: "POST",
-		dataType: "text",
-		success: function(result,status) {
+		data: data,
+		dataType: "json",
+		async: true,         //同步或异步请求方式，默认为true，异步
+		cache: false,
+		processData: false,  //不要对data参数进行序列化处理，默认为true
+		contentType: false,  //不要设置Content-Type请求头，因为文件数据是以 multipart/form-data来编码
+		success: function(data,status) {
 			// 根据返回结果指定界面操作
-			console.log("find_website-result = "+result);
+			console.log("website_save::findWebsite:success-data = "+data);
 			//若有数据返回，则提示微官网已存在，并禁用保存按钮
-			if (result=="" || result==null) {
-				alert("微官网不存在");
-				window.location.href = "${pageContext.request.contextPath }/main";
-			} else {
-				var data = JSON.parse(result);
-				//幼儿园信息
-				$("#schoolName").html(data.kindergarten.name);
-				$("#description").html(data.kindergarten.description);
-				if (data.kindergarten.picture!="" || data.kindergarten.picture!=null) {
-					$("#picture").html('<img alt="该图片不存在" width="300px" src="'+data.kindergarten.picture+'"/>');
-				}
-				$("#address").html(data.kindergarten.address);
-				$("#telephone").html(data.kindergarten.telephone);
-				/*
-				 * 微官网信息
-				 */
-				//校园简介
-				if (data.website.schoolIntroPicture!="" || data.website.schoolIntroPicture!=null) {
-					$("#schoolPicture").html('<img alt="该图片不存在" width="300px" src="'+data.website.schoolIntroPicture+'"/>');
-				}
-				$("#schoolIntro").html(data.website.schoolIntro);
-				
-				//教师风采
-				if (data.website.teacherPicture1!="" || data.website.teacherPicture1!=null) {
-					$("#teacherPicture1").html('<img alt="该图片不存在" width="300px" src="'+data.website.teacherPicture1+'"/>');
-				}
-				$("#teacherIntro1").html(data.website.teacherIntro1);
-				
-				if (data.website.teacherPicture2!="" || data.website.teacherPicture2!=null) {
-					$("#teacherPicture2").html('<img alt="该图片不存在" width="300px" src="'+data.website.teacherPicture2+'"/>');
-				}
-				$("#teacherIntro2").html(data.website.teacherIntro2);
-				
-				if (data.website.teacherPicture3!="" || data.website.teacherPicture3!=null) {
-					$("#teacherPicture3").html('<img alt="该图片不存在" width="300px" src="'+data.website.teacherPicture3+'"/>');
-				}
-				$("#teacherIntro3").html(data.website.teacherIntro3);
-				
-				//资质证书
-				$("#certificateName1").html(data.website.certificateName1);
-				if (data.website.certificatePicture1!="" || data.website.certificatePicture1!=null) {
-					$("#certificatePicture1").html('<img alt="该图片不存在" width="300px" src="'+data.website.certificatePicture1+'"/>');
-				}
-				
-				$("#certificateName2").html(data.website.certificateName2);
-				if (data.website.certificatePicture2!="" || data.website.certificatePicture2!=null) {
-					$("#certificatePicture2").html('<img alt="该图片不存在" width="300px" src="'+data.website.certificatePicture2+'"/>');
-				}
-				
-				$("#certificateName3").html(data.website.certificateName3);
-				if (data.website.certificatePicture3!="" || data.website.certificatePicture3!=null) {
-					$("#certificatePicture3").html('<img alt="该图片不存在" width="300px" src="'+data.website.certificatePicture3+'"/>');
-				}
-				
-				//学生作品
-				if (data.website.stuWorks!="" || data.website.stuWorks!=null) {
-					var photos = data.website.stuWorks.split(";");
-					for (var i = 0; i < photos.length; i++) {
-						$("#stuWorks").append('<img alt="该图片不存在" width="150px" src="'+photos[i]+'"/>');
-					}
-				}
+			if (data != null) {
+				alert("微官网已存在");
+				$("#saveWebsiteBtn").attr("disabled","disabled");
 			}
 		},
 		error: function(data,status,e) {
-			console.log("find_website-error = "+e);
+			console.log("website_save::findWebsite:error-data = "+data);
 			alert("读取失败");
 		}
 	});
-
 });
+
+/* 显示文件 */
+function showFile(file) {
+	//获取上传文件
+	var files = $(file)[0].files;
+	console.log("website_save::showFile-files_length = "+files.length);
+	if (files.length > 0) {
+		for (var i = 0; i < files.length; i++) {
+			//获取上传文件的绝对路径
+		    var url = getObjectURL($(file)[0].files[i]);
+			$(file).after('<img width="100px" alt="该图片不存在" src="'+url+'">');
+		}
+	}
+}
 </script>
 </head>
 <body>
-<!-- 头部 -->
-<div class="headline">
-	<a href="${pageContext.request.contextPath }/main" class="icon-z-index pull-left" style="margin-left:20px;">
-		<img alt="" width="20px" src="images/icons/return.svg">
-	</a>
-	<label>微官网</label>
-	<a href="javascript:void(0);" class="icon-z-index pull-right" style="margin-right:20px;">
-		<img alt="" width="20px" src="images/icons/more.svg">
-	</a>
-</div>
-<!-- 清除浮动 -->
-<div class="clearfix"></div>
-
-<div class="swiper-container">
-<div class="swiper-vartical">
-<div class="swiper-wrapper">
+<div class="container">
 	<!-- 首页（幼儿园信息） -->
-	<div id="firstPage" class="swiper-slide">
-		<div class="container">
-			<div class="row">
-				<div class="col-xs-12 text-center"><span class="h3" id="schoolName"></span></div>
-			</div>
-			<div class="row">
-				<div class="col-xs-1"></div>
-				<div class="col-xs-11"><p id="description"></p></div>
-			</div>
-			<div class="row">
-				<div class="col-xs-12 text-center" id="picture"></div>
-			</div>
-			<div class="row">
-				<div class="col-xs-3"><strong>地址</strong></div>
-				<div class="col-xs-8"><span id="address"></span></div>
-			</div>
-			<div class="row">
-				<div class="col-xs-3"><strong>电话</strong></div>
-				<div class="col-xs-8"><span id="telephone"></span></div>
-			</div>
-		</div>
+	<div class="row">
+		<div class="col-xs-4"></div>
+		<div class="col-xs-4 text-center"><h3>宝贝示范园</h3></div>
+		<div class="col-xs-4"></div>
 	</div>
-		
+	<div class="row">
+		<div class="col-xs-3"></div>
+		<div class="col-xs-6"><p>dsfahfhadskjfhkasjdhfjkashdfkjdas</p></div>
+		<div class="col-xs-3"></div>
+	</div>
+	<div class="row">
+		<div class="col-xs-3"></div>
+		<div class="col-xs-6"><img alt="ss" width="300px" src="E:/图片/刀剑神域/135633dnd84y2j9jhbnv42.jpg"></div>
+		<div class="col-xs-3"></div>
+	</div>
+	<div class="row">
+		<div class="col-xs-2"></div>
+		<div class="col-xs-3"><strong>地址</strong></div>
+		<div class="col-xs-5"><span>faskfasdklhfsdaj</span></div>
+		<div class="col-xs-2"></div>
+	</div>
+	<div class="row">
+		<div class="col-xs-2"></div>
+		<div class="col-xs-3"><strong>电话</strong></div>
+		<div class="col-xs-5"><span>12345678</span></div>
+		<div class="col-xs-2"></div>
+	</div>
+	
 	<!-- 校园简介 -->
-	<div id="secondPage" class="swiper-slide">
-		<div class="container">
-			<div class="row">
-				<div class="col-xs-6"><h3>校园简介</h3></div>
-			</div>
-			<div class="row">
-				<div class="col-xs-12 text-center" id="schoolPicture"></div>
-			</div>
-			<div class="row">
-				<div class="col-xs-1"></div>
-				<div class="col-xs-11"><p id="schoolIntro"></p></div>
-			</div>
-		</div>
+	<div class="row">
+		<div class="col-xs-1"></div>
+		<div class="col-xs-3 text-center"><h3>校园简介</h3></div>
+		<div class="col-xs-8"></div>
 	</div>
-	
-	<!-- 教师风采 -->
-	<div id="thirdPage" class="swiper-slide swiper-level">
-		<div class="swiper-wrapper">
-		    <div class="swiper-slide">
-		    	<div class="container">
-					<div class="row">
-						<div class="col-xs-6"><h3>教师风采</h3></div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12 text-center" id="teacherPicture1"></div>
-					</div>
-					<div class="row">
-						<div class="col-xs-1"></div>
-						<div class="col-xs-11"><p id="teacherIntro1"></p></div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="swiper-slide">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-6"><h3>教师风采</h3></div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12 text-center" id="teacherPicture2"></div>
-					</div>
-					<div class="row">
-						<div class="col-xs-1"></div>
-						<div class="col-xs-11"><p id="teacherIntro2"></p></div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="swiper-slide">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-6"><h3>教师风采</h3></div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12 text-center" id="teacherPicture3"></div>
-					</div>
-					<div class="row">
-						<div class="col-xs-1"></div>
-						<div class="col-xs-11"><p id="teacherIntro3"></p></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<!-- Add Arrows -->
-		<div class="swiper-button-next"></div>
-		<div class="swiper-button-prev"></div>
+	<div class="row">
+		<div class="col-xs-3"></div>
+		<div class="col-xs-6"><img alt="ss" width="300px" src="E:/图片/刀剑神域/135633dnd84y2j9jhbnv42.jpg"></div>
+		<div class="col-xs-3"></div>
 	</div>
-	
-	<!-- 资质证书 -->
-	<div id="forthPage" class="swiper-slide swiper-level">
-		<div class="swiper-wrapper">
-			<div class="swiper-slide">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-6"><h3>资质证书</h3></div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12 text-center"><span id="certificateName1"></span></div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12 text-center" id="certificatePicture1"></div>
-					</div>
-				</div>
-			</div>
-		
-			<div class="swiper-slide">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-6"><h3>资质证书</h3></div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12 text-center"><span id="certificateName2"></span></div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12 text-center" id="certificatePicture2"></div>
-					</div>
-				</div>
-			</div>
-		
-			<div class="swiper-slide">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-6"><h3>资质证书</h3></div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12 text-center"><span id="certificateName3"></span></div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12 text-center" id="certificatePicture3"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<!-- Add Arrows -->
-		<div class="swiper-button-next"></div>
-		<div class="swiper-button-prev"></div>
+	<div class="row">
+		<div class="col-xs-3"></div>
+		<div class="col-xs-6"><p>dsfahfhadskjfhkasjdhfjkashdfkjdas</p></div>
+		<div class="col-xs-3"></div>
 	</div>
-	
-	<!-- 学生作品 -->
-	<div id="fifthPage" class="swiper-slide">
-		<div class="container">
-			<div class="row">
-				<div class="col-xs-6"><h3>学生作品</h3></div>
-			</div>
-			<div class="row">
-				<div class="col-xs-12 text-center" id="stuWorks"></div>
-			</div>
-		</div>
-	</div>
-	
-</div><!-- wrapper -->
 </div>
-</div>
-
-<script type="text/javascript">
-/* 上下滑动 */
-var swiper1 = new Swiper('.swiper-vartical', {
-	direction: 'vertical',  //垂直切换选项
-});
-/* 左右滑动 */
-var swiper2 = new Swiper('.swiper-level', {
-	navigation: {
-		nextEl: '.swiper-button-next',
-		prevEl: '.swiper-button-prev',
-	}
-});
-</script>
-
 </body>
 </html>

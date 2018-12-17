@@ -43,7 +43,7 @@
 	$(function(){
 		//点击返回图标，返回到主界面 
 		$(".coverReturn").click(function(){
-			window.location.href="${pageContext.request.contextPath }/main";	
+			window.location.href="${pageContext.request.contextPath }/main.jsp";	
 		});
 	});
 </script>

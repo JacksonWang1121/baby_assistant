@@ -118,11 +118,30 @@ public class User implements Serializable {
 		this.firstLoginStatus = firstLoginStatus;
 	}
 	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", salt=" + salt + ", locked="
-				+ locked + ", realName=" + realName + ", nickName=" + nickName + ", userIcon=" + userIcon
-				+ ", personalitySignature=" + personalitySignature + ", address=" + address + ", firstLoginStatus="
-				+ firstLoginStatus + "]";
-	}
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        User user = (User) o;
+
+        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
+                ", locked=" + locked +
+                '}';
+    }
 }

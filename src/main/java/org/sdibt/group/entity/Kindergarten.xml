@@ -19,10 +19,5 @@
 	<select id="findKindergarten" resultMap="kindergartenMap" parameterType="java.lang.Integer">
 		select * from kindergarten_info where principal_id=#{principalId}
 	</select>
-	
-	<!-- 根据幼儿园id查询幼儿园记录 -->
-	<select id="findKindergartenById" resultMap="kindergartenMap" parameterType="java.lang.Integer">
-		select * from kindergarten_info where id=#{kindergartenId}
-	</select>
 
   </mapper>

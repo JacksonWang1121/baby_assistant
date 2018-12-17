@@ -6,25 +6,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import javax.annotation.Resource;
-
 import org.sdibt.group.dao.BabyDao;
 import org.sdibt.group.dao.BabyGrowDao;
 import org.sdibt.group.entity.Baby;
 import org.sdibt.group.entity.BabyAttendance;
 import org.sdibt.group.service.IBabyService;
-import org.sdibt.group.utils.FileUtil;
 import org.sdibt.group.utils.ImageFileUtils;
+import org.sdibt.group.utils.FileUtil;
 import org.sdibt.group.vo.PageVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 /**
  * 
@@ -36,18 +31,16 @@ import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
  */
 @Service
 public class BabyService implements IBabyService {
-
 	@Resource
 	private BabyDao babyDao;
-	//文件http访问的路径
-	private String filePath = FileUtil.httpFilePath + "images/babyIcons/";
-
+	private String filePath=FileUtil.httpFilePath+"images/";
 	public BabyDao getBabyDao() {
 		return babyDao;
 	}
 	public void setBabyDao(BabyDao babyDao) {
 		this.babyDao = babyDao;
 	}
+	
 	/**
 	 * 宝宝分班：根据教师所在年级查询待分班的宝宝信息
 	 */
@@ -228,8 +221,8 @@ public class BabyService implements IBabyService {
 		}
 		String babyIcon = (String) babyData.get("baby_icon");
 		if(babyIcon.length()!=0){
-//			babyIcon="http://192.168.43.242:8081/babyassistantfile/images/babyIcons/"+babyIcon;
-			babyData.put("baby_icon",filePath+babyIcon);
+			babyIcon=filePath+"babyIcons/"+babyIcon;
+			babyData.put("baby_icon",babyIcon);
     	}else{
     		babyData.put("baby_icon","");
     	}
@@ -292,17 +285,6 @@ public class BabyService implements IBabyService {
 			return true;
 		}
 	}
-
-	/**
-	 * 修改宝宝信息
-	 * @param baby
-	 */
-	@Transactional
-	@Override
-	public void updateBaby(Baby baby) {
-		this.babyDao.updateBaby(baby);
-	}
-
 	/**
 	 * 修改宝宝付款状态
 	 */
@@ -332,72 +314,13 @@ public class BabyService implements IBabyService {
 	@Override
 	public List<Map> listBabyInfoByClassId(int classId) {
 		// TODO Auto-generated method stub
-		
+		System.out.println(classId);
 		if(classId>=0){
 		List<Map> parentInfo=this.babyDao.listBabyInfoByClassId(classId);
-	     
-		for(Map  parentInfo1:parentInfo){
-			parentInfo1.put("user_icon","http://localhost:8080/babyassistantfile/images/userIcons/"+parentInfo1.get("user_icon"));
-		}
-		
-		
-		
-		
-		
+	
 		return parentInfo;
 		}else{
 		return null;
 		}
-	}
-
-	/**
-	 * 根据幼儿园id查询该幼儿园所有在校学生的记录
-	 * @param kindergartenId
-	 * @return
-	 */
-	@Override
-	public Map listByKindergartenId(int kindergartenId) {
-		//获取学生记录
-		List<Map> stuList = this.babyDao.listByKindergartenId(kindergartenId);
-		//用来存储分班后的学生信息
-		Map<String, List<Map>> stuMap = new HashMap<>();
-		//初始化待分班的班级，并添加到班级集合中
-		stuMap.put("待分班", new ArrayList<Map>());
-		//遍历所有学生记录
-		for (Map stu : stuList) {
-			//获取该学生的头像
-			String babyIcon = (String) stu.get("baby_icon");
-			//若该学生存在头像，则补全学生的头像路径
-			if (babyIcon != null) {
-				stu.put("baby_icon", filePath+babyIcon);
-			}
-			//获取该学生的班级id
-			int classId = (int) stu.get("class_id");
-			//该学生所在的班级名称
-			String clsName = "待分班";
-			//班级list
-			List<Map> cls = null;
-			//若该学生未分班，则添加到待分班list中
-			if (classId == 0) {
-				//得到待分班的班级list
-				cls = stuMap.get("待分班");
-			} else {
-				//得到该学生所在的班级名称
-				clsName = (String) stu.get("grade_name") + (String) stu.get("class_name");
-				//根据该学生所在的班级名称查找班级集合中是否存在该班级，
-				cls = stuMap.get(clsName);
-				//若匹配到该班级，则将该学生记录添加到该班级list中
-				//否则先创建该班级,并添加到班级集合中，再将该学生记录添加到该班级list中
-				if (cls == null) {
-					cls = new ArrayList<Map>();
-				}
-			}
-			//System.out.println("学生("+stu.get("baby_name")+")加入班级集合("+clsName+")");
-			//将该学生记录添加到待分班list中
-			cls.add(stu);
-			//将新的班级list添加到班级集合中
-			stuMap.put(clsName, cls);
-		}
-		return stuMap;
 	}
 }

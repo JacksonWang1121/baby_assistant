@@ -89,7 +89,6 @@ public interface BabyDao {
 	 * 修改宝宝信息
 	 */
 	public int updateBabyData(Map map);
-
 	/**
 	 * 检查宝宝是否已缴费
 	 * @param userId
@@ -110,19 +109,4 @@ public interface BabyDao {
 	 * @param baby
 	 */
 	public List<Integer> listParentIdByClassId(int classId);
-
-
-
-	/**
-	 * 修改宝宝信息
-	 * @param baby
-	 */
-	public void updateBaby(Baby baby);
-
-	/**
-	 * 根据幼儿园id查询该幼儿园所有在校学生的记录
-	 * @param kindergartenId
-	 * @return
-	 */
-	public List<Map> listByKindergartenId(int kindergartenId);
 }

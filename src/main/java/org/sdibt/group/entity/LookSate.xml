@@ -27,13 +27,4 @@
 		values 
 		(#{parentId},#{informId},#{lookState})
 	</insert>
-	<delete id="deleteLookStateByInformId">
-	delete  from  lookstate_info
-	where
-	inform_id=#{informId}
-</delete>
-
-
-
-
 </mapper>

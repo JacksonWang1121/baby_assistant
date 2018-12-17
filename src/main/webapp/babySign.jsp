@@ -110,21 +110,21 @@
 		<div class="title">
 			<span class="glyphicon glyphicon-chevron-left"></span>
 			<span class="coverReturn"></span>
-			<span style="margin-left:310px;margin-right:310px;">宝宝签到</span>
+			<span style="margin-left:650px;">签到</span>
 			<span class="glyphicon glyphicon-saved" id="sign"></span>
 			<span class="coverSave"></span>
 		</div>
 		<!-- 页面主要内容 -->
-		<div class="content">
+		<div class="content" style="margin-top:42%;margin-left:5%;">
 			<div>
 				<input type="checkbox" class="allSel" name="allSel" style="zoom:240%;"><span id="mySpan">全选</span>
 			</div>
 			<c:forEach items="${babies}" var="baby">
-				<div class="col-xs-1 col-xs-offset-1">
+				<div class="col-xs-1 col-xs-offset-2">
 					 <input type="checkbox" class="babyId" name="babyId" value="${baby.baby_id}" style="zoom:240%;">
 				</div>
-				<div class="col-xs-5">${baby.baby_name}</div>
-				<div class="col-xs-5">${baby.baby_no}</div>
+				<div class="col-xs-4">${baby.baby_name}</div>
+				<div class="col-xs-4">${baby.baby_no}</div>
 			</c:forEach>
 		</div>
 	</div>
