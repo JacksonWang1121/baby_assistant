@@ -16,6 +16,11 @@
 select * from  photo_album where class_id=#{classId}
 </select>
 
+<insert id="savePhotoAlbum">
+insert  photo_album(photo_address,photo_date,class_id,teacher_id)
+values 
+(#{photoAddress},#{photoDate},#{classId},#{teacherId})
+</insert>
 
 
 

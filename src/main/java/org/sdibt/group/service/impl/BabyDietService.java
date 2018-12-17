@@ -3,6 +3,7 @@ package org.sdibt.group.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,13 +12,16 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.sdibt.group.dao.BabyDietDao;
+import org.sdibt.group.entity.Baby;
+import org.sdibt.group.entity.BabyAttendance;
 import org.sdibt.group.entity.BabyDiet;
 import org.sdibt.group.service.IBabyDietService;
-import org.sdibt.group.utils.FileUtil;
 import org.sdibt.group.utils.ImageFileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 /**
  * 
  * Title:BabyServiceImpl
@@ -30,7 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class BabyDietService implements IBabyDietService {
 	@Resource
 	private BabyDietDao babyDietDao;
-	private String filePath=FileUtil.httpFilePath+"images/";
+
 	public BabyDietDao getBabyDietDao() {
 		return babyDietDao;
 	}
@@ -55,19 +59,19 @@ public class BabyDietService implements IBabyDietService {
 	    	String lunchImg = (String) babyDiet.get("lunch_img");
 	    	String dinnerImg = (String) babyDiet.get("dinner_img");
 	    	if(breakfastImg.length()!=0){
-	    		breakfastImg=filePath+"dietImgs/"+breakfastImg;
+	    		breakfastImg="http://192.168.43.242:8081/babyassistantfile/images/dietImgs/"+breakfastImg;
 	    		babyDiet.put("breakfast_img",breakfastImg);
 	    	}else{
 	    		babyDiet.put("breakfast_img","");
 	    	}
 	    	if(lunchImg.length()!=0){
-	    		lunchImg=filePath+"dietImgs/"+lunchImg;
+	    		lunchImg="http://192.168.43.242:8081/babyassistantfile/images/dietImgs/"+lunchImg;
 	    		babyDiet.put("lunch_img",lunchImg);;
 	    	}else{
 	    		babyDiet.put("lunch_img","");
 	    	}
 	    	if(dinnerImg.length()!=0){
-	    		dinnerImg=filePath+"dietImgs/"+dinnerImg;
+	    		dinnerImg="http://192.168.43.242:8081/babyassistantfile/images/dietImgs/"+dinnerImg;
 	    		babyDiet.put("dinner_img",dinnerImg);;
 	    	}else{
 	    		babyDiet.put("dinner_img","");
@@ -89,19 +93,19 @@ public class BabyDietService implements IBabyDietService {
 		    	String lunchImg = (String) babyDiet.get("lunch_img");
 		    	String dinnerImg = (String) babyDiet.get("dinner_img");
 		    	if(breakfastImg.length()!=0){
-		    		breakfastImg=filePath+"dietImgs/"+breakfastImg;
+		    		breakfastImg="http://192.168.43.242:8081/babyassistantfile/images/dietImgs/"+breakfastImg;
 		    		babyDiet.put("breakfast_img",breakfastImg);
 		    	}else{
 		    		babyDiet.put("breakfast_img","");
 		    	}
 		    	if(lunchImg.length()!=0){
-		    		lunchImg=filePath+"dietImgs/"+lunchImg;
+		    		lunchImg="http://192.168.43.242:8081/babyassistantfile/images/dietImgs/"+lunchImg;
 		    		babyDiet.put("lunch_img",lunchImg);;
 		    	}else{
 		    		babyDiet.put("lunch_img","");
 		    	}
 		    	if(dinnerImg.length()!=0){
-		    		dinnerImg=filePath+"dietImgs/"+dinnerImg;
+		    		dinnerImg="http://192.168.43.242:8081/babyassistantfile/images/dietImgs/"+dinnerImg;
 		    		babyDiet.put("dinner_img",dinnerImg);;
 		    	}else{
 		    		babyDiet.put("dinner_img","");

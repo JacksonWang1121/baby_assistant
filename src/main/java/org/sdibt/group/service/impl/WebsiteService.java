@@ -29,16 +29,8 @@ public class WebsiteService implements IWebsiteService {
 	@Resource
 	private KindergartenDao kindergartenDao;
 
-	public WebsiteDao getWebsiteDao() {
-		return websiteDao;
-	}
-
 	public void setWebsiteDao(WebsiteDao websiteDao) {
 		this.websiteDao = websiteDao;
-	}
-
-	public KindergartenDao getKindergartenDao() {
-		return kindergartenDao;
 	}
 
 	public void setKindergartenDao(KindergartenDao kindergartenDao) {
@@ -51,8 +43,8 @@ public class WebsiteService implements IWebsiteService {
 	@Override
 	public Map findWebsite(int schoolId) {
 		Website website = this.websiteDao.findWebsite(schoolId);
-		Kindergarten kindergarten = this.kindergartenDao.findKindergarten(schoolId);
-		HashMap<String,Object> map = new HashMap<String, Object>();
+		Kindergarten kindergarten = this.kindergartenDao.findKindergartenById(schoolId);
+		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("website", website);
 		map.put("kindergarten", kindergarten);
 		return map;

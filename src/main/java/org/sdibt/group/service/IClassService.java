@@ -45,5 +45,11 @@ public interface IClassService {
 	 */
 	public org.sdibt.group.entity.Class findClass(int teacherId);
 
+	/**
+	 * 根据教师id查询班级记录
+	 * @param teacherId
+	 * @return
+	 */
+	public org.sdibt.group.entity.Class findClassById(int classId);
 	
 }

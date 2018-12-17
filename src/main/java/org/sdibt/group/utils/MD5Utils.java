@@ -2,6 +2,9 @@ package org.sdibt.group.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class MD5Utils {
 	 // 全局数组

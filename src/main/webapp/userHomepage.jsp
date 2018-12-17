@@ -15,6 +15,7 @@
 		background-repeat:no-repeat;
 		background-size:100% 1750px;
 		background-attachment: fixed;
+		/* background-color:#F5F5F5; */
 	}
 	.homePageTitle{
 		background-image:url("/babyassistantfile/images/pageImgs/mebg.jpg");
@@ -88,7 +89,7 @@
 	 			 	</a>
 	 			 </li>
 				 <li>
-				 	<a href="#">
+				 	<a href="${pageContext.request.contextPath }/listInformByClassId">
 				 		<img alt="" src="/babyassistantfile/images/businessIcons/notice.jpg" style="width:70px;height:70px;border-radius:70px;">通知
 				 	</a>
 				 </li>

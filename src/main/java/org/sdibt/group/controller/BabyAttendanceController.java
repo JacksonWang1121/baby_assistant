@@ -148,12 +148,12 @@ public class BabyAttendanceController {
 		 Map resultMap =new HashMap();
 		 List labels=new ArrayList<String>();
 		 List nums=new ArrayList<Integer>();
-		 labels.add("今日出勤人数");
-		 labels.add("今日缺勤人数");
+		 labels.add("出勤人数");
+		 labels.add("缺勤人数");
 		 nums.add(attendanceRate.get("attendanceSize"));
 		 nums.add(attendanceRate.get("notAttendanceSize"));
-		 resultMap.put("type", "今日出勤人数");
-		 resultMap.put("type1", "今日缺勤人数");
+		 resultMap.put("type", "出勤人数");
+		 resultMap.put("type1", "缺勤人数");
 		 resultMap.put("labels", labels);
 		 resultMap.put("nums", nums);
 		 return resultMap;

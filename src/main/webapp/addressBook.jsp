@@ -6,9 +6,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>通讯录</title>
-<jsp:include page="common.jsp"></jsp:include>
+<jsp:include page="public.jsp"></jsp:include>
 <style type="text/css">
+.body{
+	font-family:webfont;
+    font-style:italic;
+	font-weight:bold;
+     color: black;
 
+}
 .coverReturn {
 	/* 	border:1px solid #00FA9A; */
 	width: 100px;
@@ -19,6 +25,14 @@
 	cursor: pointer;
 }
 
+.headline1{
+	background-color:#00FA9A;
+	text-align:center;
+	height:45px;
+	font-size:25px;
+	color:#ffffff;
+	padding-top:5px;
+}
 .coverSave{
 	/* border:1px solid #00FA9A; */
 	width: 100px;
@@ -28,6 +42,7 @@
 	z-index: 100;
 	cursor: pointer;
 }
+
 </style>
 
 <script type="text/javascript">
@@ -46,28 +61,34 @@ $(function(){
 
 </head>
 <body>
-<div class="title">
-		<span class="glyphicon glyphicon-chevron-left"></span> 
-		<span class="coverReturn" ></span> 
-		<span  style="margin-left: 400px; margin-right: 200px;"></span>
+
+	<div class="headline1">
+		<span class="glyphicon glyphicon-chevron-left"></span>
+         <span class="coverReturn"></span>
+		<span  style="margin-left:110px; margin-right: 150px;">通讯录</span>  
 	</div>
 <div>
+		
 
+			<table class="table">
+			<c:forEach items="${parentInfo}" var="parentInfo">
+				<tr>
+					<td width="10%"><img src="${parentInfo.user_icon}"
+						style="width: 50px; height: 50px; border-radius: 50%"></td>
+					<td width="80%"><a
+						href="/babyassistant/queryUserInfoByUserId?userId=${ parentInfo.id}">
+							<h3>${parentInfo.real_name}</h3>
+					</a></td>
+				</tr>
+						</c:forEach>
+			</table>
 
-<c:forEach  items="${parentInfo}"  var="parentInfo">
-
-<img alt="" src="${parentInfo.user_icon}" style="width:30px;height:30px;border-radius:50%">
-<a href="/babyassistant/queryUserInfoByUserId?userId=${ parentInfo.id}">
-
-<h1>
-${parentInfo.real_name}
-</h1>
-</a>
-<br>
-</c:forEach>
-</div>
-
-
-
-</body>
+		
+		
+		
+		
+		
+		
+		
+		</body>
 </html>

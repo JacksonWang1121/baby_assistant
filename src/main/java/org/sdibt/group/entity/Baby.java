@@ -38,6 +38,8 @@ public class Baby implements Serializable{
 	private String applyStatus;
 	//付款状态
 	private String payStatus;
+	//宝宝状态
+	private String babyStatus;
 	public int getBabyId() {
 		return babyId;
 	}
@@ -122,4 +124,19 @@ public class Baby implements Serializable{
 	public void setPayStatus(String payStatus) {
 		this.payStatus = payStatus;
 	}
+	public String getBabyStatus() {
+		return babyStatus;
+	}
+	public void setBabyStatus(String babyStatus) {
+		this.babyStatus = babyStatus;
+	}
+	@Override
+	public String toString() {
+		return "Baby [babyId=" + babyId + ", classId=" + classId + ", gradeId=" + gradeId + ", kindergartenId="
+				+ kindergartenId + ", userId=" + userId + ", babyNo=" + babyNo + ", babyName=" + babyName + ", sex="
+				+ sex + ", birthday=" + birthday + ", babyIcon=" + babyIcon + ", relationship=" + relationship
+				+ ", enterDate=" + enterDate + ", applyStatus=" + applyStatus + ", payStatus=" + payStatus
+				+ ", babyStatus=" + babyStatus + "]";
+	}
+
 }

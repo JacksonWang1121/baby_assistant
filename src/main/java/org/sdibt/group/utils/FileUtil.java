@@ -28,7 +28,7 @@ import com.sun.jmx.snmp.Timestamp;
 public class FileUtil {
 
 	//BabyAssistantFile项目中文件的路径
-	public static String httpFilePath = "http://localhost:8081/babyassistantfile/";
+	public static String httpFilePath = "http://localhost:8080/babyassistantfile/";
 	//BabyAssistantFile项目的绝对路径
 	private static String babyAssistantFilePath;
 

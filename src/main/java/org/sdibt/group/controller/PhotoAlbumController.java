@@ -12,6 +12,9 @@ import org.sdibt.group.entity.PhotoAlbum;
 import org.sdibt.group.service.IPhotoAlbumService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class PhotoAlbumController {
@@ -66,12 +69,16 @@ public class PhotoAlbumController {
 		return "photoAlbum";
 	}
 
-	@RequestMapping("savePhotoAlbum")
-	public String savePhotoAlbum(PhotoAlbum photoAlbum) {
-		SimpleDateFormat tempDate = new SimpleDateFormat("yyyy-MM-dd");
-		String photoDate = tempDate.format(new Date());
-		System.out.println(photoDate);
-		return "photoAlbum";
+	@RequestMapping("/savePhotoAlbum")
+	@ResponseBody
+	public boolean savePhotoAlbum(PhotoAlbum photoAlbum,
+			@RequestParam(value = "file", required = false) MultipartFile file) {
+	
+		
+		boolean result=this.photoalbumservice.savePhotoAlbum(photoAlbum,file);
+		
+
+		return result;
 	}
 
 }

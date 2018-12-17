@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>班级作业</title>
-<jsp:include page="common.jsp"></jsp:include>
+<jsp:include page="public.jsp"></jsp:include>
 <style type="text/css">
 .homework {
 	width: 100%;
@@ -54,15 +54,22 @@ height: 50px;
 	z-index: 100;
 	cursor: pointer;
 }
-
-.coverSave{
-	/* border:1px solid #00FA9A; */
-	width: 100px;
-	height: 70px;
+.coverSave {
+	border: 1px solid #00FA9A;
+	width: 50px;
+	height: 5px;
 	position: absolute;
 	right: 2px;
 	z-index: 100;
 	cursor: pointer;
+}
+.headline1{
+	background-color:#00FA9A;
+	text-align:center;
+	height:45px;
+	font-size:25px;
+	color:#ffffff;
+	padding-top:5px;
 }
 </style>
 <script type="text/javascript">
@@ -72,7 +79,6 @@ height: 50px;
 			window.location.href = "/babyassistant/main.jsp";
 		});
 		$(".coverSave").click(function() {
-
 			window.location.href = "/babyassistant/addHomework.jsp";	
 		});
 
@@ -109,39 +115,37 @@ height: 50px;
 </head>
 
 <body>
-
-	<div class="title">
-		<span class="glyphicon glyphicon-chevron-left"></span> <span
-			class="coverReturn"></span> <span
-			style="margin-left: 400px; margin-right: 200px;">${homeworks.get(0).class_name}作业</span>
-		<span class="glyphicon glyphicon-plus-sign" id="sign"></span> <span
-class="coverSave"></span>
+	<div class="headline1">
+		<span class="glyphicon glyphicon-chevron-left"></span>
+		<span class="coverReturn"></span> 
+		<span style="margin-left: 80px; margin-right: 80px;">${homeworks.get(0).class_name}作业</span>
+		<span class="glyphicon glyphicon-plus-sign" id="sign"></span> 
+		<span class="coverSave"></span>
 	</div>
 	<div class="content">
 		<c:forEach items="${homeworks}" var="homework">
-		
+
 			<div class="homework">
 				<div class="title1">
-			     <img alt="" src="${homework.user_icon}"  style="width:30px;height:30px;border-radius:50%">
-					<span class="name">${homework.nick_name}</span>
-					<span style="margin-left: 300px; font-size:20px" >${homework.homework_date}</span>
+					<img alt="" src="${homework.user_icon}"
+						style="width: 30px; height: 30px; border-radius: 50%"> <span
+						class="name">${homework.nick_name}</span> <span
+						style="margin-left: 300px; font-size: 20px">${homework.homework_date}</span>
 				</div>
-				<div class="content"  style="margin-top: 50px ">
-					<span style="margin-left: 90px  ">${homework.homework_content}</span>	
-			
-			<a href="javascript:">
-				<span class="glyphicon glyphicon-trash delete" id="${homework.homework_id}" ></span>
-			</a>		
+				<div class="content" style="margin-top: 50px">
+					<span style="margin-left: 90px">${homework.homework_content}</span>
+
+					<a href="javascript:"> <span
+						class="glyphicon glyphicon-trash delete"
+						id="${homework.homework_id}"></span>
+					</a>
 				</div>
-				
-				
-				<div>
-				
-				
-				</div>
+
+
+				<div></div>
 			</div>
-	
-			
+
+
 		</c:forEach>
 	</div>
 </body>

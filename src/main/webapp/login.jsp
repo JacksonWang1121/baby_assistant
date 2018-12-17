@@ -5,48 +5,64 @@
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <head>
-    <title>登录</title>
-    <!-- 动态导入js文件和css文件 -->
-	<jsp:include page="common.jsp"></jsp:include>
-	<style type="text/css">
-		#container{
-			width:736px;
-			hight:414px;
-			margin-left:150px;
-			margin-top:450px;
+<title>登录</title>
+<!-- 动态导入js文件和css文件 -->
+<jsp:include page="public.jsp"></jsp:include>
+<script type="text/javascript" src="js/js/public.js"></script>
+<style type="text/css">
+body{
+	background-image: url("images/bg01.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+}
+</style>
+<script type="text/javascript">
+$(function() {
+	/* 
+		垂直居中显示
+	*/
+	var h = $(window).height();
+	//var h = document.documentElement.clientHeight || document.body.clientHeight;
+	console.log("h = "+h);
+	var height = $("#wrapper").css("height").replace("px","");
+	console.log("height = "+height);
+	$("#wrapper").css("margin-top",(h-parseInt(height))/2+"px");
+	
+	//获取url中的msg参数值
+	var msg = getUrl("msg");
+	console.log("msg = "+msg);
+	if (msg != null) {
+		if (msg == "loginFailed") {
+			alert("账号或密码错误");
 		}
-		body{
-			background-image:url("/babyassistantfile/images/pageImgs/login.jpg");
-			background-repeat:no-repeat;
-			background-size:100% 1750px;
-			background-attachment: fixed;
-		}
-	</style>
+	}
+
+});
+</script>
 </head>
 <body>
-	<div>
-	<form action="/babyassistant/doLogin" method="get" id="login_form">
-		<div id="container" class="form-group has-success">
-			<span style="color:#ffffff;font-size:70px;">宝宝助手</span>
+<div class="container">
+	<div id="wrapper" class="text-center">
+		<span class="h1" style="color:#ffffff;">宝宝助手</span>
+		<form action="${pageContext.request.contextPath }/doLogin" method="post">
 			<div class="form-group has-success">
-				<input id="username" class="form-control" type="text" name="username" placeholder="请输入账号"style="margin-top:50px;margin-bottom:20px;width:730px;height:90px;font-size:45px;" value="<shiro:principal/>" >
+				<div class="form-group has-success" align="center">
+					<input type="text" name="username" class="form-control" placeholder="请输入手机号码" style="margin-top:30px;width:64%;" value="<shiro:principal/>" >
+				</div>
+				<div class="form-group has-success" align="center">
+					<input type="password" name="password" class="form-control" placeholder="请输入密码" style="margin-top:5px;width:64%;">
+				</div>
+				<div class="form-group has-success" style="margin-top:5px">
+					<input type="checkbox" name="rememberMe" style="zoom:1;">
+					<span>记住密码</span>
+				</div>
+				<div>
+					<input type="submit" class="btn btn-success" value="登录" style="margin-top:10px;width:60%;">
+				</div>
 			</div>
-			<div class="form-group has-success" >
-				<input id="password" class="form-control" type="password" name="password"placeholder="请输入密码"style="margin-bottom:20px;width:730px;height:90px;font-size:45px;">
-			</div>
-			<div class="form-group has-success" style="margin-bottom:20px">
-				<input type="checkbox" checked="checked" name="rememberMe" style="zoom:4;">
-				<span style="font-size:50px;">记住我</span>
-			</div>
-			<div>	
-				<input type="submit" class="btn btn-success" value="登录" style="margin-bottom:10px;width:730px;height:90px;font-size:50px">
-			</div>
-			<div>
-				<input type="button" class="btn btn-link" value="忘记密码?" style="font-size:40px">
-				<input type="button" class="btn btn-link" value="新用户注册" style="margin-left:285px;font-size:40px">
-			</div>	
-		</div>
-	</form>
+		</form>
+	</div>
 </div>
 </body>
 </html>

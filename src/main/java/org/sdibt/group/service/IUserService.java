@@ -33,6 +33,13 @@ public interface IUserService {
     public Set<String> findRoles(String username);
 
     /**
+	 * 根据用户名查询该用户的角色记录
+	 * @param username
+	 * @return
+	 */
+	public Map findRoleByUsername(String username);
+
+    /**
      * 根据用户名查找其权限
      * @param username
      * @return
@@ -57,7 +64,13 @@ public interface IUserService {
      */
     public boolean updateUserInfo(Long userId,User user);
 
-
+    /**
+     * 修改用户信息
+     * @return
+     */
+    public void updateUser(User user);
 
 	public Map queryUserInfoByUserId(int userId);
+
+	public List<Map> queryUserByRealName(String realName);
 }

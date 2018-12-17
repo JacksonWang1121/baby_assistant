@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>通讯录</title>
-<jsp:include page="common.jsp"></jsp:include>
+<jsp:include page="public.jsp"></jsp:include>
 <style type="text/css">
 
 .coverReturn {
@@ -22,10 +22,10 @@
 	/* 	border:1px solid #00FA9A; */
 	size: 300px
 }
-#top{
+#top1{
 background:url(/babyassistantfile/images/address01.jpg);
 background-size:cover;
-height: 400px;
+height:120px;
 width: 100%;
 }
 #ta{
@@ -36,15 +36,23 @@ border-bottom-top:red;
 
 }
 #img{
-
-width: 100;
-height: 100;
-margin-left: 400px;
+width: 50;
+height: 50;
+margin-left: 155px;
 border-radius:50%;
 }
-#labe{
-margin-left: 420px;
 
+#labe{
+margin-left: 140px;
+	font-size:25px;
+}
+.headline1{
+	background-color:#00FA9A;
+	text-align:center;
+	height:45px;
+	font-size:25px;
+	color:#ffffff;
+	padding-top:5px;
 }
 </style>
 <script type="text/javascript">
@@ -62,43 +70,44 @@ $(function(){
 
 </head>
 <body>
-<div  id="top">
-<span class="glyphicon glyphicon-chevron-left"  id="glyphicon-chevron-left"></span> 
-		<span  class="coverReturn"></span> 
-		<br ><br ><br ><br ><br ><br >
-<img alt="" src="${user.user_icon}"  id="img" ><br>
-<label  id="labe" ><h2>${user.real_name}</h2></label>
+<div class="headline1">
+		<span class="glyphicon glyphicon-chevron-left"></span>
+         <span class="coverReturn"></span>
+		<span  style="margin-left:110px; margin-right: 150px;">通讯录</span>  
+	</div>
 
-
-</div>
-	<table id="ta" >
+	<div id="top1">
+      <br> 
+      <img alt="" src="${user.user_icon}" id="img"><br>
+	<label id="labe"><h3>${user.real_name}</h3></label>
+	</div>
+	
+	<table id="table" class="table"   style="border-collapse:separate; border-spacing:0px 0px;font-size: 25">
 		<tr>
-			<td align="left" width="77%"><h1>手机：</h1></td>
+			<td align="left" width="77%"><h3>手机：</h3></td>
 
-			<td align="right" width="25%"><a><h1>${user.username}</h1></a></td>
+			<td align="right" width="25%"><a><h3>${user.username}</h3></a></td>
 		</tr>
 		<tr>
-			<td align="left" ><h1>角色：</h1></td>
+			<td align="left" ><h3>角色：</h3></td>
 
-			<td align="right" ><h1>${user.description}</h1></td>
+			<td align="right" ><h3>${user.description}</h3></td>
 			
 		</tr>
 		<tr>
 		
-		<td> <h1>班级：</h1>  </td>
-		<td align="right"> <h1>${user.class_name}</h1>  </td>
+		<td> <h3>班级：</h3>  </td>
+		<td align="right"> <h3>${user.class_name}</h3>  </td>
 		
 		</tr>
 		<tr>
 		
-		<td> <h1>孩子：</h1>  </td>
-		<td align="right"> <h1>${user.baby_name}</h1>  </td>
+		<td> <h3>孩子：</h3>  </td>
+		<td align="right"> <h3>${user.baby_name}</h3>  </td>
 		
 		</tr>
 		
 	</table>
-
-
 
 
 </body>

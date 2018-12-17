@@ -44,23 +44,70 @@ width: 100%;
 		$(".coverReturn").click(function() {
 			window.location.href = "/babyassistant/listHomeworkByClassId";
 		});
-		$(".coverSave").click(function() {
-			$("#savePhotoAlbum").submit();
+		
+		
+		  
+		  
+		
+		
+		
+		
+		$("#tianjia").click(function() {
+			var filePath=$("#photoImg").val();
+		
+			var startIndex = filePath.lastIndexOf("/");
+		     var  photoAddress= filePath.substring(startIndex+1, filePath.length).toLowerCase();
+			
+			
+			
+			    //创建formdata对象，formData用来存储表单的数据，表单数据时以键值对形式存储的。
+			    var formData = new FormData($("savePhotoAlbum"));
+			    formData.append('photoAddress', photoAddress);
+			    formData.append("file", $("#photoPath")[0].files[0]);
+			alert(photoAddress)
+			
+			$.ajax({
+				url:"/babyassistant/savePhotoAlbum",//发送请求地址
+				type:"post",
+				dataType:"text",
+				data:formData,
+				async: true,         //同步或异步请求方式，默认为true，异步
+				cache: false,
+				processData: false,  //不要对data参数进行序列化处理，默认为true
+				contentType: false,  //不要设置Content-Type请求头，因为文件数据是以 multipart/form-data来编码
+				success:function(data){//请求成功后回调函数
+					if (data=="true") {
+						alert("保存成功")			
+					} else {
+						alert("保存失败")
+					}							
+				},
+				error:function(){//请求失败后回调函数
+					alert('后台报错')
+				} 
+			});
 
-		});
-		$('#dinnerPath').on('change',function(){
+		});	
+		
+		$('#photoPath').on('change',function(){
+			 
 			//获取到input的value，里面是文件的路径
 		    var filePath = $(this).val();      
-		    fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase(),
+		    type = filePath.substring(filePath.lastIndexOf(".")).toLowerCase(),
 		    src = window.URL.createObjectURL(this.files[0]); //转成可以在本地预览的格式
 		    // 检查是否是图片
-		    if( !fileFormat.match(/.png|.jpg|.jpeg/) ) {
-		    	error_prompt_alert('上传错误,文件格式必须为：png/jpg/jpeg');
-		        return;  
+		    if(type!=".jpg"&&type!=".gif"&&type!=".jpeg"&& type!=".png"){
+				 alert("您上传图片的类型不符合(.jpg|.jpeg|.gif|.png)！");
+				 return false;
 		    }
-		    $('#dImg').attr('src',src);
-		    $("#dinnerImg").val(filePath);
+		    $('#bImg').attr('src',src);
+		    $("#photoImg").val(filePath);
+	
 		});
+
+	    
+	
+		
 	});
 </script>
 </head>
@@ -76,18 +123,25 @@ width: 100%;
 		<div>
 			<form action="savePhotoAlbum" id="savePhotoAlbum">
 
-		<table class="table table-bordered" style="font-size:40px" >
-<th><span>图片</span></th>
-							<td >
-								<img id="dImg" name="dImg">
-							</td>
+					<table class="table table-bordered" style="font-size:40px" >
+					
+							<th><span>图片</span></th>
+							
 							<td>
-								<input type="file" id="dinnerPath" name="dinnerPath">
-								<input type="text" id="dinnerImg" name="dinnerImg" hidden="hidden">
+								<img id="bImg" name="bImg">
 							</td>
-
-</table>
+							
+							<td>
+								<input type="file" id="photoPath" name="photoPath" class="form-control">
+								<input type="text" id="photoImg" name="photoImg" hidden="hidden">
+							</td>
+							
+						</tr>
+			
+				</table>
 			</form>
+
+			<button id="tianjia"> sssssssss</button>
 		</div>
 	</div>
 </body>

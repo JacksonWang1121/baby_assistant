@@ -15,9 +15,16 @@ public interface KindergartenDao {
 	
 	/**
 	 * 根据园长id查询幼儿园记录
-	 * @param schoolId
+	 * @param principalId
 	 * @return
 	 */
 	public Kindergarten findKindergarten(int principalId);
+
+	/**
+	 * 根据幼儿园id查询幼儿园记录
+	 * @param kindergartenId
+	 * @return
+	 */
+	public Kindergarten findKindergartenById(int kindergartenId);
 
 }

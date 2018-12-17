@@ -9,8 +9,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.sdibt.group.dao.BabyCommentDao;
+import org.sdibt.group.entity.BabyAttendance;
 import org.sdibt.group.service.IBabyCommentService;
-import org.sdibt.group.utils.FileUtil;
 import org.sdibt.group.vo.PageVO;
 import org.springframework.stereotype.Service;
 /**
@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 public class BabyCommentService implements IBabyCommentService {
 	@Resource
 	private BabyCommentDao babyCommentDao;
-	private String filePath=FileUtil.httpFilePath+"images/";
+
 	public BabyCommentDao getBabyCommentDao() {
 		return babyCommentDao;
 	}
@@ -86,7 +86,7 @@ public class BabyCommentService implements IBabyCommentService {
 			for (Map babyComment : babyComments) {
 				String userIcon = (String) babyComment.get("user_icon");
 				if(userIcon.length()!=0){
-					userIcon=filePath+"userIcons/"+userIcon;
+					userIcon="http://192.168.43.242:8081/babyassistantfile/images/"+userIcon;
 					babyComment.put("user_icon",userIcon);
 		    	}else{
 		    		babyComment.put("user_icon","");

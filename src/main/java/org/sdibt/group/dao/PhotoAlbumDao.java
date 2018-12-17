@@ -8,4 +8,6 @@ public interface PhotoAlbumDao {
 
 	List<PhotoAlbum> listPhotoAlbumByClasId(int classId);
 
+	int savePhotoAlbum(PhotoAlbum photoAlbum);
+
 }

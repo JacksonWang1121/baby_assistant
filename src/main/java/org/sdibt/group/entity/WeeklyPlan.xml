@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须定义，非绑定到类或是接口的方式 -->
+<mapper namespace="org.sdibt.group.dao.WeeklyPlanDao">
+
+	<resultMap type="org.sdibt.group.entity.WeeklyPlan" id="weeklyPlanMap">
+		<id column="id" property="id" javaType="java.lang.Integer"/>
+		<result column="class_id" property="classId" javaType="java.lang.Integer"/>
+		<result column="week_date" property="weekDate" javaType="java.lang.String"/>
+		<result column="monday_morning" property="mondayMorning" javaType="java.lang.String"/>
+		<result column="monday_afternoon" property="mondayAfternoon" javaType="java.lang.String"/>
+		<result column="tuesday_morning" property="tuesdayMorning" javaType="java.lang.String"/>
+		<result column="tuesday_afternoon" property="tuesdayAfternoon" javaType="java.lang.String"/>
+		<result column="wednesday_morning" property="wednesdayMorning" javaType="java.lang.String"/>
+		<result column="wednesday_afternoon" property="wednesdayAfternoon" javaType="java.lang.String"/>
+		<result column="thursday_morning" property="thursdayMorning" javaType="java.lang.String"/>
+		<result column="thursday_afternoon" property="thursdayAfternoon" javaType="java.lang.String"/>
+		<result column="friday_morning" property="fridayMorning" javaType="java.lang.String"/>
+		<result column="friday_afternoon" property="fridayAfternoon" javaType="java.lang.String"/>
+		<result column="week_picture" property="weekPicture" javaType="java.lang.String"/>
+	</resultMap>
+
+	<!-- 查询周计划 -->
+	<select id="findWeeklyPlan" resultMap="weeklyPlanMap" parameterType="map">
+		select * from weekly_plan where class_id=#{classId} and week_date = #{weekDate}
+	</select>
+
+	<!-- 查询周计划 -->
+	<select id="findWeeklyPlanById" resultMap="weeklyPlanMap" parameterType="java.lang.Integer">
+		select * from weekly_plan where id = #{planId}
+	</select>
+
+	<!-- 录入周计划 -->
+	<insert id="saveWeeklyPlan" parameterType="org.sdibt.group.entity.WeeklyPlan">
+		insert into weekly_plan (class_id, week_date, monday_morning, monday_afternoon, 
+		tuesday_morning, tuesday_afternoon, wednesday_morning, wednesday_afternoon, 
+		thursday_morning, thursday_afternoon, friday_morning, friday_afternoon, week_picture) 
+		values (#{classId}, #{weekDate}, #{mondayMorning}, #{mondayAfternoon}, 
+		#{tuesdayMorning}, #{tuesdayAfternoon}, #{wednesdayMorning}, #{wednesdayAfternoon}, 
+		#{thursdayMorning}, #{thursdayAfternoon}, #{fridayMorning}, #{fridayAfternoon}, #{weekPicture})
+	</insert>
+
+	<!-- 修改周计划 -->
+	<update id="updateWeeklyPlan" parameterType="org.sdibt.group.entity.WeeklyPlan">
+		update weekly_plan 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="mondayMorning != null">monday_morning = #{mondayMorning,jdbcType=VARCHAR },</if>
+			<if test="mondayAfternoon != null">monday_afternoon = #{mondayAfternoon,jdbcType=VARCHAR },</if>
+			<if test="tuesdayMorning != null">tuesday_morning = #{tuesdayMorning,jdbcType=VARCHAR },</if>
+			<if test="tuesdayAfternoon != null">tuesday_afternoon = #{tuesdayAfternoon,jdbcType=VARCHAR },</if>
+			<if test="wednesdayMorning != null">wednesday_morning = #{wednesdayMorning,jdbcType=VARCHAR },</if>
+			<if test="wednesdayAfternoon != null">wednesday_afternoon = #{wednesdayAfternoon,jdbcType=VARCHAR },</if>
+			<if test="thursdayMorning != null">thursday_morning = #{thursdayMorning,jdbcType=VARCHAR },</if>
+			<if test="thursdayAfternoon != null">thursday_afternoon = #{thursdayAfternoon,jdbcType=VARCHAR },</if>
+			<if test="fridayMorning != null">friday_morning = #{fridayMorning,jdbcType=VARCHAR },</if>
+			<if test="fridayAfternoon != null">friday_afternoon = #{fridayAfternoon,jdbcType=VARCHAR },</if>
+			<if test="weekPicture != null">week_picture = #{weekPicture,jdbcType=VARCHAR },</if>
+		</trim>
+		where id=#{id }
+	</update>
+
+  </mapper>

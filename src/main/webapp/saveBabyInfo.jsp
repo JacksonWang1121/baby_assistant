@@ -70,18 +70,20 @@ $(function() {
 			// 根据返回结果指定界面操作
 			console.log("saveBabyInfo::findBaby:success-data = "+data);
 			//若有数据返回，则显示到相应的位置
-			$("#headPortrait").attr("src",data.baby_icon);
+			if (data.baby_icon != null) {
+				$("#headPortrait").attr("src",data.baby_icon);
+			}
 			$("#babyName").val(data.baby_name);
 			if (data.sex == "男") {
-				$('input[type="radio"][value="男"]').attr("checked","checked");
+				$(':radio[value="男"]').attr("checked","checked");
 			} else if (data.sex == "女") {
-				$('input[type="radio"][value="女"]').attr("checked","checked");
+				$(':radio[value="女"]').attr("checked","checked");
 			}
 			$("#birthday").val(data.birthday);
 			$("#relationship").val(data.relationship);
 		},
 		error: function(data,status,e) {
-			console.log("saveBabyInfo::findBaby:error-data = "+e);
+			console.log("saveBabyInfo::findBaby:error = "+e);
 			alert("读取失败");
 		}
 	});
@@ -117,7 +119,7 @@ $(function() {
 			formData.append("headPortrait", $("#babyIcon")[0].files[0]);
 		}
 		formData.append("babyName", $("#babyName").val());
-		formData.append("sex", $("#sex").val());
+		formData.append("sex", $(".sex:checked").val());
 		formData.append("birthday", $("#birthday").val());
 		formData.append("relationship", $("#relationship").val());
 		$.ajax({
@@ -140,7 +142,7 @@ $(function() {
 				}
 			},
 			error: function(data,status,e) {
-				console.log("saveBabyInfo::confirm:error-data = "+data);
+				console.log("saveBabyInfo::confirm:error = "+e);
 				alert("保存失败");
 			}
 		});
@@ -206,7 +208,7 @@ function getObjectURL(file) {
 	<!-- 清除浮动 -->
 	<div class="clearfix"></div>
 	
-<form action="" id="form_parent_save">
+<form action="" id="form_baby_save">
 	<div class="row" style="margin-top: 20px;">
 		<div class="col-xs-1"></div>
 		<div class="col-xs-3 content"><strong>头像</strong></div>
@@ -230,9 +232,9 @@ function getObjectURL(file) {
 		<div class="col-xs-1"></div>
 		<div class="col-xs-3 content"><strong>性别</strong></div>
 		<div class="col-xs-6 content">
-			<input type="radio" name="sex" value="男" id="man">
+			<input type="radio" name="sex" value="男" class="sex" id="man">
         	<label for="man">男</label>
-       		<input type="radio" name="sex" value="女" id="female">
+       		<input type="radio" name="sex" value="女" class="sex" id="female">
         	<label for="female">女</label>
 		</div>
 	</div>
@@ -254,6 +256,8 @@ function getObjectURL(file) {
 				<option value="妈妈">妈妈</option>
 				<option value="爷爷">爷爷</option>
 				<option value="奶奶">奶奶</option>
+				<option value="姥爷">姥爷</option>
+				<option value="姥姥">姥姥</option>
 				<option value="哥哥">哥哥</option>
 				<option value="姐姐">姐姐</option>
 				<option value="其他">其他</option>

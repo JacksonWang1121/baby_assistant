@@ -3,6 +3,7 @@ package org.sdibt.group.controller;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.sdibt.group.entity.Website;
 import org.sdibt.group.service.IWebsiteService;
@@ -25,10 +26,6 @@ public class WebsiteController {
 	
 	@Resource
 	private IWebsiteService websiteService;
-	
-	public IWebsiteService getWebsiteService() {
-		return websiteService;
-	}
 
 	public void setWebsiteService(IWebsiteService websiteService) {
 		this.websiteService = websiteService;
@@ -39,10 +36,11 @@ public class WebsiteController {
 	 */
 	@RequestMapping("/findWebsite")
 	@ResponseBody
-	public Map findWebsite(String schoolId) {
-		System.out.println("WebsiteController::findWebsite-schoolId = "+schoolId);
-		Map map = this.websiteService.findWebsite(Integer.parseInt(schoolId));
-		return map;
+	public Map findWebsite(HttpSession session) {
+		int kindergartenId = (int) session.getAttribute("kindergartenId");
+		System.out.println("WebsiteController::findWebsite-kindergartenId = "+kindergartenId);
+		Map website = this.websiteService.findWebsite(kindergartenId);
+		return website;
 	}
 
 }

@@ -204,7 +204,7 @@ function initMain(){
 				series : [{
 							name: '日出勤统计',
 	                        type: 'pie',
-	                        radius: '68%',
+	                        radius: '80%',
 	                        data:[
 	                            {value:result.nums[0], name:result.labels[0]},
 	                            {value:result.nums[1], name:result.labels[1]}
