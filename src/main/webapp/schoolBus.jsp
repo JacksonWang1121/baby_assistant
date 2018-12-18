@@ -81,6 +81,28 @@ $(function() {
 	} else {
 		alert("HTML5 Geolocation is not supported in your browser.");
 	}
+
+	$.ajax({
+		url: "${pageContext.request.contextPath }/schoolBus/listSchoolBus",
+		type: "POST",
+		dataType: "text",
+		success: function(result,status) {
+			// 根据返回结果指定界面操作
+			console.log("find_website-result = "+result);
+			//若有数据返回，则提示微官网已存在，并禁用保存按钮
+			if (result=="" || result==null) {
+				alert("微官网不存在");
+				window.location.href = "${pageContext.request.contextPath }/main";
+			} else {
+				var data = JSON.parse(result);
+				
+			}
+		},
+		error: function(data,status,e) {
+			console.log("find_website-error = "+e);
+			alert("读取失败");
+		}
+	});
 });
 </script>
 </head>
