@@ -22,4 +22,11 @@ public interface ISchoolBusService {
 	 */
 	public List<SchoolBus> listSchoolBus(int schoolId);
 
+	/**
+	 * 获取校车gps定位器的ip地址及其所在地理位置的经纬度
+	 * @param buses
+	 * @return
+	 */
+	public List<SchoolBus> schoolBusPosition(List<SchoolBus> buses);
+
 }

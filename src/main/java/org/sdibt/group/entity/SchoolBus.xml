@@ -12,8 +12,6 @@
 		<result column="driver" property="driver" javaType="java.lang.String"/>
 		<result column="driver_tel" property="driverTel" javaType="java.lang.String"/>
 		<result column="bus_status" property="busStatus" javaType="java.lang.String"/>
-		<result column="longitude" property="longitude" javaType="java.lang.String"/>
-		<result column="latitude" property="latitude" javaType="java.lang.String"/>
 	</resultMap>
 
 	<!-- 根据幼儿园编号查询所有校车的记录 -->

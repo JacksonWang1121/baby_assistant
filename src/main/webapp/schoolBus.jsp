@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,12 +29,10 @@ $(function() {
 	var point=new BMap.Point(116.404, 39.915);
 	//初始化地图，设置中心点坐标和地图级别,zoom有1-20级别
 	map.centerAndZoom(point,12);
-	//开启鼠标滚轮缩放
-	//map.enableScrollWheelZoom(true);
 	
-	map.addControl(new BMap.GeolocationControl());
 	map.addControl(new BMap.NavigationControl());
 	map.addControl(new BMap.ScaleControl());
+	map.addControl(new BMap.GeolocationControl());
 	//map.setCurrentCity("北京"); // 仅当设置城市信息时，MapTypeControl的切换功能才能可用
 	
 	// 创建标注
@@ -43,7 +40,8 @@ $(function() {
 	// 将标注添加到地图中
 	map.addOverlay(marker);
 	//给点加上文字描述
-	marker.setLabel(new BMap.Label('<a href="javascript:void(0);">我在这</a>',{"offset":new BMap.Size(20,-10)}));
+	marker.setLabel(new BMap.Label('<a href="javascript:void(0);">我在这</a>',
+						{"offset":new BMap.Size(20,-10)}));
 	//监听标注事件
 	marker.addEventListener("click", function(){    
 	    alert("您点击了标注");    
@@ -78,31 +76,54 @@ $(function() {
 		//BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
 		//BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
 		//BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
+		
+		/* 每10秒刷新一次校车所在的地理位置 */
+		inter = window.setInterVal(function() {
+			$.ajax({
+				url: "${pageContext.request.contextPath }/schoolBus/listSchoolBus",
+				type: "POST",
+				dataType: "text",
+				success: function(result,status) {
+					// 根据返回结果指定界面操作
+					console.log("list_school_bus::result = "+result);
+					//若无数据返回，则提示校车数据读取失败
+					if (result=="" || result==null) {
+						//alert("读取失败");
+					} else {
+						var data = JSON.parse(result);
+						for ( var i in data) {
+							//创建点坐标,默认天安门
+							var point=new BMap.Point(data[i].longitude, data[i].latitude);
+							// 创建标注
+							marker = new BMap.Marker(point);
+							// 将标注添加到地图中
+							map.addOverlay(marker);
+							//给点加上文字描述
+							marker.setLabel(new BMap.Label('<a href="javascript:void(0);">我在这</a>',
+												{"offset":new BMap.Size(20,-10)}));
+						}
+					}
+				},
+				error: function(data,status,e) {
+					console.log("list_school_bus::error = "+e);
+					alert("读取失败");
+				}
+			});
+		},10000);
+		
 	} else {
 		alert("HTML5 Geolocation is not supported in your browser.");
 	}
 
-	$.ajax({
-		url: "${pageContext.request.contextPath }/schoolBus/listSchoolBus",
-		type: "POST",
-		dataType: "text",
-		success: function(result,status) {
-			// 根据返回结果指定界面操作
-			console.log("find_website-result = "+result);
-			//若有数据返回，则提示微官网已存在，并禁用保存按钮
-			if (result=="" || result==null) {
-				alert("微官网不存在");
-				window.location.href = "${pageContext.request.contextPath }/main";
-			} else {
-				var data = JSON.parse(result);
-				
-			}
-		},
-		error: function(data,status,e) {
-			console.log("find_website-error = "+e);
-			alert("读取失败");
-		}
-	});
+});
+
+/* 离开当前页面时触发事件 */
+document.addEventListener('visibilitychange', function() {
+	// 页面变为不可见时触发
+	if (document.visibilityState == 'hidden') {
+		//若离开页面则关闭定时器
+		window.clearInterval(inter);
+	}
 });
 </script>
 </head>
@@ -118,6 +139,6 @@ $(function() {
 <div class="clearfix"></div>
 
 <!-- 定义一个div，放置地图 -->
-<div id="map" style="height: 900px;"></div>
+<div id="map"></div>
 </body>
 </html>

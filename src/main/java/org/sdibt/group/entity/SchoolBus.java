@@ -29,6 +29,8 @@ public class SchoolBus {
 	private String longitude;
 	//校车实时位置-纬度
 	private String latitude;
+	//校车gps定位-ip地址
+	private String ipAddress;
 
 	public int getId() {
 		return id;
@@ -83,6 +85,12 @@ public class SchoolBus {
 	}
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
+	}
+	public String getIpAddress() {
+		return ipAddress;
+	}
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
 	}
 
 }

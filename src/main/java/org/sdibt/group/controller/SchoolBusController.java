@@ -44,9 +44,8 @@ public class SchoolBusController {
 		//查询校车记录
 		List<SchoolBus> buses = this.schoolBusService.listSchoolBus(schoolId);
 		if (buses != null) {
-			for (SchoolBus bus : buses) {
-				
-			}
+			//得到一个新的校车集合
+			buses = this.schoolBusService.schoolBusPosition(buses);
 		}
 		return buses;
 	}
