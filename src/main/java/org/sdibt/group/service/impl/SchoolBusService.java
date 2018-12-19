@@ -46,11 +46,13 @@ public class SchoolBusService implements ISchoolBusService {
 		for (SchoolBus bus : buses) {
 			for (SchoolBus bl : busList) {
 				if (bus.getId() == bl.getId()) {
+					bus.setIpAddress(bl.getIpAddress());
 					//若匹配到接入校车定位socket服务器中的终端，则通过第三方定位系统api获取校车所在地理位置的经纬度
 					String[] coordinate = getInetCoordinate(bl.getIpAddress());
-					bus.setLongitude(coordinate[0]);
-					bus.setLatitude(coordinate[1]);
-					bus.setIpAddress(bl.getIpAddress());
+					if (coordinate != null) {
+						bus.setLongitude(coordinate[0]);
+						bus.setLatitude(coordinate[1]);
+					}
 				}
 			}
 		}

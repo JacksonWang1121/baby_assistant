@@ -63,7 +63,7 @@ public class SchoolBusPositionServer {
 					System.err.println("终端（"+client.getInetAddress().getHostAddress()+"）连接中断...");
 				} else {
 					//记录每一个连接的终端
-					clients.put(client,parseSchoolBus(data,client.getInetAddress().getHostAddress()));
+					clients.put(client,parseSchoolBus(data));
 				}
 			}
 		} catch (IOException e) {
@@ -132,7 +132,7 @@ public class SchoolBusPositionServer {
 		return data;
 	}
 
-	private SchoolBus parseSchoolBus(String data, String ipAddress) {
+	private SchoolBus parseSchoolBus(String data) {
 		SchoolBus bus = null;
 		//将字符串转为json对象
 		JSONObject obj = (JSONObject) JSON.parse(data);
@@ -148,7 +148,7 @@ public class SchoolBusPositionServer {
 			 bus.setBusStatus(obj.getString("busStatus"));
 			 bus.setLongitude(obj.getString("longitude"));
 			 bus.setLatitude(obj.getString("latitude"));
-			 bus.setIpAddress(ipAddress);
+			 bus.setIpAddress(obj.getString("ipAddress"));
 		}
 		return bus;
 	}

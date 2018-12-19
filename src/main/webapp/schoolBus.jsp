@@ -99,8 +99,9 @@ $(function() {
 							// 将标注添加到地图中
 							map.addOverlay(marker);
 							//给点加上文字描述
-							marker.setLabel(new BMap.Label('<a href="javascript:void(0);">我在这</a>',
-												{"offset":new BMap.Size(20,-10)}));
+							marker.setLabel(new BMap.Label('<a href="javascript:void(0);">'
+									+ data[i].busName + ',编号：' + data[i].id + '</a>',
+									{"offset":new BMap.Size(20,-10)}));
 						}
 					}
 				},

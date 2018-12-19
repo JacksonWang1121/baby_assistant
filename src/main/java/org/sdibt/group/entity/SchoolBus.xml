@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace必须定义，非绑定到类或是接口的方式 -->
-<mapper namespace="sdibt.group.dao.SchoolBusDao">
+<mapper namespace="org.sdibt.group.dao.SchoolBusDao">
 
-	<resultMap type="sdibt.group.entity.SchoolBus" id="busMap">
+	<resultMap type="org.sdibt.group.entity.SchoolBus" id="busMap">
 		<id column="id" property="id" javaType="java.lang.Integer"/>
 		<result column="school_id" property="schoolId" javaType="java.lang.Integer"/>
 		<result column="bus_name" property="busName" javaType="java.lang.String"/>
