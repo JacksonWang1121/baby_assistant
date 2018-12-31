@@ -49,20 +49,20 @@ public interface IUserService {
     /**
      * 查看个人资料
      */
-    public Map getPersonalData(Long userId);
+    public Map getPersonalData(int userId);
     /**
      * 修改用户头像
      * @param userId
      * @param iconPath
      */
-    public boolean updateUserIcon(Long userId,MultipartFile iconPath);
+    public boolean updateUserIcon(int userId,MultipartFile iconPath);
     /**
      * 修改用户信息
      * @param userId
      * @param user
      * @return
      */
-    public boolean updateUserInfo(Long userId,User user);
+    public boolean updateUserInfo(int userId,User user);
 
     /**
      * 修改用户信息

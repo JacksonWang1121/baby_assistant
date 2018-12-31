@@ -17,6 +17,7 @@ import org.sdibt.group.entity.Baby;
 import org.sdibt.group.entity.BabyDiet;
 import org.sdibt.group.entity.BabyGrow;
 import org.sdibt.group.service.IBabyGrowService;
+import org.sdibt.group.utils.FileUtil;
 import org.sdibt.group.utils.ImageFileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,7 @@ import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 public class BabyGrowService implements IBabyGrowService {
 	@Resource
 	private BabyGrowDao babyGrowDao;
-
+	private String filePath=FileUtil.httpFilePath+"images/";
 	public BabyGrowDao getBabyGrowDao() {
 		return babyGrowDao;
 	}
@@ -47,11 +48,11 @@ public class BabyGrowService implements IBabyGrowService {
 	 * 根据当前登录的用户ID查询宝宝信息
 	 */
 	@Override
-	public Map getBabyInfo(Long userId) {
+	public Map getBabyInfo(int userId) {
 		Map babyInfo = this.babyGrowDao.getBabyInfo(userId);
 		String babyIcon = (String) babyInfo.get("baby_icon");
 		if(babyIcon.length()!=0){
-			babyIcon="http://192.168.43.242:8081/babyassistantfile/images/babyIcons/"+babyIcon;
+			babyIcon=filePath+"babyIcons/"+babyIcon;
 			babyInfo.put("baby_icon",babyIcon);
     	}else{
     		babyInfo.put("baby_icon","");
@@ -63,29 +64,32 @@ public class BabyGrowService implements IBabyGrowService {
 	 * 查看宝宝成长记录
 	 */
 	@Override
-	public List<Map> listBabyGrow(Long userId) {
+	public List<Map> listBabyGrow(int userId) {
 		// TODO Auto-generated method stub
 		 List<Map> babyGrows = this.babyGrowDao.listBabyGrow(userId);
 		//解析图片路径
-		//ArrayList list = new ArrayList<>();
 		for (Map babyGrow : babyGrows) {
+			ArrayList suffix = new ArrayList<>();
 			String pathStr = (String) babyGrow.get("grow_img");
 			String babyIcon = (String) babyGrow.get("baby_icon");
 			if(pathStr.length()!=0||babyIcon.length()!=0){
-				babyIcon="http://192.168.43.242:8081/babyassistantfile/images/babyIcons/"+babyIcon;
+				babyIcon=filePath+"babyIcons/"+babyIcon;
 				String[] paths = pathStr.substring(pathStr.indexOf(",") + 1).split(",");
 				if(paths != null){
 					for (int i = 0; i < paths.length; i++) {
-						paths[i]="http://192.168.43.242:8081/babyassistantfile/images/growImgs/"+paths[i];
-						System.out.println(paths[i]+"----");
+						paths[i]=filePath+"growImgs/"+paths[i];
+						suffix.add(paths[i].substring(paths[i].lastIndexOf(".")));
 					}
 				}
 				babyGrow.put("baby_icon",babyIcon);
 				babyGrow.put("grow_img",paths);
+				babyGrow.put("img_suffix",suffix);
 			}else{
 				babyGrow.put("baby_icon","");
 				babyGrow.put("grow_img","");
+				babyGrow.put("img_suffix","");
 			}
+			System.out.println(babyGrow+"---");
 		}
 		return babyGrows;
 	}
@@ -94,7 +98,7 @@ public class BabyGrowService implements IBabyGrowService {
 	 */
 	@Transactional
 	@Override
-	public boolean saveBabyGrow(MultipartFile[] files,BabyGrow babyGrow,Long userId) {
+	public boolean saveBabyGrow(MultipartFile[] files,BabyGrow babyGrow,int userId) {
 		String imgPath="";
 		String filePath="";
 		//获取文件上传时的文件后缀名
@@ -152,7 +156,7 @@ public class BabyGrowService implements IBabyGrowService {
 			String[] paths = pathStr.substring(pathStr.indexOf(",") + 1).split(",");
 			if(paths != null){
 				for (int i = 0; i < paths.length; i++) {
-					paths[i]="http:/192.168.43.242:8081/babyassistantfile/images/growImgs/"+paths[i];
+					paths[i]=filePath+"growImgs/"+paths[i];
 					//删除文件夹中的图片
 					File file = new File(paths[i]);
 					file.delete();

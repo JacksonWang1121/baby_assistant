@@ -19,7 +19,7 @@ public class Baby implements Serializable{
 	//幼儿园主键id
 	private int kindergartenId;
 	//用户主键id
-	private Long userId;
+	private int userId;
 	//宝宝学号
 	private String babyNo;
 	//宝宝姓名
@@ -64,10 +64,10 @@ public class Baby implements Serializable{
 	public void setKindergartenId(int kindergartenId) {
 		this.kindergartenId = kindergartenId;
 	}
-	public Long getUserId() {
+	public int getUserId() {
 		return userId;
 	}
-	public void setUserId(Long userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	public String getBabyNo() {

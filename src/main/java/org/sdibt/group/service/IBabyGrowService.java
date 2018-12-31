@@ -22,18 +22,18 @@ public interface IBabyGrowService {
 	 * @param userId
 	 * @return
 	 */
-	public Map getBabyInfo(Long userId);
+	public Map getBabyInfo(int userId);
 	/**
 	 * 查看宝宝成长记录
 	 * @return
 	 */
-	public List<Map> listBabyGrow(Long userId);
+	public List<Map> listBabyGrow(int userId);
 	/**
 	 * 发布宝宝成长记录
 	 * @param babyDiet
 	 * @return
 	 */
-	public boolean saveBabyGrow(MultipartFile[] files,BabyGrow babyGrow,Long userId);
+	public boolean saveBabyGrow(MultipartFile[] files,BabyGrow babyGrow,int userId);
 	/**
 	 * 删除宝宝成长记录
 	 * @param growId

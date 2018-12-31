@@ -4,7 +4,7 @@
 <!-- namespace必须定义，非绑定到类或是接口的方式 -->
 <mapper namespace="org.sdibt.group.dao.BabyAttendanceDao">
 	<!-- 查询所有，返回值类型对应的是resultMap -->
-	<select id="listBabies" resultType="map" parameterType="java.lang.Long">
+	<select id="listBabies" resultType="map" parameterType="java.lang.Integer">
 		select * from baby_info bi
 		inner join class_info ci on bi.class_id=ci.class_id
 		where ci.user_id=#{userId} and bi.baby_status=1
@@ -21,7 +21,7 @@
     	insert into baby_attendance(baby_id,attendance_date) values(#{babyId},#{currentDate})
     </insert>
     <!-- 班级考勤 -->
-   <!--  <select id="listClassAttendance" resultType="map" parameterType="java.lang.Long">
+   <!--  <select id="listClassAttendance" resultType="map" parameterType="java.lang.Integer">
     	select * from baby_info bi inner join baby_attendance ba on bi.baby_id=ba.baby_id 
 		inner join class_info ci on bi.class_id=ci.class_id
 		where ci.user_id=#{userId}
@@ -61,7 +61,7 @@
 		where ci.user_id=#{userId} and ba.attendance_date=#{currentDate}
   	</select>
   	<!-- 查询班级总人数-->
-  	<select id="countClassSize" resultType="java.lang.Integer" parameterType="java.lang.Long">
+  	<select id="countClassSize" resultType="java.lang.Integer" parameterType="java.lang.Integer">
   		select count(bi.baby_id)attendanceSize from class_info ci 
   		inner join baby_info bi on ci.class_id=bi.class_id and bi.baby_status=1
 		where ci.user_id=#{userId}

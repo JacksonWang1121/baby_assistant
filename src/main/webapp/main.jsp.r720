@@ -1,0 +1,271 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<html>
+<head>
+<base href="<%=request.getContextPath()+"/" %>"/>
+<!-- 动态导入js文件和css文件 -->
+<jsp:include page="common.jsp"></jsp:include>
+<style type="text/css">
+	body{
+		background-image:url("/babyassistantfile/images/main.jpg");
+		background-repeat:no-repeat;
+		background-size:100% 1750px;
+		background-attachment: fixed;
+	}
+	#adv{
+		width:100%;
+		height:300px;
+		background-repeat:no-repeat;
+		background-size:100% 100%;
+		background-attachment: fixed;
+	}
+	#adv>img{
+		width:100%;
+		height:100%;
+		position:relative;
+		display:none;
+	}
+	td{
+		text-align:center;
+	}
+</style>
+<script type="text/javascript">
+	$(function(){
+		//获取轮播图片
+		var imgs=document.getElementsByClassName('major');
+		//首先显示第一张图片
+		imgs[0].style.display='inline';
+		//开启定时器，显示当前位置i对应的图片
+		var i=1;
+		window.setInterval(function(){
+			imgs[(i-1)%3].style.display='none';//隐藏上一张图片
+			imgs[i%3].style.display='inline';//显示当前图片
+			i++
+		},2000);
+		//点击宝宝分班按钮
+		$(".divideClass").click(function(){
+			window.location.href="${pageContext.request.contextPath }/listBabyEnrollInfo";
+		});
+	    //点击宝宝签到按钮
+		$(".sign").click(function(){
+			window.location.href="${pageContext.request.contextPath }/listBabies";
+		});
+		//点击班级考勤按钮
+		$(".classAttendance").click(function(){
+			window.location.href="${pageContext.request.contextPath }/listClassAttendance";
+		});
+		//点击宝宝考勤按钮
+		$(".babyAttendance").click(function(){
+			window.location.href="${pageContext.request.contextPath }/listBabyAttendance";
+		});
+		//点击宝宝饮食按钮
+		$(".babyDiet").click(function(){
+			window.location.href="${pageContext.request.contextPath }/getBabyDietByDate";
+		});
+		//点击宝宝点评按钮
+		$(".babyComment").click(function(){
+			window.location.href="${pageContext.request.contextPath }/listBabyComment";
+		});
+		//点击宝宝成长按钮
+		$(".babyGrow").click(function(){
+			window.location.href="${pageContext.request.contextPath }/listBabyGrow";
+		});
+		//点击报名列表按钮
+		$(".listEnroll").click(function(){
+			window.location.href="${pageContext.request.contextPath }/listWaitDivideBabyInfo";
+		});
+		//点击学生网上缴费按钮
+		$(".stuPayTuition").click(function(){
+			window.location.href="${pageContext.request.contextPath }/paymentOfTuition.jsp";
+		});
+		//点击班级作业按钮
+		$(".homework").click(function(){
+			window.location.href="${pageContext.request.contextPath }/listHomeworkByClassId";
+		});
+		//点击班级作业按钮
+		$(".inform").click(function(){
+			window.location.href="${pageContext.request.contextPath }/listInformByClassId";
+		});
+		//点击班级相册按钮
+		$(".photoAlbum").click(function(){
+			window.location.href="${pageContext.request.contextPath }/listPhotoAlbumByClasId";
+		});
+		//点击教师请假按钮
+		$(".teacherLeave").click(function(){
+			window.location.href="${pageContext.request.contextPath }/listLeaveInfoById";
+		});
+	});
+</script>
+</head>
+<body>
+	<div class="title">
+		<span style="margin-left:310px;margin-right:310px;">宝宝助手</span>
+	</div>
+	<div class="content">
+		<div id="adv">
+			<img class='major'src="/babyassistantfile/images/adv2.jpg" alt="" />
+			<img class='major'src="/babyassistantfile/images/adv3.jpg" alt="" />
+			<img class='major'src="/babyassistantfile/images/adv1.jpg" alt="" />
+		</div>
+		<div>
+			<table class="table" style="border: 1px solid transparent !important;">
+				<tr>
+					<td>
+						<shiro:hasPermission name="baby:attendance">	
+							<img alt="" src="/babyassistantfile/images/attendance.jpg" class="babyAttendance"style="width:90px;height:90px;border-radius:90px;">
+						</shiro:hasPermission>
+					</td>
+					<td>
+						<shiro:hasPermission name="baby:listComment">	
+							<img alt="" src="/babyassistantfile/images/comment.jpg" class="babyComment" style="width:90px;height:90px;border-radius:90px;">
+						</shiro:hasPermission>
+					</td>
+					<td>
+						<shiro:hasPermission name="baby:grow">	
+							<img alt="" src="/babyassistantfile/images/grow.jpg" class="babyGrow" style="width:90px;height:90px;border-radius:90px;">
+						</shiro:hasPermission>
+					</td>
+					<td>
+						<shiro:hasPermission name="baby:payTuition">	
+							<img alt="" src="/babyassistantfile/images/payTuition.jpg" class="stuPayTuition" style="width:90px;height:90px;border-radius:90px;">
+						</shiro:hasPermission>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<shiro:hasPermission name="baby:attendance">	
+							<a class="babyAttendance"  style="font-size:40px;">宝宝考勤</a>
+						</shiro:hasPermission>
+					</td>
+					<td>
+						<shiro:hasPermission name="baby:listComment">
+							<a class="babyComment"  style="font-size:40px;">宝宝点评</a>
+						</shiro:hasPermission>
+					</td>
+					<td>
+						<shiro:hasPermission name="baby:grow">
+							<a class="babyGrow"  style="font-size:40px;">宝宝成长</a>
+						</shiro:hasPermission>
+					</td>
+					<td>
+						<shiro:hasPermission name="baby:payTuition">
+							<a class="stuPayTuition"  style="font-size:40px;">学生网上缴费</a>
+						</shiro:hasPermission>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<shiro:hasPermission name="baby:getDiet">	
+							<img alt="" src="/babyassistantfile/images/diet.jpg" class="babyDiet" style="width:90px;height:90px;border-radius:90px;">
+						</shiro:hasPermission>
+					</td>
+					<td>
+						<shiro:hasPermission name="baby:divideClass">	
+							<img alt="" src="/babyassistantfile/images/divideClass.jpg" class="divideClass" style="width:90px;height:90px;border-radius:90px;">
+						</shiro:hasPermission>
+					</td>
+					<td>
+						<shiro:hasPermission name="baby:sign">	
+							<img alt="" src="/babyassistantfile/images/sign.jpg" value="宝宝签到" class="sign" class="sign" style="width:90px;height:90px;border-radius:90px;">
+						</shiro:hasPermission>
+					</td>
+					<td>
+						<shiro:hasPermission name="class:attendance">	
+							<img alt="" src="/babyassistantfile/images/classAttendance.jpg" class="classAttendance" style="width:90px;height:90px;border-radius:90px;">
+						</shiro:hasPermission>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<shiro:hasPermission name="baby:getDiet">
+							<a class="babyDiet"  style="font-size:40px;">宝宝饮食</a>
+						</shiro:hasPermission>
+					</td>
+					<td>
+						<shiro:hasPermission name="baby:divideClass">
+							<a class="divideClass"  style="font-size:40px;">宝宝分班</a>
+						</shiro:hasPermission>
+					</td>
+					<td>
+						<shiro:hasPermission name="baby:sign">
+							<a class="sign"  style="font-size:40px;">宝宝签到</a>
+						</shiro:hasPermission>
+					</td>
+					<td>
+						<shiro:hasPermission name="class:attendance">
+							<a class="classAttendance"  style="font-size:40px;">班级考勤</a>
+						</shiro:hasPermission>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<shiro:hasPermission name="teacher:leave">	
+							<img alt="" src="/babyassistantfile/images/teacherLeave.jpg" class="teacherLeave" style="width:90px;height:90px;border-radius:90px;">
+						</shiro:hasPermission>
+					</td>
+					<td>
+						<shiro:hasPermission name="registration:list">	
+							<img alt="" src="/babyassistantfile/images/enrollList.jpg" class="listEnroll" style="width:90px;height:90px;border-radius:90px;">
+						</shiro:hasPermission>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<shiro:hasPermission name="teacher:leave">
+							<a class="teacherLeave"  style="font-size:40px;">教师请假</a>
+						</shiro:hasPermission>
+					</td>
+					<td>
+						<shiro:hasPermission name="registration:list">
+							<a class="listEnroll"  style="font-size:40px;">报名列表</a>
+						</shiro:hasPermission>
+					</td>
+				</tr>
+			</table>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			<shiro:hasPermission name="user:manage">
+				<input type="button" class="btn btn-link" value="班级作业" id="homework" style="font-size:40px;">
+			</shiro:hasPermission>
+			<shiro:hasPermission name="user:manage">	
+				<input type="button" class="btn btn-link" value="班级通知" id="inform" style="font-size:40px;">
+			</shiro:hasPermission>
+			<shiro:hasPermission name="user:manage">
+				<input type="button" class="btn btn-link" value="班级相册" id="photoAlbum" style="font-size:40px;">
+			</shiro:hasPermission>
+			<shiro:hasPermission name="user:manage">
+				<input type="button" class="btn btn-link" value="通讯录" id="listClass" style="font-size:40px;">	</div>
+			</shiro:hasPermission>
+		<div style="margin-top:875px;">
+			<ul class="nav nav-tabs nav-justified" role="tablist">
+	 			 <li class="active">
+	 			 	<a href="${pageContext.request.contextPath }/main">
+	 			 		<img alt="" src="/babyassistantfile/images/firstPage.jpg" style="width:70px;height:70px;border-radius:70px;">首页
+	 			 	</a>
+	 			 </li>
+				 <li>
+				 	<a href="${pageContext.request.contextPath }/listInformByClassId">
+				 		<img alt="" src="/babyassistantfile/images/notice.jpg" style="width:70px;height:70px;border-radius:70px;">通知
+				 	</a>
+				 </li>
+				 <shiro:hasPermission name="user:myInfo">
+				 	<li>
+				 		<a href="${pageContext.request.contextPath }/getPersonalHomePage">
+				 			<img alt="" src="/babyassistantfile/images/my.jpg" style="width:70px;height:70px;border-radius:70px;">我
+				 		</a>
+				 	</li>		
+				 </shiro:hasPermission>	
+			</ul>
+		</div>	
+	</div>
+</body>
+</html>

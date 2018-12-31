@@ -60,7 +60,7 @@ public class BabyController {
 	 */
 	@RequestMapping("/listBabyEnrollInfo")
 	public String listBabyEnrollInfo(HttpSession session,Map map){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		Class classInfo = (Class) session.getAttribute("classInfo");
 		int kindergartenId = classInfo.getKindergartenId();
 		PageVO pageVO = new PageVO();
@@ -88,7 +88,7 @@ public class BabyController {
 	 */
 	@RequestMapping("/listBabiesInClass")
 	public String listBabiesInClass(HttpSession session,Map map){
-		Long userId=(Long)session.getAttribute("userId");
+		int userId=(int)session.getAttribute("userId");
 		PageVO pageVO = new PageVO();
 		int pageSize = pageVO.getPageSize();
 		int curPage = pageVO.getCurPage();
@@ -159,7 +159,7 @@ public class BabyController {
 	 */
 	@RequestMapping("/getBabyDataByParentId")
 	public String getBabyDataByParentId(HttpSession session,Map map){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		Map baby = this.babyService.getBabyDataByParentId(userId);
 		map.put("baby", baby);
 		return "babyData";
@@ -172,7 +172,7 @@ public class BabyController {
 	public String updateBabyIcon(HttpSession session,
 		@RequestParam(value = "iconPath", required = false) MultipartFile iconPath
 	){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		Map baby = this.babyService.getBabyDataByParentId(userId);
 		int babyId = (int) baby.get("baby_id");
 		boolean updateResult = this.babyService.updateBabyIcon(babyId,iconPath);
@@ -188,7 +188,7 @@ public class BabyController {
 	@ResponseBody
 	@RequestMapping("/updateBabyData")
 	public String updateBabyData(HttpSession session,Baby baby){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		Map baby1 = this.babyService.getBabyDataByParentId(userId);
 		int babyId = (int) baby1.get("baby_id");
 		baby.setBabyId(babyId);
@@ -207,7 +207,7 @@ public class BabyController {
 	@ResponseBody
 	@RequestMapping("/hasPayTuition")
 	public boolean hasPayTuition(HttpSession session){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		boolean payStatus = this.babyService.hasPayTuition(userId);
 		return payStatus;
 	}
@@ -218,7 +218,7 @@ public class BabyController {
 	@RequestMapping("/payTuition")
 	public void payTuition(HttpServletRequest request, HttpServletResponse response, String money) throws Exception{
 		 //根据登录家长id修改宝宝学费支付状态
-		  Long userId = (Long) request.getSession().getAttribute("userId");
+		  int userId = (int) request.getSession().getAttribute("userId");
 		  this.babyService.updatePayStatus(userId); 
 		  request.setCharacterEncoding("utf-8");
 		  response.setContentType("text/html;charset=utf-8");
@@ -313,8 +313,8 @@ public class BabyController {
 	@RequestMapping("/findBaby")
 	@ResponseBody
 	public Map findBaby(HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		return this.babyService.getBabyDataByParentId(user.getId());
+		int userId=(int) session.getAttribute("userId");
+		return this.babyService.getBabyDataByParentId(userId);
 	}
 
 	/**

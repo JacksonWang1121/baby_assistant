@@ -32,12 +32,12 @@ public interface IWeeklyPlanService {
 	 * 添加周计划
 	 * @param weeklyPlan
 	 */
-	public void saveWeeklyPlan(WeeklyPlan weeklyPlan);
+	public boolean saveWeeklyPlan(WeeklyPlan weeklyPlan);
 
 	/**
 	 * 修改周计划
 	 * @param weeklyPlan
 	 */
-	public void updateWeeklyPlan(WeeklyPlan weeklyPlan);
+	public boolean updateWeeklyPlan(WeeklyPlan weeklyPlan);
 
 }

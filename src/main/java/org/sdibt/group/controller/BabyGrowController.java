@@ -37,7 +37,7 @@ public class BabyGrowController {
 	 */
 	@RequestMapping("/listBabyGrow")
 	public String listBabyGrow(HttpSession session,Map map){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		List<Map> grows = this.babygrowService.listBabyGrow(userId);
 		if(grows.size()==0){
 			//根据当前登录用户id查询宝宝信息
@@ -55,7 +55,7 @@ public class BabyGrowController {
 	@ResponseBody
 	@RequestMapping(value="/saveBabyGrow", method=RequestMethod.POST)
 	public String saveBabyGrow(HttpSession session,BabyGrow babyGrow,@RequestParam(value = "files", required = false) MultipartFile[] files){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		boolean saveResult = this.babygrowService.saveBabyGrow(files,babyGrow,userId);
 		if(saveResult==true){
 			return "true";

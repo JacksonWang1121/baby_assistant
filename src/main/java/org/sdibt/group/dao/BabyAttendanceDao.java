@@ -20,7 +20,7 @@ public interface BabyAttendanceDao {
 	 * @param userId
 	 * @return
 	 */
-	public List<Baby> listBabies(Long userId);
+	public List<Baby> listBabies(int userId);
 	/**
 	 * 根据宝宝id和当前日期查询宝宝是否已经签到
 	 * @return
@@ -36,7 +36,7 @@ public interface BabyAttendanceDao {
 	 * @param userId
 	 * @return
 	 */
-	//public List<BabyAttendance> listClassAttendance(Long userId);
+	//public List<BabyAttendance> listClassAttendance(int userId);
 	/**
 	 * 统计班级考勤记录共多少条
 	 * @return
@@ -57,7 +57,7 @@ public interface BabyAttendanceDao {
 	 * @param userId
 	 * @return
 	 */
-	public int countClassSize(Long userId);
+	public int countClassSize(int userId);
 	/**
 	 * 统计宝宝考勤记录共多少条
 	 * @return
@@ -68,7 +68,7 @@ public interface BabyAttendanceDao {
 	 * @param userId
 	 * @return
 	 */
-	//public List<BabyAttendance> listBabyAttendance(Long userId);
+	//public List<BabyAttendance> listBabyAttendance(int userId);
 	//public List<BabyAttendance> listBabyAttendance(Map map);
 	/**
 	 * 条件查询宝宝考勤信息

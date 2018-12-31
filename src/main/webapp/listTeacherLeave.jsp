@@ -161,7 +161,7 @@
 				success:function(data){
 					if(data=="true"){
 						/* 若录入食谱失败，给出提示信息 */
-						new TipBox({type:'tip',str:'提交成功，待批准!',clickDomCancel:true,setTime:80000500,hasBtn:true});  
+						new TipBox({type:'tip',str:'提交成功，待批准!',clickDomCancel:true,setTime:90000500,hasBtn:true});  
 						window.location.href="${pageContext.request.contextPath }/listLeaveInfoById";
 					}else{
 						/* 若录入食谱失败，给出提示信息 */

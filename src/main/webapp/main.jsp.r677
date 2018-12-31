@@ -1,0 +1,96 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<html>
+<head>
+<!-- 动态导入js文件和css文件 -->
+<jsp:include page="common.jsp"></jsp:include>
+</head>
+<script type="text/javascript">
+	$(function(){
+		//点击宝宝分班按钮
+		$("#divideClass").click(function(){
+			window.location.href="/babyassistant/listBabyEnrollInfo";
+		});
+	    //点击宝宝签到按钮
+		$("#sign").click(function(){
+			window.location.href="/babyassistant/listBabies";
+		});
+		//点击班级考勤按钮
+		$("#classAttendance").click(function(){
+			window.location.href="/babyassistant/listClassAttendance";
+		});
+		//点击宝宝考勤按钮
+		$("#babyAttendance").click(function(){
+			window.location.href="/babyassistant/listBabyAttendance";
+		});
+		//点击宝宝饮食按钮
+		$("#babyDiet").click(function(){
+			window.location.href="/babyassistant/getBabyDietByDate";
+		});
+		//点击宝宝点评按钮
+		$("#babyComment").click(function(){
+			window.location.href="/babyassistant/listBabyComment";
+		});
+		//点击宝宝点评按钮
+		$("#babyGrow").click(function(){
+			window.location.href="/babyassistant/listBabyGrow";
+		});
+		//点击报名列表按钮
+		$("#registration").click(function(){
+			window.location.href="/babyassistant/listWaitDivideBabyInfo";
+		});
+		//点击报名列表进度按钮
+		$("#registrationProgress").click(function(){
+			window.location.href="/babyassistant/getRegistrationProgress";
+		});
+		//点击我
+		$("#me").click(function(){
+			window.location.href="/babyassistant/getPersonalHomePage";
+		});
+		//点击班级作业按钮
+		$("#homework").click(function(){
+			window.location.href="/babyassistant/listHomeworkByClassId";
+		});
+		//点击班级作业按钮
+		$("#inform").click(function(){
+			window.location.href="/babyassistant/listInformByClassId";
+		});
+		//点击班级相册按钮
+		$("#photoAlbum").click(function(){
+			window.location.href="/babyassistant/listPhotoAlbumByClasId";
+		});
+		//点击通讯录按钮
+		$("#listClass").click(function(){
+			window.location.href="/babyassistant/listClasInfo";
+		});
+		
+		
+		
+	});
+</script>
+
+<body>
+	<div class="title">
+		<span style="margin-left:310px;margin-right:310px;">宝宝助手</span>
+	</div>
+	<div>
+		<div>
+			<input type="button" class="btn btn-link" value="宝宝分班" id="divideClass" style="font-size:40px">
+			<input type="button" class="btn btn-link" value="宝宝签到" id="sign" style="font-size:40px">
+			<input type="button" class="btn btn-link" value="班级考勤" id="classAttendance" style="font-size:40px;">
+			<input type="button" class="btn btn-link" value="宝宝考勤" id="babyAttendance" style="font-size:40px;">
+			<input type="button" class="btn btn-link" value="宝宝饮食" id="babyDiet" style="font-size:40px;">
+			<input type="button" class="btn btn-link" value="宝宝点评" id="babyComment" style="font-size:40px;">
+			<input type="button" class="btn btn-link" value="宝宝成长" id="babyGrow" style="font-size:40px;">
+			<input type="button" class="btn btn-link" value="报名列表" id="registration" style="font-size:40px;">
+			<input type="button" class="btn btn-link" value="报名进度" id="registrationProgress" style="font-size:40px;">
+			<input type="button" class="btn btn-link" value="我" id="me" style="font-size:40px;">
+			<input type="button" class="btn btn-link" value="班级作业" id="homework" style="font-size:40px;">
+			<input type="button" class="btn btn-link" value="班级通知" id="inform" style="font-size:40px;">
+	<input type="button" class="btn btn-link" value="班级相册" id="photoAlbum" style="font-size:40px;">
+		<input type="button" class="btn btn-link" value="通讯录" id="listClass" style="font-size:40px;">
+		</div>	
+	</div>
+</body>
+</html>

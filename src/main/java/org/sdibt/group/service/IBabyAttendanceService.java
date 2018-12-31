@@ -21,7 +21,7 @@ public interface IBabyAttendanceService {
 	 * @param userId
 	 * @return
 	 */
-	public List<Baby> listBabies(Long userId);
+	public List<Baby> listBabies(int userId);
 	/**
 	 * 根据宝宝id和当前日期查询宝宝是否已经签到
 	 * @param babyId
@@ -39,31 +39,31 @@ public interface IBabyAttendanceService {
 	 * @param userId
 	 * @return
 	 */
-	//public List<BabyAttendance> listClassAttendance(Long userId);
+	//public List<BabyAttendance> listClassAttendance(int userId);
 	/**
 	 * 条件查询班级考勤信息
 	 * @param userId
 	 * @return
 	 */
-	//public List<BabyAttendance> listClassAttendanceByTerm(Baby baby,BabyAttendance babyAttendance,Long userId);
+	//public List<BabyAttendance> listClassAttendanceByTerm(Baby baby,BabyAttendance babyAttendance,int userId);
 	public PageVO listClassAttendanceByTerm(Baby baby,BabyAttendance babyAttendance,int curPage, int pageSize);
 	/**
 	 * 班级出勤率统计图示
 	 * @return
 	 */
-	Map countAttendanceRate(Long userId);
+	Map countAttendanceRate(int userId);
 	/**
 	 * 宝宝考勤
 	 * @param userId
 	 * @return
 	 */
-	//public List<BabyAttendance> listBabyAttendance(Long userId);
-	//public PageVO listBabyAttendance(int curPage, int pageSize,Long userId);
+	//public List<BabyAttendance> listBabyAttendance(int userId);
+	//public PageVO listBabyAttendance(int curPage, int pageSize,int userId);
 	/**
 	 * 条件查询宝宝考勤信息
 	 * @param userId
 	 * @return
 	 */
-	//public List<BabyAttendance> listBabyAttendanceByTerm(String startSignDate,String endSignDate,Long userId);
-	public PageVO listBabyAttendanceByTerm(String startSignDate,String endSignDate,Long userId,int curPage, int pageSize);
+	//public List<BabyAttendance> listBabyAttendanceByTerm(String startSignDate,String endSignDate,int userId);
+	public PageVO listBabyAttendanceByTerm(String startSignDate,String endSignDate,int userId,int curPage, int pageSize);
 }

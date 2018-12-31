@@ -90,9 +90,12 @@ public class WeeklyPlanController {
 				String fileName = FileUtil.uploadFile(request, weekPhoto, "images/weeklyPlan");
 				weeklyPlan.setWeekPicture("images/weeklyPlan/"+fileName);
 			}
-			this.weeklyPlanService.saveWeeklyPlan(weeklyPlan);
+			boolean isSave = this.weeklyPlanService.saveWeeklyPlan(weeklyPlan);
+			if (isSave) {
+				return "true";
+			}
 		}
-		return "true";
+		return "false";
 	}
 
 	/**
@@ -109,8 +112,11 @@ public class WeeklyPlanController {
 			String fileName = FileUtil.uploadFile(request, weekPhoto, "images/weeklyPlan");
 			weeklyPlan.setWeekPicture("images/weeklyPlan/"+fileName);
 		}
-		this.weeklyPlanService.updateWeeklyPlan(weeklyPlan);
-		return "true";
+		boolean isUpdate = this.weeklyPlanService.updateWeeklyPlan(weeklyPlan);
+		if (isUpdate) {
+			return "true";
+		}
+		return "false";
 	}
 
 }

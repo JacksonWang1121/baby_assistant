@@ -4,7 +4,7 @@
 <!-- namespace必须定义，非绑定到类或是接口的方式 -->
 <mapper namespace="org.sdibt.group.dao.BabyCommentDao">
 	<!-- 宝宝点评 -->
-	<!-- <select id="listBabyComment" resultType="map" parameterType="java.lang.Long">
+	<!-- <select id="listBabyComment" resultType="map" parameterType="java.lang.Integer">
 		select * from sys_users u inner join comment_info ci on u.id=ci.teacher_id
 		where ci.baby_id=
 		(select bi.baby_id from sys_users u inner join baby_info bi on u.id=bi.user_id where bi.user_id=#{userId})

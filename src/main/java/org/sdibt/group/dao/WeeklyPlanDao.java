@@ -33,12 +33,12 @@ public interface WeeklyPlanDao {
 	 * 添加周计划
 	 * @param weeklyPlan
 	 */
-	public void saveWeeklyPlan(WeeklyPlan weeklyPlan);
+	public int saveWeeklyPlan(WeeklyPlan weeklyPlan);
 
 	/**
 	 * 修改周计划
 	 * @param weeklyPlan
 	 */
-	public void updateWeeklyPlan(WeeklyPlan weeklyPlan);
+	public int updateWeeklyPlan(WeeklyPlan weeklyPlan);
 
 }

@@ -9,8 +9,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.sdibt.group.dao.BabyCommentDao;
-import org.sdibt.group.entity.BabyAttendance;
 import org.sdibt.group.service.IBabyCommentService;
+import org.sdibt.group.utils.FileUtil;
 import org.sdibt.group.vo.PageVO;
 import org.springframework.stereotype.Service;
 /**
@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 public class BabyCommentService implements IBabyCommentService {
 	@Resource
 	private BabyCommentDao babyCommentDao;
-
+	private String filePath=FileUtil.httpFilePath+"images/";
 	public BabyCommentDao getBabyCommentDao() {
 		return babyCommentDao;
 	}
@@ -36,7 +36,7 @@ public class BabyCommentService implements IBabyCommentService {
 	 * 查看宝宝点评
 	 */
 	/*@Override
-	public List<Map> listBabyComment(Long userId) {
+	public List<Map> listBabyComment(int userId) {
 		// TODO Auto-generated method stub
 		List<Map> babyComments = this.babyCommentDao.listBabyComment(userId);
 		
@@ -47,7 +47,7 @@ public class BabyCommentService implements IBabyCommentService {
 	 */
 	@Override
 	public PageVO listBabyCommentByTerm(String startDate, String endDate,
-			Long userId,int curPage, int pageSize) {
+			int userId,int curPage, int pageSize) {
 		if(endDate==""){
 			//得到当前日期
 			Date date = new Date();
@@ -86,7 +86,7 @@ public class BabyCommentService implements IBabyCommentService {
 			for (Map babyComment : babyComments) {
 				String userIcon = (String) babyComment.get("user_icon");
 				if(userIcon.length()!=0){
-					userIcon="http://192.168.43.242:8081/babyassistantfile/images/"+userIcon;
+					userIcon=filePath+"userIcons/"+userIcon;
 					babyComment.put("user_icon",userIcon);
 		    	}else{
 		    		babyComment.put("user_icon","");

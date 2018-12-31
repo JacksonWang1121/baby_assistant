@@ -82,9 +82,10 @@ public class GenerateSendService implements IGenerateSendService {
 	/**
 	 * 添加代接送信息
 	 * @param generateSend
+	 * @return 
 	 */
 	@Override
-	public void saveGenerateSend(GenerateSend generateSend) {
+	public boolean saveGenerateSend(GenerateSend generateSend) {
 		//日期格式化
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		//获取格式化后的日期
@@ -93,16 +94,25 @@ public class GenerateSendService implements IGenerateSendService {
 		generateSend.setGenerateTime(date);
 		//设置初始审核状态为0，即待审核
 		generateSend.setAuditState(0);
-		this.generateSendDao.saveGenerateSend(generateSend);
+		int count = this.generateSendDao.saveGenerateSend(generateSend);
+		if (count == 1) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
 	 * 修改代接送信息
 	 * @param generateSend
+	 * @return 
 	 */
 	@Override
-	public void updateGenerateSend(GenerateSend generateSend) {
-		this.generateSendDao.updateGenerateSend(generateSend);
+	public boolean updateGenerateSend(GenerateSend generateSend) {
+		int count = this.generateSendDao.updateGenerateSend(generateSend);
+		if (count == 1) {
+			return true;
+		}
+		return false;
 	}
 
 }

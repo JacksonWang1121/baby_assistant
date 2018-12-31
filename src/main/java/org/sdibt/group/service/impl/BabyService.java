@@ -2,30 +2,21 @@ package org.sdibt.group.service.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import javax.annotation.Resource;
-
 import org.sdibt.group.dao.BabyDao;
-import org.sdibt.group.dao.BabyGrowDao;
 import org.sdibt.group.entity.Baby;
-import org.sdibt.group.entity.BabyAttendance;
 import org.sdibt.group.service.IBabyService;
-import org.sdibt.group.utils.FileUtil;
 import org.sdibt.group.utils.ImageFileUtils;
+import org.sdibt.group.utils.FileUtil;
 import org.sdibt.group.vo.PageVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 /**
  * 
  * Title:BabyService
@@ -36,23 +27,21 @@ import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
  */
 @Service
 public class BabyService implements IBabyService {
-
 	@Resource
 	private BabyDao babyDao;
-	//文件http访问的路径
-	private String filePath = FileUtil.httpFilePath + "images/babyIcons/";
-
+	private String filePath=FileUtil.httpFilePath+"images/";
 	public BabyDao getBabyDao() {
 		return babyDao;
 	}
 	public void setBabyDao(BabyDao babyDao) {
 		this.babyDao = babyDao;
 	}
+	
 	/**
 	 * 宝宝分班：根据教师所在年级查询待分班的宝宝信息
 	 */
 	@Override
-	public PageVO listBabyEnrollInfo(int curPage,int pageSize,Long userId,int kindergartenId) {
+	public PageVO listBabyEnrollInfo(int curPage,int pageSize,int userId,int kindergartenId) {
 		PageVO pv = new PageVO();
 		//获取开始条数startPage
 		int startPage = (curPage-1)*pageSize;
@@ -99,7 +88,7 @@ public class BabyService implements IBabyService {
 	 * 宝宝分班：根据教师所在年级查询已分班的宝宝信息
 	 */
 	@Override
-	public PageVO listBabiesInClass(int curPage,int pageSize,Long userId) {
+	public PageVO listBabiesInClass(int curPage,int pageSize,int userId) {
 		PageVO pv = new PageVO();
 		//获取开始条数startPage
 		int startPage = (curPage-1)*pageSize;
@@ -216,7 +205,7 @@ public class BabyService implements IBabyService {
 	 * @param userId
 	 * @return
 	 */
-	public Map getBabyDataByParentId(Long userId){
+	public Map getBabyDataByParentId(int userId){
 		Map babyData = this.babyDao.getBabyDataByParentId(userId);
 		int classId = (int) babyData.get("class_id");
 		//根据班级id查询班级名称
@@ -228,8 +217,8 @@ public class BabyService implements IBabyService {
 		}
 		String babyIcon = (String) babyData.get("baby_icon");
 		if(babyIcon.length()!=0){
-//			babyIcon="http://192.168.43.242:8081/babyassistantfile/images/babyIcons/"+babyIcon;
-			babyData.put("baby_icon",filePath+babyIcon);
+			babyIcon=filePath+"babyIcons/"+babyIcon;
+			babyData.put("baby_icon",babyIcon);
     	}else{
     		babyData.put("baby_icon","");
     	}
@@ -292,22 +281,11 @@ public class BabyService implements IBabyService {
 			return true;
 		}
 	}
-
-	/**
-	 * 修改宝宝信息
-	 * @param baby
-	 */
-	@Transactional
-	@Override
-	public void updateBaby(Baby baby) {
-		this.babyDao.updateBaby(baby);
-	}
-
 	/**
 	 * 修改宝宝付款状态
 	 */
 	@Override
-	public void updatePayStatus(Long userId) {
+	public void updatePayStatus(int userId) {
 		Map map = new HashMap<>();
 		map.put("userId", userId);
 		map.put("payStatus",1);
@@ -317,7 +295,7 @@ public class BabyService implements IBabyService {
 	 * 检查宝宝是否已缴费
 	 */
 	@Override
-	public boolean hasPayTuition(Long userId) {
+	public boolean hasPayTuition(int userId) {
 		int payStatus = this.babyDao.hasPayTuition(userId);
 		if(payStatus==0){
 			return false;
@@ -332,24 +310,25 @@ public class BabyService implements IBabyService {
 	@Override
 	public List<Map> listBabyInfoByClassId(int classId) {
 		// TODO Auto-generated method stub
-		
+		System.out.println(classId);
 		if(classId>=0){
 		List<Map> parentInfo=this.babyDao.listBabyInfoByClassId(classId);
-	     
-		for(Map  parentInfo1:parentInfo){
-			parentInfo1.put("user_icon","http://localhost:8080/babyassistantfile/images/userIcons/"+parentInfo1.get("user_icon"));
-		}
-		
-		
-		
-		
-		
+	
 		return parentInfo;
 		}else{
 		return null;
 		}
 	}
 
+	/**
+	 * 修改宝宝信息
+	 * @param baby
+	 */
+	@Transactional
+	@Override
+	public void updateBaby(Baby baby) {
+		this.babyDao.updateBaby(baby);
+	}
 	/**
 	 * 根据幼儿园id查询该幼儿园所有在校学生的记录
 	 * @param kindergartenId

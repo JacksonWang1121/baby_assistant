@@ -4,17 +4,17 @@
 <!-- namespace必须定义，非绑定到类或是接口的方式 -->
 <mapper namespace="org.sdibt.group.dao.BabyGrowDao">
 	<!-- 根据当前登录的用户ID查询宝宝信息 -->
-	<select id="getBabyInfo" resultType="map" parameterType="java.lang.Long">
+	<select id="getBabyInfo" resultType="map" parameterType="java.lang.Integer">
 		select * from sys_users u inner join baby_info bi on u.id=bi.user_id 
 		where bi.user_id=#{userId}
 	</select>
 	<!-- 查看宝宝成长记录 -->
-	<select id="listBabyGrow" resultType="map" parameterType="java.lang.Long">
+	<select id="listBabyGrow" resultType="map" parameterType="java.lang.Integer">
 		select * from sys_users u inner join baby_info bi on u.id=bi.user_id 
 		inner join baby_grow bg on bi.baby_id=bg.baby_id where bi.user_id=#{userId}
 	</select>
 	<!-- 根据家长id查询对应的孩子id -->
-	<select id="findBabyIdByUserId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+	<select id="findBabyIdByUserId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
 		select baby_id from baby_info where user_id=#{userId}
 	</select>
 	<!-- 发布宝宝成长记录 -->

@@ -6,7 +6,7 @@
    
     <resultMap type="org.sdibt.group.entity.Baby" id="babyMap">
 		<id column="baby_id" property="babyId" javaType="java.lang.Integer"/>
-		<result column="user_id" property="userId" javaType="java.lang.Long" jdbcType="INTEGER"/>
+		<result column="user_id" property="userId" javaType="java.lang.Integer" jdbcType="INTEGER"/>
 		<result column="grade_id" property="gradeId" javaType="java.lang.Integer"/>
 		<result column="class_id" property="classId" javaType="java.lang.Integer"/>
 		<result column="kindergarten_id" property="kindergartenId" javaType="java.lang.Integer"/>
@@ -41,7 +41,7 @@
   		where baby_id=#{babyId}
 	</update>
 	<!-- 宝宝分班：获取已分班信息的数量-->
-	<select id="countBabiesInClass" resultType="java.lang.Integer" parameterType="java.lang.Long">
+	<select id="countBabiesInClass" resultType="java.lang.Integer" parameterType="java.lang.Integer">
 		select count(bi.baby_id) from class_info ci inner join baby_info bi on bi.class_id=ci.class_id 
 		inner join sys_users u on u.id=ci.user_id 
 		where ci.user_id=#{userId} and bi.baby_status=1
@@ -96,7 +96,7 @@
 	    where class_id=#{classId}
 	</select>
 	<!-- 查看宝宝资料 -->
-	<select id="getBabyDataByParentId" resultType="map" parameterType="java.lang.Long">
+	<select id="getBabyDataByParentId" resultType="map" parameterType="java.lang.Integer">
 		select * from sys_users u inner join baby_info bi on u.id=bi.user_id
 	    where u.id=#{userId}
 	</select>
@@ -112,7 +112,7 @@
     </update>
 
     <!-- 检查宝宝是否已缴费 -->
-    <select id="hasPayTuition" resultType="java.lang.Integer" parameterType="java.lang.Long">
+    <select id="hasPayTuition" resultType="java.lang.Integer" parameterType="java.lang.Integer">
 		select pay_status from baby_info 
 	    where user_id=#{userId}
 	</select>

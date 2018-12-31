@@ -23,7 +23,7 @@ public interface IBabyService {
 	 * @param userId
 	 * @return
 	 */
-	public PageVO listBabyEnrollInfo(int curPage,int pageSize,Long userId,int kindergartenId);
+	public PageVO listBabyEnrollInfo(int curPage,int pageSize,int userId,int kindergartenId);
 	/**
 	 * 加入班级
 	 * @param babyId
@@ -35,7 +35,7 @@ public interface IBabyService {
 	 * @param userId
 	 * @return
 	 */
-	public PageVO listBabiesInClass(int curPage,int pageSize,Long userId);
+	public PageVO listBabiesInClass(int curPage,int pageSize,int userId);
 	/**
 	 * 移出班级
 	 * @param babyId
@@ -56,7 +56,7 @@ public interface IBabyService {
 	 * @param userId
 	 * @return
 	 */
-	public Map getBabyDataByParentId(Long userId);
+	public Map getBabyDataByParentId(int userId);
 	/**
 	 * 修改宝宝头像
 	 * @param babyId
@@ -70,28 +70,26 @@ public interface IBabyService {
 	public boolean updateBabyData(Baby baby);
 
 	/**
-	 * 修改宝宝信息
-	 * @param baby
-	 */
-	public void updateBaby(Baby baby);
-
-	/**
 	 * 检查宝宝是否已缴费
 	 * @param userId
 	 * @return
 	 */
-	public boolean hasPayTuition(Long userId);
+	public boolean hasPayTuition(int userId);
 	/**
 	 * 修改宝宝付款状态
 	 * @param userId
 	 */
-	public void updatePayStatus(Long userId); 
+	public void updatePayStatus(int userId); 
 	/**
 	 * 查询家长信息
 	 * @param baby
 	 */
 	public List<Map> listBabyInfoByClassId(int classId);
-
+	/**
+	 * 修改宝宝信息
+	 * @param baby
+	 */
+	public void updateBaby(Baby baby);
 	/**
 	 * 根据幼儿园id查询该幼儿园所有在校学生的记录
 	 * @param kindergartenId

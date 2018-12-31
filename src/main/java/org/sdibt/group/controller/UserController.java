@@ -119,7 +119,7 @@ public class UserController {
 			
 			//若用户为家长，则从宝宝信息表中查询babyId，classId和kindergartenId
 			else if ("parent".equals(role.get("role"))) {
-				Map baby = this.babyService.getBabyDataByParentId(user.getId());
+				Map baby = this.babyService.getBabyDataByParentId(userId);
 				session.setAttribute("babyId", baby.get("baby_id"));
 				session.setAttribute("classId", baby.get("class_id"));
 				session.setAttribute("kindergartenId", baby.get("kindergarten_id"));
@@ -136,7 +136,7 @@ public class UserController {
 				}
 			}
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			//登录失败
 			return "redirect:/login.jsp?msg=loginFailed";
 		}
@@ -234,7 +234,7 @@ public class UserController {
 	 */
 	@RequestMapping("/getPersonalHomePage")
 	public String getPersonalHomePage(HttpSession session,Map map){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		Map user = this.userService.getPersonalData(userId);
 		map.put("user", user);
 		return "userHomepage";
@@ -244,7 +244,7 @@ public class UserController {
 	 */
 	@RequestMapping("/getPersonalData")
 	public String getPersonalData(HttpSession session,Map map){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		Map user = this.userService.getPersonalData(userId);
 		map.put("user", user);
 		String role = (String) user.get("role");
@@ -261,7 +261,7 @@ public class UserController {
 	@RequestMapping("/updateUserIcon")
 	public String updateUserIcon(HttpSession session,
 		@RequestParam(value = "iconPath", required = false) MultipartFile iconPath){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		boolean updateResult = this.userService.updateUserIcon(userId,iconPath);
 		if(updateResult==true){
 			return "true";
@@ -275,7 +275,7 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping("/updateUserInfo")
 	public String updateUserInfo(HttpSession session,User user){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		boolean updateResult = this.userService.updateUserInfo(userId,user);
 		if(updateResult==true){
 			return "true";

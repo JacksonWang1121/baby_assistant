@@ -36,7 +36,7 @@ public interface BabyDao {
 	 * 获取已分班信息的数量
 	 * @return
 	 */
-	public int countBabiesInClass(Long userId);
+	public int countBabiesInClass(int userId);
 	/**
 	 * 宝宝分班：根据教师所在班级查询已分班的宝宝信息
 	 * @param userId
@@ -80,7 +80,7 @@ public interface BabyDao {
 	 * 查看宝宝资料
 	 * @return
 	 */
-	public Map getBabyDataByParentId(Long userId);
+	public Map getBabyDataByParentId(int userId);
 	/**
 	 * 修改宝宝头像
 	 */
@@ -95,7 +95,7 @@ public interface BabyDao {
 	 * @param userId
 	 * @return
 	 */
-	public int hasPayTuition(Long userId);
+	public int hasPayTuition(int userId);
 	/**
 	 * 修改宝宝付款状态
 	 */

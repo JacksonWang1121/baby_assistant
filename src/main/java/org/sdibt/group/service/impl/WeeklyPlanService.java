@@ -97,8 +97,12 @@ public class WeeklyPlanService implements IWeeklyPlanService {
 	 */
 	@Transactional
 	@Override
-	public void saveWeeklyPlan(WeeklyPlan weeklyPlan) {
-		this.weeklyPlanDao.saveWeeklyPlan(weeklyPlan);
+	public boolean saveWeeklyPlan(WeeklyPlan weeklyPlan) {
+		int count = this.weeklyPlanDao.saveWeeklyPlan(weeklyPlan);
+		if (count == 1) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -107,8 +111,12 @@ public class WeeklyPlanService implements IWeeklyPlanService {
 	 */
 	@Transactional
 	@Override
-	public void updateWeeklyPlan(WeeklyPlan weeklyPlan) {
-		this.weeklyPlanDao.updateWeeklyPlan(weeklyPlan);
+	public boolean updateWeeklyPlan(WeeklyPlan weeklyPlan) {
+		int count = this.weeklyPlanDao.updateWeeklyPlan(weeklyPlan);
+		if (count == 1) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

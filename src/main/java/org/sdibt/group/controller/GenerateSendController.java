@@ -136,8 +136,11 @@ public class GenerateSendController {
 			System.out.println("GenerateSendController::saveGenerateSend-photo = "+photo);
 			generateSend.setPersonPicture(photo);
 		}
-		this.generateSendService.saveGenerateSend(generateSend);
-		return "true";
+		boolean isSave = this.generateSendService.saveGenerateSend(generateSend);
+		if (isSave) {
+			return "true";
+		}
+		return "false";
 	}
 
 	/**

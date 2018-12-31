@@ -41,7 +41,7 @@ public class TeacherLeaveController {
 	 */
 	@RequestMapping("/listLeaveInfoById")
 	public String listLeaveInfoById(HttpSession session,Map map,String startDate,String endDate){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		PageVO pageVO = new PageVO();
 		int pageSize = pageVO.getPageSize();
 		int curPage = pageVO.getCurPage();
@@ -70,7 +70,7 @@ public class TeacherLeaveController {
 		conditionsMap.put("pageSize", pageSize);
 		conditionsMap.put("startDate", startDate);
 		conditionsMap.put("endDate", endDate);
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		PageVO pv = this.teacherLeaveService.listLeaveInfoById(curPage,pageSize,userId,startDate,endDate);
 		map.put("pv", pv);
 		map.put("conditionsMap", conditionsMap);		
@@ -84,7 +84,7 @@ public class TeacherLeaveController {
 	@ResponseBody
 	@RequestMapping("/saveLeaveInfo")
 	public String saveLeaveInfo(HttpSession session,Map map,TeacherLeave teacherLeave){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		teacherLeave.setUserId(userId);
 		boolean saveReasult = this.teacherLeaveService.saveLeaveInfo(teacherLeave);
 		if(saveReasult==false){

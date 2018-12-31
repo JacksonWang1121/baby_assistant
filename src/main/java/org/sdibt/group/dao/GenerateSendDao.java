@@ -34,12 +34,12 @@ public interface GenerateSendDao {
 	 * 添加代接送信息
 	 * @param generateSend
 	 */
-	public void saveGenerateSend(GenerateSend generateSend);
+	public int saveGenerateSend(GenerateSend generateSend);
 
 	/**
 	 * 修改代接送信息
 	 * @param generateSend
 	 */
-	public void updateGenerateSend(GenerateSend generateSend);
+	public int updateGenerateSend(GenerateSend generateSend);
 
 }

@@ -46,14 +46,14 @@ public class BabyCommentController {
 	 */
 	/*@RequestMapping("/listBabyComment")
 	public String listBabyGrow(HttpSession session,Map map){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		List<Map> comments = this.babyCommentService.listBabyComment(userId);
 		map.put("comments", comments);
 		return "comment_info";
 	}*/
 	@RequestMapping("/listBabyComment")
 	public String listBabyAttendance(HttpSession session,Map map,String startDate,String endDate){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		PageVO pageVO = new PageVO();
 		int curPage = pageVO.getCurPage();
 		PageVO pv = this.babyCommentService.listBabyCommentByTerm(startDate,endDate,userId,curPage,5);
@@ -80,7 +80,7 @@ public class BabyCommentController {
 		conditionsMap.put("pageSize", pageSize);
 		conditionsMap.put("startDate", startDate);
 		conditionsMap.put("endDate", endDate);
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		PageVO pv = this.babyCommentService.listBabyCommentByTerm(startDate,endDate,userId,curPage,pageSize);
 		map.put("pv", pv);
 		map.put("conditionsMap", conditionsMap);

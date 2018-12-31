@@ -37,7 +37,7 @@ public class TeacherLeaveService implements ITeacherLeaveService {
 	 * 教师请假列表
 	 */
 	@Override
-	public PageVO listLeaveInfoById(int curPage,int pageSize,Long userId,String startDate,String endDate) {
+	public PageVO listLeaveInfoById(int curPage,int pageSize,int userId,String startDate,String endDate) {
 		if(endDate==""){
 			//得到当前日期
 			Date date = new Date();

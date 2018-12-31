@@ -41,7 +41,7 @@ public class BabyAttendanceService implements IBabyAttendanceService {
 	 * 查询该教师所在班级的所有学生
 	 */
 	@Override
-	public List<Baby> listBabies(Long userId) {
+	public List<Baby> listBabies(int userId) {
 		return this.babyAttendanceDao.listBabies(userId);
 	}
 	/**
@@ -117,7 +117,7 @@ public class BabyAttendanceService implements IBabyAttendanceService {
 	 * 班级考勤
 	 */
 	/*@Override
-	public List<BabyAttendance> listClassAttendance(Long userId) {
+	public List<BabyAttendance> listClassAttendance(int userId) {
 		return this.babyAttendanceDao.listClassAttendance(userId);
 	}*/
 	/**
@@ -130,7 +130,7 @@ public class BabyAttendanceService implements IBabyAttendanceService {
 		String endDate = babyAttendance.getEndSignDate();
 		String babyNo = baby.getBabyNo();
 		String babyName = baby.getBabyName();
-		Long userId = baby.getUserId();
+		int userId = baby.getUserId();
 		if(endDate==""){
 			//得到当前日期
 			Date date = new Date();
@@ -180,7 +180,7 @@ public class BabyAttendanceService implements IBabyAttendanceService {
 	 * @return
 	 */
 	@Override
-	public Map countAttendanceRate(Long userId){
+	public Map countAttendanceRate(int userId){
 		//得到当前日期
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -203,7 +203,7 @@ public class BabyAttendanceService implements IBabyAttendanceService {
 	 * 宝宝考勤
 	 */
 	/*@Override
-	public List<BabyAttendance> listBabyAttendance(Long userId) {
+	public List<BabyAttendance> listBabyAttendance(int userId) {
 		// TODO Auto-generated method stub
 		return this.babyAttendanceDao.listBabyAttendance(userId);
 	}*/
@@ -212,7 +212,7 @@ public class BabyAttendanceService implements IBabyAttendanceService {
 	 */
 	@Override
 	public PageVO listBabyAttendanceByTerm(String startSignDate,
-			String endSignDate, Long userId,int curPage, int pageSize) {
+			String endSignDate, int userId,int curPage, int pageSize) {
 		if(endSignDate==""){
 			//得到当前日期
 			Date date = new Date();

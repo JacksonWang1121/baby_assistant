@@ -81,7 +81,7 @@ $(function(){
 				}
 			}
 		}); 
-	}
+	}	
 	
 	//点击学生网上缴费按钮
 	$("#onlinePayment").click(function(){
@@ -94,7 +94,7 @@ $(function(){
 				if(data==false){
 					window.location.href="${pageContext.request.contextPath }/paymentOfTuition.jsp";
 				}else{
-					new TipBox({type:'tip',str:'您已成功缴费，请勿重复操作!',clickDomCancel:true,setTime:10000500,hasBtn:true});  
+					alert("您已成功缴费，请勿重复操作!");
 				}
 			}
 		});
@@ -119,6 +119,7 @@ $(function(){
 
 <!-- 功能列表 -->
 <div id="function">
+	<input type="text" value="${sessionScope.role.get("role")}" id="role" hidden="hidden">
 	<c:forEach items="${permissions }" var="perm">
 		<c:if test="${perm.description eq '网上缴费' }">
 			<a href="javascript:" id="onlinePayment">

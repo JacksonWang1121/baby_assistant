@@ -21,18 +21,18 @@ public interface BabyGrowDao {
 	 * @param userId
 	 * @return
 	 */
-	public Map getBabyInfo(Long userId);
+	public Map getBabyInfo(int userId);
 	/**
 	 * 查看宝宝成长记录
 	 * @return
 	 */
-	public List<Map> listBabyGrow(Long userId);
+	public List<Map> listBabyGrow(int userId);
 	/**
 	 * 根据家长id查询对应的孩子id
 	 * @param userId
 	 * @return
 	 */
-	public int findBabyIdByUserId(Long userId);
+	public int findBabyIdByUserId(int userId);
 	/**
 	 * 发布宝宝食谱
 	 * @param babyDiet

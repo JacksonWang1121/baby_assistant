@@ -98,11 +98,11 @@ public class UserService implements IUserService{
 	 * 查看个人资料
 	 */
 	@Override
-	public Map getPersonalData(Long userId) {
+	public Map getPersonalData(int userId) {
 		Map personalData = userDao.getPersonalData(userId);
 		String userIcon = (String) personalData.get("user_icon");
 		if(userIcon.length()!=0){
-			userIcon="http://192.168.43.242:8081/babyassistantfile/images/userIcons/"+userIcon;
+			userIcon=filePath+"userIcons/"+userIcon;
 			personalData.put("user_icon",userIcon);
     	}else{
     		personalData.put("user_icon","");
@@ -114,7 +114,7 @@ public class UserService implements IUserService{
 	 */
 	@Transactional
 	@Override
-	public boolean updateUserIcon(Long userId,MultipartFile iconPath) {
+	public boolean updateUserIcon(int userId,MultipartFile iconPath) {
 		String userIcon="";
 		//拿到图片的路径,并作出修改
 		if(iconPath.getOriginalFilename()!=""){
@@ -153,7 +153,7 @@ public class UserService implements IUserService{
 	 */
 	@Transactional
 	@Override
-	public boolean updateUserInfo(Long userId, User user) {
+	public boolean updateUserInfo(int userId, User user) {
 		String nickName = user.getNickName();
 		String personalitySignature = user.getPersonalitySignature();
 		String address = user.getAddress();
@@ -170,6 +170,7 @@ public class UserService implements IUserService{
 		}
 
 	}
+
 
 	/**
      * 修改用户信息

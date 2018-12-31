@@ -19,9 +19,9 @@ public interface IBabyCommentService {
 	 * 查看宝宝点评
 	 * @return
 	 */
-	//public List<Map> listBabyComment(Long userId);
+	//public List<Map> listBabyComment(int userId);
 	/**
 	 * 条件查询宝宝点评
 	 */
-	public PageVO listBabyCommentByTerm(String startDate,String endDate,Long userId,int curPage, int pageSize);
+	public PageVO listBabyCommentByTerm(String startDate,String endDate,int userId,int curPage, int pageSize);
 }

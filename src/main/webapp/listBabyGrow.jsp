@@ -153,12 +153,23 @@ $(function(){
 						${grow.grow_content}
 					</div>
 					<!-- 记录图片 -->
-					<div id="images" style="margin-bottom:1%;">
-						 <c:forEach items="${grow.grow_img}" var="path" varStatus="p">
-						 	<input type="text" class="imgPath" value="${path}" hidden="hidden"> 
-						 	<img class="img" id="cropedBigImg"  width="180" height="150" src="${path}"> 
-						 </c:forEach>
-					</div>
+					<c:forEach items="${grow.img_suffix}" var="suffix">
+						<div id="images" style="margin-bottom:1%;">
+						<c:if test="${suffix=='.mp4'}">
+							<c:forEach items="${grow.grow_img}" var="path" varStatus="p">
+						 		<input type="text" class="imgPath" value="${path}" hidden="hidden"> 
+							 	<video id="video" controls preload="auto" width="600" height="450">
+								 	<source src="${path}" type="video/mp4">
+								</video>
+							</c:forEach>
+						 </c:if> 
+						 <c:if test="${suffix=='.jpg'}">
+							<c:forEach items="${grow.grow_img}" var="path" varStatus="p">
+						 		<img class="img" id="cropedBigImg"  width="600" height="500" src="${path}"> 
+							</c:forEach>
+						 </c:if> 
+						 </div>
+					</c:forEach>
 					<div>
 						<span class="glyphicon glyphicon-trash"></span>
 						<span class="coverDelete" onclick="remove('${grow.grow_id}')"></span>

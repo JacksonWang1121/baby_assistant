@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public class TeacherLeave implements Serializable {
     private int leaveId;
-    private Long userId;
+    private int userId;
     //用户姓名
     private String realName;
     //请假原因
@@ -28,10 +28,10 @@ public class TeacherLeave implements Serializable {
 	public void setLeaveId(int leaveId) {
 		this.leaveId = leaveId;
 	}
-	public Long getUserId() {
+	public int getUserId() {
 		return userId;
 	}
-	public void setUserId(Long userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	public String getRealName() {

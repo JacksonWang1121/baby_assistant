@@ -53,7 +53,7 @@ public interface UserDao {
 	/**
      * 查看个人资料
      */
-    public Map getPersonalData(Long userId);
+    public Map getPersonalData(int userId);
 
     /**
      * 修改用户头像

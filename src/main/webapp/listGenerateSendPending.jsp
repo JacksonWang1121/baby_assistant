@@ -15,6 +15,32 @@
 	padding: 0;
 }
 </style>
+<script type="text/javascript">
+/* 重发通知 */
+function saveGenerateSendAgain(sendId) {
+	$.ajax({
+		url : "${pageContext.request.contextPath }/generateSend/saveGenerateSendAgain",
+		type : "POST",
+		data : {"id":sendId},
+		dataType : "text",
+		success : function(data, status) {
+			// 根据返回结果指定界面操作
+			console.log("listGenerateSend::saveGenerateSendAgain:success-data = " + data);
+			if (data == "true") {
+				//标记表单已提交
+				alert("发送成功");
+				window.location.href = "${pageContext.request.contextPath }/generateSend/listGenerateSendPending";
+			} else {
+				alert("发送失败");
+			}
+		},
+		error : function(data, status, e) {
+			console.log("listGenerateSend::saveGenerateSendAgain:error = " + e);
+			alert("发送失败");
+		}
+	});
+}
+</script>
 </head>
 <body>
 <div class="container">
@@ -33,7 +59,8 @@
 		</div>
 		<div class="col-xs-3" style="padding-top:10px;">
 			<shiro:hasPermission name="send:resend">
-				<a class="btn btn-warning" href="${pageContext.request.contextPath }/generateSend/saveGenerateSendAgain?id=${send.id }" style="font-size:6px;">重发通知</a>
+				<%-- <a class="btn btn-warning" href="${pageContext.request.contextPath }/generateSend/saveGenerateSendAgain?id=${send.id }" style="font-size:6px;">重发通知</a> --%>
+				<a class="btn btn-warning" href="javascript:saveGenerateSendAgain(${send.id })" style="font-size:6px;">重发通知</a>
 			</shiro:hasPermission>
 			<shiro:hasPermission name="send:agree">
 				<a class="btn btn-success" href="${pageContext.request.contextPath }/generateSend/auditGenerateSend?id=${send.id }&auditState=1" style="font-size:8px;">同意</a>

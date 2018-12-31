@@ -45,7 +45,7 @@ public class BabyAttendanceController {
 	 */
 	@RequestMapping("/listBabies")
 	public String isExistAttendance(HttpSession session,Map map){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		List<Baby> babies = this.babyAttendanceService.listBabies(userId);
 		map.put("babies", babies);
 		return "babySign";
@@ -81,7 +81,7 @@ public class BabyAttendanceController {
 	@ResponseBody
 	@RequestMapping("/listAllBabies")
 	public List<Baby> listAllBabies(HttpSession session){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		List<Baby> babies = this.babyAttendanceService.listBabies(userId);
 		return babies;
 	}
@@ -90,14 +90,14 @@ public class BabyAttendanceController {
 	 */
 	/*@RequestMapping("/listClassAttendance")
 	public String listClassAttendance(HttpSession session,Map map){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		List<BabyAttendance> attendances = this.babyAttendanceService.listClassAttendance(userId);
 		map.put("attendances", attendances);
 		return "class_attendance";
 	}*/
 	@RequestMapping("/listClassAttendance")
 	public String listClassAttendance(HttpSession session,Map map,Baby baby,BabyAttendance babyAttendance){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		baby.setUserId(userId);
 		PageVO pageVO = new PageVO();
 		int pageSize = pageVO.getPageSize();
@@ -128,7 +128,7 @@ public class BabyAttendanceController {
 		conditionsMap.put("babyName", baby.getBabyName());
 		conditionsMap.put("startSignDate", babyAttendance.getStartSignDate());
 		conditionsMap.put("endSignDate", babyAttendance.getEndSignDate());
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		baby.setUserId(userId);
 		PageVO pv = this.babyAttendanceService.listClassAttendanceByTerm(baby,babyAttendance,curPage,pageSize);
 		map.put("pv", pv);
@@ -141,15 +141,15 @@ public class BabyAttendanceController {
 	@ResponseBody
 	@RequestMapping("/countAttendanceRate")
 	public Map countAttendanceRate(HttpSession session){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		 //获取数据
 		 Map attendanceRate = this.babyAttendanceService.countAttendanceRate(userId);
 		 //造符合ECHARTS的数据
 		 Map resultMap =new HashMap();
 		 List labels=new ArrayList<String>();
 		 List nums=new ArrayList<Integer>();
-		 labels.add("出勤人数");
-		 labels.add("缺勤人数");
+		 labels.add("日出勤人数");
+		 labels.add("日缺勤人数");
 		 nums.add(attendanceRate.get("attendanceSize"));
 		 nums.add(attendanceRate.get("notAttendanceSize"));
 		 resultMap.put("type", "出勤人数");
@@ -163,14 +163,14 @@ public class BabyAttendanceController {
 	 */
 	/*@RequestMapping("/listBabyAttendance")
 	public String listBabyAttendance(HttpSession session,Map map){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		List<BabyAttendance> attendances = this.babyAttendanceService.listBabyAttendance(userId);
 		map.put("attendances", attendances);
 		return "baby_attendance";
 	}*/
 	@RequestMapping("/listBabyAttendance")
 	public String listBabyAttendance(HttpSession session,Map map,String startSignDate,String endSignDate){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		PageVO pageVO = new PageVO();
 		int pageSize = pageVO.getPageSize();
 		int curPage = pageVO.getCurPage();
@@ -184,7 +184,7 @@ public class BabyAttendanceController {
 	 */
 	/*@RequestMapping("/listBabyAttendanceByTerm")
 	public String listBabyAttendanceByTerm(HttpSession session,Map map,String startSignDate,String endSignDate){
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		List<BabyAttendance> attendances = this.babyAttendanceService.listBabyAttendanceByTerm(startSignDate,endSignDate,userId);
 		map.put("attendances", attendances);
 		return "baby_attendance";
@@ -205,7 +205,7 @@ public class BabyAttendanceController {
 		conditionsMap.put("pageSize", pageSize);
 		conditionsMap.put("startSignDate", startSignDate);
 		conditionsMap.put("endSignDate", endSignDate);
-		Long userId=(Long) session.getAttribute("userId");
+		int userId=(int) session.getAttribute("userId");
 		PageVO pv = this.babyAttendanceService.listBabyAttendanceByTerm(startSignDate,endSignDate,userId,curPage,pageSize);
 		map.put("pv", pv);
 		map.put("conditionsMap", conditionsMap);

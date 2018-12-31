@@ -20,7 +20,7 @@ public interface ITeacherLeaveService {
 	 * @param userId
 	 * @return
 	 */
-	public PageVO listLeaveInfoById(int curPage,int pageSize,Long userId,String startDate,String endDate);
+	public PageVO listLeaveInfoById(int curPage,int pageSize,int userId,String startDate,String endDate);
 	/**
 	 * 提交请假申请
 	 * @param teacherLeave
